@@ -1,0 +1,259 @@
+/* =====================================================
+   FRAME.CSS — desktop backdrop, simulated device frame,
+   and the floating device selector panel.
+   ===================================================== */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  /* device geometry — overridden per device by JS */
+  --dev-w: 430px;
+  --dev-h: 932px;
+  --dev-radius: 55px;
+  --status-h: 59px;
+  --phone-scale: 1;
+}
+
+html, body { height: 100%; }
+
+body {
+  font-family: 'Nunito', system-ui, sans-serif;
+  background: #060a14;
+  overflow: hidden;
+  color: #e8eef6;
+}
+
+/* ---------- abstract blurred backdrop ---------- */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, #0c1830 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 85% 85%, #0a1f24 0%, transparent 60%),
+    #060a14;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(110px);
+  opacity: 0.35;
+  animation: drift 24s ease-in-out infinite alternate;
+}
+.blob-1 { width: 540px; height: 540px; left: -120px; top: -140px; background: #134e4a; }
+.blob-2 { width: 460px; height: 460px; right: -100px; top: 30%; background: #1e3a5f; animation-delay: -8s; }
+.blob-3 { width: 380px; height: 380px; left: 28%; bottom: -160px; background: #16324f; animation-delay: -16s; }
+
+@keyframes drift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(60px, -40px) scale(1.12); }
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background-image: repeating-conic-gradient(#fff 0% 0.0001%, transparent 0.0002% 0.05%);
+  background-size: 220px 220px;
+}
+
+/* ---------- stage & phone wrapper ---------- */
+.stage {
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phone-wrap {
+  transform: scale(var(--phone-scale));
+  transform-origin: center center;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------- the simulated hardware ---------- */
+.phone {
+  position: relative;
+  width: var(--dev-w);
+  height: var(--dev-h);
+  border-radius: var(--dev-radius);
+  background: #03060c;
+  border: 3px solid #2a2f3a;            /* metallic rail */
+  box-shadow:
+    inset 0 0 0 9px #0e1118,            /* inner bezel */
+    inset 0 0 0 10px #1b202b,
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 40px 90px -20px rgba(0, 0, 0, 0.85),
+    0 18px 40px -12px rgba(0, 0, 0, 0.7);
+  transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              height 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              border-radius 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* side hardware buttons */
+.hw-btn {
+  position: absolute;
+  width: 4px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #353b48, #20242e);
+}
+.hw-power    { right: -7px; top: 26%; height: 92px; }
+.hw-vol-up   { left: -7px;  top: 22%; height: 56px; }
+.hw-vol-down { left: -7px;  top: 22%; margin-top: 70px; height: 56px; }
+
+.phone-screen {
+  position: absolute;
+  inset: 12px;
+  border-radius: calc(var(--dev-radius) - 12px);
+  overflow: hidden;
+  background: var(--bg, #0b1220);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- camera cutouts per device ---------- */
+.cutout {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  background: #000;
+  transition: all 0.4s ease;
+}
+/* iPhone — dynamic island */
+.device-iphone .cutout {
+  top: 12px;
+  width: 124px;
+  height: 36px;
+  border-radius: 20px;
+  box-shadow: inset 0 0 4px rgba(255,255,255,0.06);
+}
+.device-iphone .cutout::after {       /* tele camera dot */
+  content: '';
+  position: absolute;
+  right: 9px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #1c2a40 0%, #050810 60%);
+}
+/* Pixel / Galaxy — centered punch-hole */
+.device-pixel .cutout,
+.device-galaxy .cutout {
+  top: 12px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 3px rgba(255,255,255,0.15);
+}
+.device-galaxy .cutout { width: 13px; height: 13px; top: 11px; }
+
+/* ---------- simulated status bar ---------- */
+.statusbar {
+  position: relative;
+  z-index: 50;
+  height: var(--status-h);
+  flex: 0 0 var(--status-h);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 30px 8px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #e8eef6;
+}
+.sb-icons { display: flex; gap: 6px; align-items: center; }
+.sb-icons svg { width: 17px; height: 17px; }
+
+/* ---------- home indicator ---------- */
+.home-indicator {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 132px;
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(232, 238, 246, 0.35);
+  z-index: 70;
+  pointer-events: none;
+}
+
+/* ---------- floating device selector ---------- */
+.device-panel {
+  position: fixed;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 218px;
+  padding: 18px 16px;
+  border-radius: 22px;
+  background: rgba(13, 20, 34, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 24px 60px -18px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dp-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #8da3bf;
+  margin-bottom: 6px;
+}
+.dp-title svg { width: 15px; height: 15px; }
+
+.dp-option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 11px 14px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.04);
+  color: #c7d4e4;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+.dp-option:hover { background: rgba(255, 255, 255, 0.08); }
+.dp-option.active {
+  background: rgba(69, 196, 176, 0.13);
+  border-color: rgba(69, 196, 176, 0.45);
+  color: #e8eef6;
+}
+.dp-name { font-size: 13.5px; font-weight: 800; }
+.dp-dims { font-size: 11px; color: #71839c; font-weight: 600; }
+.dp-option.active .dp-dims { color: #45c4b0; }
+
+.dp-footnote {
+  margin-top: 8px;
+  font-size: 10.5px;
+  line-height: 1.5;
+  text-align: center;
+  color: #54657d;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 900px) {
+  .device-panel { right: 12px; width: 170px; padding: 14px 12px; }
+}

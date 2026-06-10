@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kalma — IDADAIT 2026 · DDB Mobile App Challenge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles/frame.css" />
+  <link rel="stylesheet" href="styles/app.css" />
+</head>
+<body>
+
+  <!-- ===== Abstract dark-mode desktop backdrop ===== -->
+  <div class="backdrop" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="grain"></div>
+  </div>
+
+  <!-- ===== Stage: centers the simulated device ===== -->
+  <main class="stage">
+    <div class="phone-wrap" id="phoneWrap">
+      <div class="phone device-iphone" id="phone">
+        <!-- hardware buttons -->
+        <span class="hw-btn hw-power"></span>
+        <span class="hw-btn hw-vol-up"></span>
+        <span class="hw-btn hw-vol-down"></span>
+
+        <div class="phone-screen">
+          <!-- notch / dynamic island / punch-hole -->
+          <div class="cutout" id="cutout"></div>
+
+          <!-- simulated status bar -->
+          <div class="statusbar" id="statusbar">
+            <span class="sb-time">9:41</span>
+            <span class="sb-icons">
+              <i data-lucide="signal"></i>
+              <i data-lucide="wifi"></i>
+              <i data-lucide="battery-full"></i>
+            </span>
+          </div>
+
+          <!-- the actual app -->
+          <div class="app" id="app"></div>
+
+          <!-- home indicator -->
+          <div class="home-indicator"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== Floating device frame selector ===== -->
+  <aside class="device-panel" id="devicePanel">
+    <p class="dp-title"><i data-lucide="smartphone"></i> Device Frame</p>
+    <button class="dp-option active" data-device="iphone">
+      <span class="dp-name">iPhone 14 Pro Max</span>
+      <span class="dp-dims">430 × 932</span>
+    </button>
+    <button class="dp-option" data-device="pixel">
+      <span class="dp-name">Google Pixel 7</span>
+      <span class="dp-dims">412 × 915</span>
+    </button>
+    <button class="dp-option" data-device="galaxy">
+      <span class="dp-name">Samsung Galaxy S23</span>
+      <span class="dp-dims">360 × 780</span>
+    </button>
+    <p class="dp-footnote">DDB Mobile App Challenge<br/>IDADAIT 2026 · Region IV-A</p>
+  </aside>
+
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
