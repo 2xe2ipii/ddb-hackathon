@@ -1,48 +1,74 @@
-# Kalma — DDB Mobile App Challenge Prototype
+# DDB - IDADAIT 2026 Mobile App Challenge Prototype
 
-A high-fidelity, clickable frontend prototype for the **Dangerous Drugs Board (DDB) Mobile App Challenge**, themed for the **IDADAIT 2026** campaign. Kalma is a private, zero-judgment digital sanctuary for Filipino youth in **Calabarzon / Region IV-A** — empathetic, never punitive.
+A high-fidelity, clickable frontend prototype for the **Dangerous Drugs Board (DDB) Mobile App Challenge**. The prototype now starts like a real phone: judges first see a simulated mobile home screen, then tap the official **DDB** app icon to open the experience.
 
-## Run it
+The app concept is a government-ready youth prevention companion for **Calabarzon / Region IV-A**: private, non-punitive, and focused on daily prevention habits.
 
-No build step, no dependencies to install. Either:
+## Run It
+
+No build step is required.
 
 ```powershell
-# Option A — any static server
 npx serve .
-
-# Option B — just open the file
-start index.html
 ```
 
-> Icons and fonts load from CDN (Lucide, Google Fonts), so an internet connection is needed for full fidelity.
+Or open `index.html` directly in a browser.
 
-## What's inside
+Icons and fonts load from CDN (Lucide, Google Fonts), so an internet connection is needed for full fidelity.
 
-```
+## What's Inside
+
+```text
 dbb-hackathon/
-├── index.html          # shell: backdrop, device frame, selector panel
-├── styles/
-│   ├── frame.css       # desktop backdrop + simulated phone hardware
-│   └── app.css         # "Kalma" design system + all screens
-├── js/
-│   ├── data.js         # mock data (events, facts, badges, devices)
-│   └── app.js          # state, routing, screens, breathing engine
-└── README.md
+|-- index.html          # desktop backdrop, phone frame, script loading order
+|-- styles/
+|   |-- frame.css       # simulated phone hardware and device selector
+|   `-- app.css         # DDB app UI, launcher, screens, components
+|-- js/
+|   |-- data.js         # mock DDB content, events, resources, badges
+|   |-- app.js          # render routing, delegated events, boot
+|   |-- core/
+|   |   |-- state.js    # shared state and DOM anchors
+|   |   |-- device.js   # device-frame switching and fit logic
+|   |   `-- ui.js       # launcher, header, nav, toast, helpline
+|   `-- screens/
+|       |-- today.js    # Today tab and daily check-in flow
+|       |-- learn.js    # Learn tab
+|       |-- breathe.js  # Breathe tab and breathing engine
+|       |-- community.js# Support/Community tab
+|       `-- profile.js  # Profile screen
+`-- README.md
 ```
 
-## Feature map
+## Team Ownership
+
+- **Today / daily check-in:** `js/screens/today.js`
+- **Learn:** `js/screens/learn.js`
+- **Breathe:** `js/screens/breathe.js`
+- **Support / Community:** `js/screens/community.js`
+- **Profile:** `js/screens/profile.js`
+- **Shared data:** `js/data.js`
+- **Shared app shell:** `js/core/*`
+- **Routing/events only:** `js/app.js`
+
+## Feature Map
 
 | Area | What to try |
 |---|---|
-| **Device frame** | Floating panel (right) switches between iPhone 14 Pro Max (default, with Dynamic Island), Pixel 7, and Galaxy S23 — dimensions, radius, and cutout animate. |
-| **Journal** (home) | Pick your "mental weather" → a contextual *Did you know?* fact appears → log your **1% Reflection** → streak toast fires. |
-| **Breathe** | Animated 4–7–8 orb (Inhale 4s · Hold 7s · Exhale 8s) with live countdown and cycle counter. **Helpline button (1553)** top-right opens a bottom-sheet with one-tap call. |
-| **Community** | One-way announcement feed for Region IV-A: Digital Wellness Summit, Lipa City Peer Support Open House, IDADAIT Barangay Caravan. Register + mock **Share to IG Story**. |
-| **Profile** (avatar, top-right) | Privacy-first dashboard: June mood heatmap (today's check-in updates it live), abstract achievement badges, and a "Monthly Wrapped" banner. No follower counts — by design. |
+| **Phone launcher** | Start on the simulated phone home screen, then tap the **DDB** app icon. |
+| **Today** | Follow one active mission step at a time: debunk one myth, check mood, save a private 1% reflection, then choose one support action. |
+| **Learn** | Move through one learning card at a time: myth/fact first, then a short quiz. |
+| **Breathe** | Run the 4-7-8 breathing mini-game, open the 1553 helpline sheet, or save a support path for a friend. |
+| **Support** | Browse Region IV-A support resources, register for DDB/community events, and see the school/SK/barangay rollout loop plus admin/content model. |
+| **Profile** | View progress, mood calendar, achievements, privacy controls, and monthly wrapped. |
 
-## Design notes
+## Product Thesis
 
-- **Theme:** dark-mode default; deep navy (`#0b1220`) surfaces with calming teal (`#45c4b0`) and muted blue (`#6e8fb5`) — no aggressive reds/yellows.
-- **Typography:** Nunito (rounded, friendly), heavy whitespace, pill buttons, abstract geometric accents.
-- **Icons:** Lucide (open source) — no AI-generated imagery.
-- **Helpline:** Region IV-A Crisis Line **1553**, surfaced prominently on the Breathe screen.
+**DDB turns prevention from a one-time seminar into a daily private habit: learn one truth, regulate one feeling, and connect to one safe support.**
+
+## Design Notes
+
+- **Tone:** private, supportive, youth-friendly, non-punitive.
+- **Government-ready:** verified content labels, resource directory, one-way official announcements, admin-update model, privacy controls.
+- **Privacy:** no followers, no public posting, no popularity counts.
+- **Theme:** dark navy surfaces, calming teal and muted blue, no aggressive warning palette.

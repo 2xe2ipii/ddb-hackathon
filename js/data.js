@@ -1,44 +1,126 @@
 /* =====================================================
-   DATA.JS — mock data for the Kalma prototype
+   DATA.JS - DDB prototype data
    Localized for Calabarzon / Region IV-A (IDADAIT 2026)
    ===================================================== */
 
 const DEVICES = {
   iphone: { name: 'iPhone 14 Pro Max', w: 430, h: 932, radius: 55, statusH: 59 },
-  pixel:  { name: 'Google Pixel 7',    w: 412, h: 915, radius: 34, statusH: 46 },
+  pixel: { name: 'Google Pixel 7', w: 412, h: 915, radius: 34, statusH: 46 },
   galaxy: { name: 'Samsung Galaxy S23', w: 380, h: 800, radius: 28, statusH: 42 },
 };
 
 const HELPLINE = {
   label: 'Region IV-A Crisis Line',
   number: '1553',
-  note: 'Free, confidential, and available 24/7. Talking to someone is a sign of strength — never a mark against you.',
+  note: 'Call anytime. You do not have to explain everything first.',
 };
 
-/* mental weather options (value drives the heatmap intensity) */
 const WEATHER = [
-  { id: 'stormy', label: 'Stormy',  icon: 'cloud-lightning', value: 1 },
-  { id: 'rainy',  label: 'Rainy',   icon: 'cloud-rain',      value: 2 },
-  { id: 'cloudy', label: 'Cloudy',  icon: 'cloud',           value: 3 },
-  { id: 'breezy', label: 'Breezy',  icon: 'cloud-sun',       value: 4 },
-  { id: 'sunny',  label: 'Sunny',   icon: 'sun',             value: 5 },
+  { id: 'stormy', label: 'Stormy', icon: 'cloud-lightning', value: 1 },
+  { id: 'rainy', label: 'Rainy', icon: 'cloud-rain', value: 2 },
+  { id: 'cloudy', label: 'Cloudy', icon: 'cloud', value: 3 },
+  { id: 'breezy', label: 'Breezy', icon: 'cloud-sun', value: 4 },
+  { id: 'sunny', label: 'Sunny', icon: 'sun', value: 5 },
 ];
 
-/* "Did you know?" knowledge track — keyed loosely to mood */
-const FACTS = {
-  low: [
-    'When you feel overwhelmed, <strong>cortisol spikes</strong> in your body. Slow, extended exhales activate the vagus nerve — nature’s built-in reset button. Try the Breathe tab for 2 minutes.',
-    'Cravings and anxious waves typically <strong>peak and pass within 15–20 minutes</strong>. Naming the feeling ("I notice stress") measurably lowers its intensity. You’re already doing it.',
-  ],
-  mid: [
-    'Your brain’s reward system keeps developing until about <strong>age 25</strong>. Every healthy coping habit you practice now literally wires in easier calm for future-you.',
-    '<strong>Connection is protection.</strong> Studies show that youth with one trusted adult or peer group are significantly less likely to misuse substances. Check the Community tab — your people are nearby.',
-  ],
-  high: [
-    'Savoring a good moment for just <strong>15 seconds</strong> helps encode it into long-term memory — psychologists call it "taking in the good." Bottle today’s weather!',
-    'Gratitude journaling is linked to <strong>better sleep and lower stress hormones</strong> in as little as two weeks. Your 1% reflections are compound interest for the mind.',
-  ],
-};
+const MYTH_CARDS = [
+  {
+    id: 'm1',
+    statement: 'Trying shabu once is harmless if you only do it out of curiosity.',
+    answer: 'myth',
+    source: 'DDB note',
+    explanation: 'Even early use can affect sleep, mood, judgment, and risk-taking.',
+  },
+  {
+    id: 'm2',
+    statement: 'Stress, loneliness, and peer pressure can increase vulnerability to substance use.',
+    answer: 'fact',
+    source: 'Well-being',
+    explanation: 'Sleep, support, movement, and trusted people lower risk.',
+  },
+  {
+    id: 'm3',
+    statement: 'Real friends will respect a clear no and help you leave a risky situation.',
+    answer: 'fact',
+    source: 'Refusal skill',
+    explanation: 'A short no works better with an exit plan.',
+  },
+];
+
+const QUIZ = [
+  {
+    id: 'q1',
+    question: 'Which response is the safest when someone pressures you to try an illegal drug?',
+    options: [
+      'Say no clearly, move away, and message a trusted person',
+      'Stay quiet and hope they stop asking',
+      'Try it once so they stop pressuring you',
+    ],
+    answer: 0,
+    explanation: 'Say no. Move away. Message someone safe.',
+  },
+  {
+    id: 'q2',
+    question: 'What is one healthy way to handle a craving, panic wave, or intense urge?',
+    options: [
+      'Wait it out alone without telling anyone',
+      'Name the feeling, breathe slowly, and contact support',
+      'Scroll online until it disappears',
+    ],
+    answer: 1,
+    explanation: 'Name it. Breathe out slowly. Contact support.',
+  },
+];
+
+const SUPPORT_RESOURCES = [
+  {
+    id: 'r1',
+    icon: 'phone-call',
+    title: 'Region IV-A Crisis Line',
+    meta: '1553 - 24/7',
+    action: 'Call now',
+  },
+  {
+    id: 'r2',
+    icon: 'school',
+    title: 'School Guidance / BKD Referral',
+    meta: 'For you or a friend',
+    action: 'Save contact',
+  },
+  {
+    id: 'r3',
+    icon: 'map',
+    title: 'LGU Prevention Desk',
+    meta: 'Nearby programs',
+    action: 'Find nearby',
+  },
+];
+
+const PARTNERS = [
+  'DDB',
+  'BKD',
+  'NDEP',
+  'SK',
+  'LGU',
+];
+
+const DEPLOYMENT_STEPS = [
+  {
+    icon: 'school',
+    title: 'School / BKD',
+    body: 'QR onboarding during orientation.',
+  },
+  {
+    icon: 'landmark',
+    title: 'Barangay / SK',
+    body: 'Local events and help paths.',
+  },
+  {
+    icon: 'bar-chart-3',
+    title: 'Regional view',
+    body: 'Aggregate stats only.',
+  },
+];
 
 const EVENTS = [
   {
@@ -58,7 +140,7 @@ const EVENTS = [
     title: 'Lipa City Peer Support Network: Open House',
     date: 'Thursday',
     time: '7:00 PM',
-    place: 'Online · Zoom',
+    place: 'Online - Zoom',
     band: 'alt',
   },
   {
@@ -66,26 +148,25 @@ const EVENTS = [
     kind: 'Volunteer',
     icon: 'heart-handshake',
     title: 'IDADAIT 2026 Barangay Caravan: Volunteer Facilitators',
-    date: 'June 26 (IDADAIT Day)',
+    date: 'June 26',
     time: '8:00 AM',
     place: 'Calamba, Laguna',
     band: '',
   },
 ];
 
-const BADGES = [
-  { icon: 'brain',           grad: 'g1', name: 'Calm Mind',        desc: '10 breathing sessions', locked: false },
-  { icon: 'heart-handshake', grad: 'g2', name: 'Community Pillar', desc: 'Joined a local event',  locked: false },
-  { icon: 'sparkles',        grad: 'g3', name: '1% Better',        desc: '15 reflections logged', locked: false },
-  { icon: 'shield',          grad: 'g4', name: 'Steady Streak',    desc: '14-day streak — locked', locked: true },
+const PROGRESS_BADGES = [
+  { icon: 'shield', grad: 'g1', name: 'Base Shield', desc: 'First mission', locked: false },
+  { icon: 'scale', grad: 'g2', name: 'Golden Scales', desc: '7-day streak', locked: false },
+  { icon: 'sword', grad: 'g3', name: 'Sword of Truth', desc: 'Debunked 20 myths', locked: false },
+  { icon: 'flame', grad: 'g4', name: 'Flame of Clarity', desc: '30-day badge', locked: true },
 ];
 
-/* June 2026 mood history (1–5). June 1 is a Monday. Today = June 10. */
 const MOOD_HISTORY = {
   1: 3, 2: 4, 3: 2, 4: 4, 5: 5, 6: 4, 7: 3, 8: 5, 9: 4,
 };
 
 const WRAPPED = {
-  title: 'Your June so far ✨',
-  body: 'You tracked <strong>15 positive days</strong> and attended <strong>1 local event</strong> this month. Quiet, steady progress — exactly how it’s done.',
+  title: 'June so far',
+  body: '<strong>15</strong> check-ins. <strong>12</strong> myths cleared. <strong>1</strong> event joined.',
 };
