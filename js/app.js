@@ -42,13 +42,16 @@ function handleAppClick(e) {
       render();
       break;
 
-    case 'answer-myth':
-      state.mythAnswer = el.dataset.answer;
+    case 'answer-myth': {
+      const mythId = el.dataset.id;
+      state.mythAnswers[mythId] = el.dataset.answer;
       render();
-      if (state.mythAnswer === MYTH_CARDS[state.mythIndex].answer) {
+      const card = MYTH_CARDS.find(m => m.id === mythId);
+      if (card && state.mythAnswers[mythId] === card.answer) {
         setTimeout(() => toast('badge-check', 'Knowledge step completed'), 250);
       }
       break;
+    }
 
     case 'learn-mode':
       state.learnMode = el.dataset.mode;
@@ -57,7 +60,20 @@ function handleAppClick(e) {
 
     case 'toggle-myth':
       state.mythOpened = !state.mythOpened;
-      if (state.mythOpened) state.quizOpened = false;
+      if (state.mythOpened) {
+        state.quizOpened = false;
+        state.mythFlowIndex = 0;
+      }
+      render();
+      break;
+
+    case 'next-myth':
+      state.mythFlowIndex++;
+      render();
+      break;
+
+    case 'close-myth-flow':
+      state.mythOpened = false;
       render();
       break;
 
@@ -87,11 +103,13 @@ function handleAppClick(e) {
       break;
     }
 
-    case 'answer-quiz':
-      state.quizAnswer = Number(el.dataset.index);
+    case 'answer-quiz': {
+      const quizId = el.dataset.id || QUIZ[0].id;
+      state.quizAnswers[quizId] = Number(el.dataset.index);
       render();
-      setTimeout(() => toast(state.quizAnswer === QUIZ[0].answer ? 'check' : 'book-open', 'Quiz explanation unlocked'), 250);
+      setTimeout(() => toast(state.quizAnswers[quizId] === QUIZ[0].answer ? 'check' : 'book-open', 'Quiz explanation unlocked'), 250);
       break;
+    }
 
     case 'toggle-breathe':
       toggleBreathing();

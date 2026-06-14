@@ -2,7 +2,7 @@
 
 function missionRailHTML() {
   const items = [
-    { id: 'learn', done: state.mythAnswer !== null, label: 'Learn' },
+    { id: 'learn', done: Object.keys(state.mythAnswers).length > 0, label: 'Learn' },
     { id: 'mood', done: state.todayMood !== null, label: 'Check in' },
     { id: 'reflect', done: state.journalDone, label: 'Reflect' },
     { id: 'support', done: state.registered.size > 0 || state.savedSupport.size > 0, label: 'Support' },
@@ -20,8 +20,8 @@ function missionRailHTML() {
 }
 
 function activeMissionHTML() {
-  if (state.mythAnswer === null) {
-    return mythCardHTML('today');
+  if (Object.keys(state.mythAnswers).length === 0) {
+    return mythCardHTML(MYTH_CARDS[0], 'today');
   }
 
   if (state.todayMood === null) {
@@ -69,29 +69,28 @@ function activeMissionHTML() {
     </div>`;
 }
 
-function mythCardHTML(location) {
-  const card = MYTH_CARDS[state.mythIndex];
-  const answered = state.mythAnswer !== null;
-  const correct = answered && state.mythAnswer === card.answer;
+function mythCardHTML(card, location = 'learn') {
+  const answered = state.mythAnswers[card.id] !== undefined;
+  const correct = answered && state.mythAnswers[card.id] === card.answer;
 
   return `
-    <div class="card myth-card">
-      <div class="card-title">${card.statement}</div>
-      <div class="myth-actions">
-        <button class="btn ${state.mythAnswer === 'myth' ? 'btn-selected' : 'btn-ghost'}" data-action="answer-myth" data-answer="myth">
+    <div class="card myth-card" style="margin-bottom: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 20px; padding: 20px;">
+      <div class="card-title" style="font-size: 1.1rem; line-height: 1.5; margin-bottom: 16px;">${card.statement}</div>
+      <div class="myth-actions" style="display: flex; gap: 12px;">
+        <button class="btn ${state.mythAnswers[card.id] === 'myth' ? 'btn-selected' : 'btn-ghost'}" data-action="answer-myth" data-id="${card.id}" data-answer="myth" style="flex: 1; padding: 12px; border-radius: 12px;">
           <i data-lucide="x"></i> Myth
         </button>
-        <button class="btn ${state.mythAnswer === 'fact' ? 'btn-selected' : 'btn-ghost'}" data-action="answer-myth" data-answer="fact">
+        <button class="btn ${state.mythAnswers[card.id] === 'fact' ? 'btn-selected' : 'btn-ghost'}" data-action="answer-myth" data-id="${card.id}" data-answer="fact" style="flex: 1; padding: 12px; border-radius: 12px;">
           <i data-lucide="check"></i> Fact
         </button>
       </div>
       ${answered ? `
-        <div class="answer-panel ${correct ? 'right' : 'wrong'}">
+        <div class="answer-panel ${correct ? 'right' : 'wrong'}" style="margin-top: 16px; padding: 16px; border-radius: 12px;">
           <strong>${correct ? 'Correct.' : 'Not quite.'}</strong>
-          <p>${card.explanation}</p>
+          <p style="margin-top: 8px;">${card.explanation}</p>
         </div>
         ${location === 'learn'
-          ? `<p class="learn-next-note"><i data-lucide="arrow-down"></i> Daily quiz is ready below.</p>`
+          ? `<p class="learn-next-note"><i data-lucide="arrow-down"></i> Scroll for more.</p>`
           : ''}` : ''}
     </div>`;
 }
@@ -101,6 +100,15 @@ function weatherPickerHTML() {
     <button class="weather-btn ${state.todayMood === w.id ? 'selected' : ''}" data-action="pick-mood" data-mood="${w.id}">
       <i data-lucide="${w.icon}"></i><span>${w.label}</span>
     </button>`).join('');
+}
+
+function missionProgress() {
+  let p = 0;
+  if (Object.keys(state.mythAnswers).length > 0) p++;
+  if (state.todayMood !== null) p++;
+  if (state.journalDone) p++;
+  if (state.registered.size > 0 || state.savedSupport.size > 0) p++;
+  return p;
 }
 
 function todayHTML() {
