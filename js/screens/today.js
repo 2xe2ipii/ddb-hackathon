@@ -2,7 +2,7 @@
 
 function missionProgress() {
   let p = 0;
-  if (Object.keys(state.mythAnswers).length > 0) p++;
+  if (state.todayMythId && state.mythAnswers[state.todayMythId] !== undefined) p++;
   if (state.todayMood !== null) p++;
   if (state.journalDone) p++;
   if (state.registered.size > 0 || state.savedSupport.size > 0) p++;
@@ -57,7 +57,7 @@ function gentlePromptHTML() {
 }
 
 function questGridHTML() {
-  const p1 = Object.keys(state.mythAnswers).length > 0;
+  const p1 = state.todayMythId && state.mythAnswers[state.todayMythId] !== undefined;
   const p2 = state.todayMood !== null;
   const p3 = state.journalDone;
   const p4 = state.registered.size > 0 || state.savedSupport.size > 0;
@@ -86,7 +86,8 @@ function expandedContentHTML() {
 
   let content = '';
   if (state.expandedQuest === 'learn') {
-    content = mythCardHTML(MYTH_CARDS[0], 'today');
+    const todayMyth = MYTH_CARDS.find(m => m.id === state.todayMythId) || MYTH_CARDS[0];
+    content = mythCardHTML(todayMyth, 'today');
   } else if (state.expandedQuest === 'mood') {
     content = `
       <div class="card active-step-card" style="margin-bottom: 16px;">

@@ -26,7 +26,8 @@ var defaultState = {
   relaxToolkitOpen: null,
   expandedQuest: null,
   sessionMythIds: [],
-  sessionQuizIds: []
+  sessionQuizIds: [],
+  todayMythId: null
 };
 
 function loadState() {

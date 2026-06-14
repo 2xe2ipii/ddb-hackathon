@@ -131,6 +131,8 @@ function handleAppClick(e) {
       state.quizAnswers = {};
       state.sessionMythIds = pickSessionItems(MYTH_CARDS, 5);
       state.sessionQuizIds = pickSessionItems(QUIZ, 5);
+      const availableMythsReset = MYTH_CARDS.filter(m => !state.sessionMythIds.includes(m.id));
+      state.todayMythId = availableMythsReset.length > 0 ? availableMythsReset[Math.floor(Math.random() * availableMythsReset.length)].id : MYTH_CARDS[0].id;
       render();
       break;
 
@@ -279,6 +281,10 @@ function initApp() {
     state.sessionMythIds = pickSessionItems(MYTH_CARDS, 5);
     state.sessionQuizIds = pickSessionItems(QUIZ, 5);
   }
+  if (!state.todayMythId) {
+    const availableMythsInit = MYTH_CARDS.filter(m => !(state.sessionMythIds || []).includes(m.id));
+    state.todayMythId = availableMythsInit.length > 0 ? availableMythsInit[Math.floor(Math.random() * availableMythsInit.length)].id : MYTH_CARDS[0].id;
+  }
   if (state.theme === 'light') {
     document.body.classList.add('light-theme');
   } else {
@@ -354,6 +360,8 @@ function initApp() {
     state.relaxToolkitOpen = null;
     state.sessionMythIds = pickSessionItems(MYTH_CARDS, 5);
     state.sessionQuizIds = pickSessionItems(QUIZ, 5);
+    const availableMythsRestart = MYTH_CARDS.filter(m => !state.sessionMythIds.includes(m.id));
+    state.todayMythId = availableMythsRestart.length > 0 ? availableMythsRestart[Math.floor(Math.random() * availableMythsRestart.length)].id : MYTH_CARDS[0].id;
     localStorage.removeItem('ddb_state');
     
     document.body.classList.remove('light-theme');
