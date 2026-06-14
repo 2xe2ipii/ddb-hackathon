@@ -176,7 +176,7 @@ function initApp() {
     const threshold = 100;
     
     if (Math.abs(deltaX) > threshold) {
-      const answer = deltaX > 0 ? 'myth' : 'fact';
+      const answer = deltaX > 0 ? 'fact' : 'myth';
       state.mythAnswers[swipeState.mythId] = answer;
       
       swipeState.cardEl.style.transition = 'transform 0.3s ease-out, opacity 0.3s ease-out';

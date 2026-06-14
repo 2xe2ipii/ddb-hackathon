@@ -63,7 +63,7 @@ function mythFlowHTML() {
       ${!answered ? `
       <div style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px; display: flex; justify-content: center; align-items: center; gap: 8px;">
         <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i>
-        Swipe Left Fact, Right Myth
+        Swipe Left Myth, Right Fact
         <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
       </div>` : `
       <div class="myth-actions" style="display: flex; flex-direction: column; gap: 16px;">
