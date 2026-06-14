@@ -167,7 +167,7 @@ function renderGroundingToolkit() {
     },
     {
       id: 'bodyscan',
-      icon: 'scan-body',
+      icon: 'user',
       title: 'Body Scan',
       desc: 'Slowly release tension from head to toe.',
       content: `
