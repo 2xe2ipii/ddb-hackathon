@@ -16,7 +16,8 @@ function learnHTML() {
       <section class="learn-stack" style="flex: ${state.mythOpened ? '1' : 'none'}; display: flex; flex-direction: column; margin-bottom: 16px;">
         <div class="learn-card-head" data-action="toggle-myth" style="${state.mythOpened ? 'cursor: pointer; padding: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; margin-bottom: 16px;' : 'cursor: pointer; padding: 24px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);'}">
           <span style="${state.mythOpened ? 'display: flex; align-items: center; gap: 8px; font-size: 15px;' : 'font-size: 18px; display: flex; align-items: center; gap: 10px; font-weight: 800;'}"><i data-lucide="shield-question" style="${state.mythOpened ? 'width: 20px; height: 20px;' : 'width: 28px; height: 28px;'}"></i> Myths vs facts</span>
-          <b style="${state.mythOpened ? 'font-size: 13px;' : 'font-size: 14px; color: var(--muted);'}">${mythAnsweredCount >= 5 ? 'All 5 completed' : (state.mythOpened ? 'Close' : 'Tap to open')}</b>
+          ${!state.mythOpened && mythAnsweredCount < 5 ? `<div style="font-size: 14px; text-align: center; color: var(--muted); line-height: 1.4; padding: 0 10px;">Today's Myth: "${MYTH_CARDS[state.mythFlowIndex < 5 ? state.mythFlowIndex : 0].statement}"</div>` : ''}
+          <b style="${state.mythOpened ? 'font-size: 13px;' : 'font-size: 14px; background: linear-gradient(120deg, var(--teal), #3aa893); color: #07211c; padding: 8px 16px; border-radius: 20px; box-shadow: 0 2px 8px rgba(69, 196, 176, 0.3);'}">${mythAnsweredCount >= 5 ? 'All 5 completed' : (state.mythOpened ? 'Close' : 'Challenge a Myth')}</b>
         </div>
         ${state.mythOpened ? mythFlowHTML() : ''}
       </section>
@@ -26,7 +27,8 @@ function learnHTML() {
       <section class="learn-stack" style="flex: ${state.quizOpened ? '1' : 'none'}; display: flex; flex-direction: column;">
         <div class="learn-card-head quiz" data-action="toggle-quiz" style="${state.quizOpened ? 'cursor: pointer; padding: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; margin-bottom: 16px;' : 'cursor: pointer; padding: 24px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);'}">
           <span style="${state.quizOpened ? 'display: flex; align-items: center; gap: 8px; font-size: 15px;' : 'font-size: 18px; display: flex; align-items: center; gap: 10px; font-weight: 800;'}"><i data-lucide="timer" style="${state.quizOpened ? 'width: 20px; height: 20px;' : 'width: 28px; height: 28px;'}"></i> Daily quiz</span>
-          <b style="${state.quizOpened ? 'font-size: 13px;' : 'font-size: 14px; color: var(--muted);'}">${quizAnsweredCount >= 5 ? 'All 5 completed' : (state.quizOpened ? 'Close' : 'Tap to open')}</b>
+          ${!state.quizOpened && quizAnsweredCount < 5 ? `<div style="font-size: 14px; text-align: center; color: var(--muted); line-height: 1.4; padding: 0 10px;">Today's Question: "${QUIZ[state.quizFlowIndex < 5 ? state.quizFlowIndex : 0].question}"</div>` : ''}
+          <b style="${state.quizOpened ? 'font-size: 13px;' : 'font-size: 14px; background: linear-gradient(120deg, var(--teal), #3aa893); color: #07211c; padding: 8px 16px; border-radius: 20px; box-shadow: 0 2px 8px rgba(69, 196, 176, 0.3);'}">${quizAnsweredCount >= 5 ? 'All 5 completed' : (state.quizOpened ? 'Close' : 'Start Daily Quiz')}</b>
         </div>
         ${state.quizOpened ? dailyQuizCardHTML() : ''}
       </section>
