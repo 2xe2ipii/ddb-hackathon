@@ -54,20 +54,26 @@ function mythFlowHTML() {
   const correct = answered && state.mythAnswers[card.id] === card.answer;
 
   return `
-    <div class="card myth-card" style="flex: 1; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 8px 30px rgba(0,0,0,0.12); border-radius: 24px; padding: 24px; position: relative;">
+    <div class="card myth-card" ${!answered ? `data-swipeable="true" data-id="${card.id}"` : ''} style="flex: 1; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 8px 30px rgba(0,0,0,0.12); border-radius: 24px; padding: 24px; position: relative; touch-action: pan-y; transition: transform 0.3s ease, opacity 0.3s ease;">
       <div style="position: absolute; top: 16px; right: 20px; font-size: 14px; font-weight: bold; color: var(--text-muted); opacity: 0.7;">
         ${state.mythFlowIndex + 1} / 5
       </div>
       <div class="card-title" style="font-size: 1.4rem; font-weight: 800; line-height: 1.4; margin-bottom: 32px; margin-top: 16px; text-align: center;">"${card.statement}"</div>
       
+      ${!answered ? `
+      <div style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px; display: flex; justify-content: center; align-items: center; gap: 8px;">
+        <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i>
+        Swipe Left Fact, Right Myth
+        <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+      </div>` : `
       <div class="myth-actions" style="display: flex; flex-direction: column; gap: 16px;">
-        <button class="btn ${state.mythAnswers[card.id] === 'myth' ? 'btn-selected' : 'btn-ghost'}" data-action="answer-myth" data-id="${card.id}" data-answer="myth" style="padding: 16px; border-radius: 16px; font-size: 1.1rem; display: flex; justify-content: center; border: 2px solid ${state.mythAnswers[card.id] === 'myth' ? 'var(--primary)' : 'var(--line)'};">
+        <button class="btn ${state.mythAnswers[card.id] === 'myth' ? 'btn-selected' : 'btn-ghost'}" data-action="answer-myth" data-id="${card.id}" data-answer="myth" style="padding: 16px; border-radius: 16px; font-size: 1.1rem; display: flex; justify-content: center; border: 2px solid ${state.mythAnswers[card.id] === 'myth' ? 'var(--primary)' : 'var(--line)'};" disabled>
           <i data-lucide="x" style="margin-right: 8px;"></i> Myth
         </button>
-        <button class="btn ${state.mythAnswers[card.id] === 'fact' ? 'btn-selected' : 'btn-ghost'}" data-action="answer-myth" data-id="${card.id}" data-answer="fact" style="padding: 16px; border-radius: 16px; font-size: 1.1rem; display: flex; justify-content: center; border: 2px solid ${state.mythAnswers[card.id] === 'fact' ? 'var(--primary)' : 'var(--line)'};">
+        <button class="btn ${state.mythAnswers[card.id] === 'fact' ? 'btn-selected' : 'btn-ghost'}" data-action="answer-myth" data-id="${card.id}" data-answer="fact" style="padding: 16px; border-radius: 16px; font-size: 1.1rem; display: flex; justify-content: center; border: 2px solid ${state.mythAnswers[card.id] === 'fact' ? 'var(--primary)' : 'var(--line)'};" disabled>
           <i data-lucide="check" style="margin-right: 8px;"></i> Fact
         </button>
-      </div>
+      </div>`}
 
       ${answered ? `
         <div class="answer-panel ${correct ? 'right' : 'wrong'}" style="margin-top: 24px; padding: 20px; border-radius: 16px;">

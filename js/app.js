@@ -141,9 +141,66 @@ function handleAppClick(e) {
   }
 }
 
+const swipeState = { isDragging: false, startX: 0, currentX: 0, cardEl: null, mythId: null };
+
 function initApp() {
   initDeviceFrame();
   app.addEventListener('click', handleAppClick);
+
+  app.addEventListener('pointerdown', (e) => {
+    const card = e.target.closest('.myth-card[data-swipeable="true"]');
+    if (!card || e.target.closest('button')) return;
+    
+    swipeState.isDragging = true;
+    swipeState.startX = e.clientX;
+    swipeState.currentX = e.clientX;
+    swipeState.cardEl = card;
+    swipeState.mythId = card.dataset.id;
+    card.style.transition = 'none';
+    card.setPointerCapture(e.pointerId);
+  });
+
+  app.addEventListener('pointermove', (e) => {
+    if (!swipeState.isDragging || !swipeState.cardEl) return;
+    swipeState.currentX = e.clientX;
+    const deltaX = swipeState.currentX - swipeState.startX;
+    const rotate = deltaX * 0.05;
+    swipeState.cardEl.style.transform = `translateX(${deltaX}px) rotate(${rotate}deg)`;
+  });
+
+  const endSwipe = (e) => {
+    if (!swipeState.isDragging || !swipeState.cardEl) return;
+    swipeState.isDragging = false;
+    
+    const deltaX = swipeState.currentX - swipeState.startX;
+    const threshold = 100;
+    
+    if (Math.abs(deltaX) > threshold) {
+      const answer = deltaX > 0 ? 'myth' : 'fact';
+      state.mythAnswers[swipeState.mythId] = answer;
+      
+      swipeState.cardEl.style.transition = 'transform 0.3s ease-out, opacity 0.3s ease-out';
+      swipeState.cardEl.style.transform = `translateX(${deltaX > 0 ? 300 : -300}px) rotate(${deltaX * 0.1}deg)`;
+      swipeState.cardEl.style.opacity = '0';
+      
+      setTimeout(() => {
+        render();
+        const mCard = MYTH_CARDS.find(m => m.id === swipeState.mythId);
+        if (mCard && answer === mCard.answer) {
+          setTimeout(() => toast('badge-check', 'Knowledge step completed'), 250);
+        }
+      }, 300);
+    } else {
+      swipeState.cardEl.style.transition = 'transform 0.3s ease-out';
+      swipeState.cardEl.style.transform = 'translateX(0) rotate(0)';
+    }
+    swipeState.cardEl = null;
+    swipeState.mythId = null;
+  };
+
+  app.addEventListener('pointerup', endSwipe);
+  app.addEventListener('pointercancel', endSwipe);
+
   render();
 }
 
