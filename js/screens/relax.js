@@ -179,26 +179,16 @@ function renderGroundingToolkit() {
           <li>Let your legs and feet feel heavy and supported.</li>
         </ul>
       `
-    },
-    {
-      id: 'affirmations',
-      icon: 'sparkles',
-      title: 'Calming Affirmations',
-      desc: 'Short phrases to repeat slowly to yourself.',
-      content: `
-        <ol>
-          <li>This feeling is temporary. It will pass.</li>
-          <li>I am safe right now in this moment.</li>
-          <li>I can handle this one step at a time.</li>
-          <li>It is okay to ask for help.</li>
-          <li>I have gotten through hard moments before.</li>
-        </ol>
-      `
     }
   ];
 
   return `
     <div class="grounding-toolkit">
+      <div class="flashing-affirmation-container" style="margin-bottom: 24px; padding: 16px; background: var(--bg-card); border-radius: 12px; text-align: center; border: 1px solid var(--border-color); color: var(--text-main);">
+         <div id="flashing-affirmation" style="font-size: 1.1em; font-weight: 500; min-height: 3em; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease;">
+           This feeling is temporary. It will pass.
+         </div>
+      </div>
       <h3 class="toolkit-title">Grounding toolkit</h3>
       <div class="toolkit-cards">
         ${tools.map(t => {

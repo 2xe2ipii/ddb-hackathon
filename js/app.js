@@ -383,4 +383,25 @@ function stopQuizTimer() {
   }
 }
 
+const RELAX_AFFIRMATIONS = [
+  "This feeling is temporary. It will pass.",
+  "I am safe right now in this moment.",
+  "I can handle this one step at a time.",
+  "It is okay to ask for help.",
+  "I have gotten through hard moments before."
+];
+let relaxAffirmationIndex = 0;
+
+setInterval(() => {
+  const el = document.getElementById('flashing-affirmation');
+  if (el) {
+    el.style.opacity = '0';
+    setTimeout(() => {
+      relaxAffirmationIndex = (relaxAffirmationIndex + 1) % RELAX_AFFIRMATIONS.length;
+      el.textContent = RELAX_AFFIRMATIONS[relaxAffirmationIndex];
+      el.style.opacity = '1';
+    }, 500);
+  }
+}, 10000);
+
 initApp();
