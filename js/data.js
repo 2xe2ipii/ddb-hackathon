@@ -29,56 +29,64 @@ const MYTH_CARDS = [
     statement: 'Trying shabu once is harmless if you only do it out of curiosity.',
     answer: 'myth',
     source: 'DDB note',
-    explanation: 'Even early use can affect sleep, mood, judgment, and risk-taking.',
+    explanationCorrect: 'Correct. Even early use can disrupt your brain chemistry, affecting sleep, mood, judgment, and risk-taking.',
+    explanationIncorrect: 'It\'s actually a myth. Trying it even once can disrupt brain chemistry, leading to unpredictable changes in sleep, mood, and judgment.'
   },
   {
     id: 'm2',
     statement: 'Stress, loneliness, and peer pressure can increase vulnerability to substance use.',
     answer: 'fact',
     source: 'Well-being',
-    explanation: 'Sleep, support, movement, and trusted people lower risk.',
+    explanationCorrect: 'Spot on. Building a support system and healthy habits are your best defense against these vulnerabilities.',
+    explanationIncorrect: 'This is actually a fact. High stress and isolation make substances seem like an easy escape, which is why a strong support system is vital.'
   },
   {
     id: 'm3',
     statement: 'Real friends will respect a clear no and help you leave a risky situation.',
     answer: 'fact',
     source: 'Refusal skill',
-    explanation: 'A short no works better with an exit plan.',
+    explanationCorrect: 'Exactly. A strong, short "no" combined with an exit plan is a great way to handle pressure.',
+    explanationIncorrect: 'It\'s a fact. People who truly care about your well-being won\'t push you to do things you\'re uncomfortable with.'
   },
   {
     id: 'm4',
     statement: 'Vaping is just harmless water vapor and is a completely safe alternative to smoking.',
     answer: 'myth',
     source: 'Health Fact',
-    explanation: 'Vapes contain harmful chemicals and highly addictive nicotine that can severely damage developing lungs.',
+    explanationCorrect: 'Correct. Vapes often contain highly addictive nicotine and chemicals that can severely damage developing lungs.',
+    explanationIncorrect: 'Not quite. Vapes are not just water; they contain harmful chemicals and addictive nicotine that can damage developing lungs.'
   },
   {
     id: 'm5',
     statement: 'Regular exercise, hobbies, and adequate sleep can significantly lower the risk of substance abuse.',
     answer: 'fact',
     source: 'Well-being',
-    explanation: 'Healthy daily habits build your resilience against stress, reducing the urge to rely on harmful substances to cope.',
+    explanationCorrect: 'You got it. Healthy daily habits build your resilience against stress, keeping your mind and body balanced.',
+    explanationIncorrect: 'This is a fact. Building healthy habits actually strengthens your brain\'s natural ability to handle stress and anxiety without relying on substances.'
   },
   {
     id: 'm6',
     statement: 'Prescription medications are always safe to use, even if they aren\'t prescribed to you by a doctor.',
     answer: 'myth',
     source: 'Safety Note',
-    explanation: 'Using someone else\'s prescription can cause severe health reactions and quickly lead to dependency.',
+    explanationCorrect: 'That\'s right. Using someone else\'s prescription can cause severe, unpredictable health reactions.',
+    explanationIncorrect: 'Actually, it\'s a myth. Medications are prescribed based on an individual\'s specific health profile; sharing them can be very dangerous.'
   },
   {
     id: 'm7',
     statement: 'Experiencing anxiety or depression is a sign of personal weakness.',
     answer: 'myth',
     source: 'Mental Health',
-    explanation: 'Mental health challenges are medical conditions, and seeking help is actually a sign of strength and self-awareness.',
+    explanationCorrect: 'Absolutely. Mental health challenges are medical conditions, and asking for help shows profound self-awareness and strength.',
+    explanationIncorrect: 'This is a common myth. Struggling with mental health is not a weakness; it\'s a medical condition, and reaching out takes real courage.'
   },
   {
     id: 'm8',
     statement: 'You can build a tolerance to alcohol, making it safe for you to drink larger amounts over time.',
     answer: 'myth',
     source: 'Health Fact',
-    explanation: 'Tolerance just means your brain needs more of the substance to feel the effects, heavily increasing the risk of organ damage.',
+    explanationCorrect: 'Correct. Tolerance just means your brain is struggling to feel the effects, which heavily increases the risk of organ damage.',
+    explanationIncorrect: 'Try looking at it this way: tolerance just means your body needs more of the substance to feel it, which actually increases the risk of severe organ damage.'
   },
 ];
 
