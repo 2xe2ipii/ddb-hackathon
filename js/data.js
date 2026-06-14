@@ -29,21 +29,64 @@ const MYTH_CARDS = [
     statement: 'Trying shabu once is harmless if you only do it out of curiosity.',
     answer: 'myth',
     source: 'DDB note',
-    explanation: 'Even early use can affect sleep, mood, judgment, and risk-taking.',
+    explanationCorrect: 'Correct. Even early use can disrupt your brain chemistry, affecting sleep, mood, judgment, and risk-taking.',
+    explanationIncorrect: 'It\'s actually a myth. Trying it even once can disrupt brain chemistry, leading to unpredictable changes in sleep, mood, and judgment.'
   },
   {
     id: 'm2',
     statement: 'Stress, loneliness, and peer pressure can increase vulnerability to substance use.',
     answer: 'fact',
     source: 'Well-being',
-    explanation: 'Sleep, support, movement, and trusted people lower risk.',
+    explanationCorrect: 'Spot on. Building a support system and healthy habits are your best defense against these vulnerabilities.',
+    explanationIncorrect: 'This is actually a fact. High stress and isolation make substances seem like an easy escape, which is why a strong support system is vital.'
   },
   {
     id: 'm3',
     statement: 'Real friends will respect a clear no and help you leave a risky situation.',
     answer: 'fact',
     source: 'Refusal skill',
-    explanation: 'A short no works better with an exit plan.',
+    explanationCorrect: 'Exactly. A strong, short "no" combined with an exit plan is a great way to handle pressure.',
+    explanationIncorrect: 'It\'s a fact. People who truly care about your well-being won\'t push you to do things you\'re uncomfortable with.'
+  },
+  {
+    id: 'm4',
+    statement: 'Vaping is just harmless water vapor and is a completely safe alternative to smoking.',
+    answer: 'myth',
+    source: 'Health Fact',
+    explanationCorrect: 'Correct. Vapes often contain highly addictive nicotine and chemicals that can severely damage developing lungs.',
+    explanationIncorrect: 'Not quite. Vapes are not just water; they contain harmful chemicals and addictive nicotine that can damage developing lungs.'
+  },
+  {
+    id: 'm5',
+    statement: 'Regular exercise, hobbies, and adequate sleep can significantly lower the risk of substance abuse.',
+    answer: 'fact',
+    source: 'Well-being',
+    explanationCorrect: 'You got it. Healthy daily habits build your resilience against stress, keeping your mind and body balanced.',
+    explanationIncorrect: 'This is a fact. Building healthy habits actually strengthens your brain\'s natural ability to handle stress and anxiety without relying on substances.'
+  },
+  {
+    id: 'm6',
+    statement: 'Prescription medications are always safe to use, even if they aren\'t prescribed to you by a doctor.',
+    answer: 'myth',
+    source: 'Safety Note',
+    explanationCorrect: 'That\'s right. Using someone else\'s prescription can cause severe, unpredictable health reactions.',
+    explanationIncorrect: 'Actually, it\'s a myth. Medications are prescribed based on an individual\'s specific health profile; sharing them can be very dangerous.'
+  },
+  {
+    id: 'm7',
+    statement: 'Experiencing anxiety or depression is a sign of personal weakness.',
+    answer: 'myth',
+    source: 'Mental Health',
+    explanationCorrect: 'Absolutely. Mental health challenges are medical conditions, and asking for help shows profound self-awareness and strength.',
+    explanationIncorrect: 'This is a common myth. Struggling with mental health is not a weakness; it\'s a medical condition, and reaching out takes real courage.'
+  },
+  {
+    id: 'm8',
+    statement: 'You can build a tolerance to alcohol, making it safe for you to drink larger amounts over time.',
+    answer: 'myth',
+    source: 'Health Fact',
+    explanationCorrect: 'Correct. Tolerance just means your brain is struggling to feel the effects, which heavily increases the risk of organ damage.',
+    explanationIncorrect: 'Try looking at it this way: tolerance just means your body needs more of the substance to feel it, which actually increases the risk of severe organ damage.'
   },
 ];
 
@@ -57,7 +100,8 @@ const QUIZ = [
       'Try it once so they stop pressuring you',
     ],
     answer: 0,
-    explanation: 'Say no. Move away. Message someone safe.',
+    explanationCorrect: 'Spot on. Saying a clear no, moving away, and messaging someone safe is the best exit strategy.',
+    explanationIncorrect: 'Not quite. The safest strategy is to say no clearly, remove yourself from the situation, and reach out to someone you trust.',
   },
   {
     id: 'q2',
@@ -68,7 +112,68 @@ const QUIZ = [
       'Scroll online until it disappears',
     ],
     answer: 1,
-    explanation: 'Name it. Breathe out slowly. Contact support.',
+    explanationCorrect: 'Exactly. Naming the feeling, taking slow breaths, and contacting support helps you ride out the wave safely.',
+    explanationIncorrect: 'Try this instead: naming the feeling, breathing slowly, and reaching out to your support system is a much safer way to handle intense urges.',
+  },
+  {
+    id: 'q3',
+    question: 'A friend offers you an e-cigarette at a party and won\'t take no for an answer. What is the safest exit strategy?',
+    options: [
+      'Take one puff so they leave you alone',
+      'Make an excuse that you need to make a call, and leave the area',
+      'Get angry and start an argument with them'
+    ],
+    answer: 1,
+    explanationCorrect: 'Great answer. Making a quick excuse and leaving the area safely removes you from the pressure without escalating the situation.',
+    explanationIncorrect: 'Actually, the safest approach is to make a quick excuse to leave the area. This removes you from the situation without starting an argument.',
+  },
+  {
+    id: 'q4',
+    question: 'Which of the following is considered a healthy coping mechanism when you are feeling overwhelmed by schoolwork?',
+    options: [
+      'Taking a 15-minute walk and doing breathing exercises',
+      'Drinking multiple energy drinks to stay up all night',
+      'Ignoring the assignments until the last minute'
+    ],
+    answer: 0,
+    explanationCorrect: 'Right. Stepping away to breathe and reset lowers your body\'s stress levels and actually improves your focus.',
+    explanationIncorrect: 'Not quite. A healthier approach is taking a short walk and doing breathing exercises. It resets your stress levels and helps you focus better later.',
+  },
+  {
+    id: 'q5',
+    question: 'What should you do if you notice a friend is suddenly withdrawing from activities they used to love and acting unusually secretive?',
+    options: [
+      'Assume they are just busy and ignore it',
+      'Tell other people about their strange behavior',
+      'Reach out privately to ask how they are doing and listen without judgment'
+    ],
+    answer: 2,
+    explanationCorrect: 'Absolutely. Reaching out privately with empathy shows you care and creates a safe space for them to open up.',
+    explanationIncorrect: 'A better approach is to reach out privately and listen without judgment. Showing empathy creates a safe space for them to share what\'s going on.',
+  },
+  {
+    id: 'q6',
+    question: 'True or False: Mixing energy drinks with alcohol reduces the intoxicating effects of the alcohol.',
+    options: [
+      'True, the caffeine cancels out the alcohol',
+      'False, it only masks the effects, making you feel less drunk than you are',
+      'True, it speeds up your metabolism'
+    ],
+    answer: 1,
+    explanationCorrect: 'Correct. Caffeine only masks the depressant effects, making you feel less drunk than you are, which can lead to dangerous overconsumption.',
+    explanationIncorrect: 'Actually, it\'s false. Caffeine just masks the depressant effects of alcohol, which makes you feel artificially alert and increases the risk of dangerous overconsumption.',
+  },
+  {
+    id: 'q7',
+    question: 'When practicing the 4-7-8 breathing technique for anxiety, what does the "7" stand for?',
+    options: [
+      'Inhale for 7 seconds',
+      'Exhale for 7 seconds',
+      'Hold your breath for 7 seconds'
+    ],
+    answer: 2,
+    explanationCorrect: 'You got it. The calming pattern is: inhale for 4 seconds, hold your breath for 7 seconds, and exhale slowly for 8 seconds.',
+    explanationIncorrect: 'Not quite. The "7" stands for holding your breath. The full pattern is: inhale for 4, hold for 7, and exhale slowly for 8 seconds to calm your nervous system.',
   },
 ];
 

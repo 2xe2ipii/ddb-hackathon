@@ -1,12 +1,14 @@
 /* Shared mutable app state and DOM anchors. */
 
-var state = {
+var defaultState = {
   launched: false,
   tab: 'today',
   todayMood: null,
-  mythIndex: 0,
-  mythAnswer: null,
-  quizAnswer: null,
+  mythAnswers: {},
+  mythFlowIndex: 0,
+  quizAnswers: {},
+  quizFlowIndex: 0,
+  quizTimeLeft: 10,
   learnMode: 'myth',
   journalDone: false,
   reflection: '',
@@ -14,7 +16,34 @@ var state = {
   registered: new Set(),
   savedSupport: new Set(),
   breathing: false,
+  mythOpened: false,
+  quizOpened: false,
+  theme: 'dark',
 };
+
+function loadState() {
+  const saved = localStorage.getItem('ddb_state');
+  if (saved) {
+    try {
+      const parsed = JSON.parse(saved);
+      if (parsed.registered) parsed.registered = new Set(parsed.registered);
+      if (parsed.savedSupport) parsed.savedSupport = new Set(parsed.savedSupport);
+      return Object.assign({}, defaultState, parsed);
+    } catch(e) {
+      console.error('Failed to load state', e);
+    }
+  }
+  return Object.assign({}, defaultState);
+}
+
+var state = loadState();
+
+function saveState() {
+  const toSave = Object.assign({}, state);
+  toSave.registered = Array.from(toSave.registered);
+  toSave.savedSupport = Array.from(toSave.savedSupport);
+  localStorage.setItem('ddb_state', JSON.stringify(toSave));
+}
 
 var app = document.getElementById('app');
 var phone = document.getElementById('phone');
@@ -22,3 +51,4 @@ var phoneWrap = document.getElementById('phoneWrap');
 
 var breatheTimer = null;
 var countTimer = null;
+var quizTimer = null;

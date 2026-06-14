@@ -53,23 +53,37 @@
     </div>
   </main>
 
-  <!-- ===== Floating device frame selector ===== -->
-  <aside class="device-panel" id="devicePanel">
-    <p class="dp-title"><i data-lucide="smartphone"></i> Device Frame</p>
-    <button class="dp-option active" data-device="iphone">
-      <span class="dp-name">iPhone 14 Pro Max</span>
-      <span class="dp-dims">430 × 932</span>
-    </button>
-    <button class="dp-option" data-device="pixel">
-      <span class="dp-name">Google Pixel 7</span>
-      <span class="dp-dims">412 × 915</span>
-    </button>
-    <button class="dp-option" data-device="galaxy">
-      <span class="dp-name">Samsung Galaxy S23</span>
-      <span class="dp-dims">380 × 800</span>
-    </button>
-    <p class="dp-footnote">DDB Mobile App Challenge<br/>IDADAIT 2026 · Region IV-A</p>
-  </aside>
+  <!-- ===== Side Panels ===== -->
+  <div class="side-panels">
+    <!-- ===== Floating device frame selector ===== -->
+    <aside class="device-panel" id="devicePanel">
+      <p class="dp-title"><i data-lucide="smartphone"></i> Device Frame</p>
+      <button class="dp-option active" data-device="iphone">
+        <span class="dp-name">iPhone 14 Pro Max</span>
+        <span class="dp-dims">430 × 932</span>
+      </button>
+      <button class="dp-option" data-device="pixel">
+        <span class="dp-name">Google Pixel 7</span>
+        <span class="dp-dims">412 × 915</span>
+      </button>
+      <button class="dp-option" data-device="galaxy">
+        <span class="dp-name">Samsung Galaxy S23</span>
+        <span class="dp-dims">380 × 800</span>
+      </button>
+      <p class="dp-footnote">DDB Mobile App Challenge<br/>IDADAIT 2026 · Region IV-A</p>
+    </aside>
+
+    <!-- ===== Prototype Control Panel ===== -->
+    <aside class="control-panel">
+      <p class="dp-title"><i data-lucide="settings-2"></i> Controls</p>
+      <button class="dp-option" id="btnRestartApp">
+        <span class="dp-name" style="display:flex;align-items:center;gap:6px;">
+          <i data-lucide="rotate-ccw" style="width:14px;height:14px;"></i> Restart App
+        </span>
+        <span class="dp-dims">Reset application state</span>
+      </button>
+    </aside>
+  </div>
 
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="js/data.js"></script>

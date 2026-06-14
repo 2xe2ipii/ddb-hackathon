@@ -68,6 +68,8 @@ body {
   justify-content: center;
 }
 
+
+
 .phone-wrap {
   transform: scale(var(--phone-scale));
   transform-origin: center center;
@@ -186,14 +188,21 @@ body {
   pointer-events: none;
 }
 
-/* ---------- floating device selector ---------- */
-.device-panel {
+/* ---------- side panels (device frame + controls) ---------- */
+.side-panels {
   position: fixed;
   right: 28px;
   top: 50%;
   transform: translateY(-50%);
   z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   width: 218px;
+}
+
+.device-panel, .control-panel {
+  width: 100%;
   padding: 18px 16px;
   border-radius: 22px;
   background: rgba(13, 20, 34, 0.72);
@@ -255,5 +264,19 @@ body {
 }
 
 @media (max-width: 900px) {
-  .device-panel { right: 12px; width: 170px; padding: 14px 12px; }
+  .side-panels { right: 12px; width: 170px; }
+  .device-panel, .control-panel { padding: 14px 12px; }
 }
+
+/* =====================================================
+   LIGHT THEME OVERRIDES FOR FRAME
+   ===================================================== */
+
+.light-theme .statusbar {
+  color: #0f172a;
+}
+
+.light-theme .home-indicator {
+  background: rgba(15, 23, 42, 0.35);
+}
+

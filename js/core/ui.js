@@ -94,12 +94,25 @@ function launcherHTML() {
 }
 
 function headerHTML() {
+  let timerHTML = '';
+  if (state.tab === 'learn' && state.quizOpened && state.quizFlowIndex < 5) {
+    const q = QUIZ[state.quizFlowIndex];
+    if (q && state.quizAnswers[q.id] === undefined && state.quizTimeLeft !== null) {
+      timerHTML = `
+        <div class="header-timer" style="position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 6px; font-weight: 800; color: var(--primary); font-size: 16px;">
+          <i data-lucide="timer" style="width: 18px; height: 18px;"></i>
+          <span id="header-timer-text">0:${state.quizTimeLeft.toString().padStart(2, '0')}</span>
+        </div>`;
+    }
+  }
+
   return `
-    <div class="app-header">
+    <div class="app-header" style="position: relative;">
       <div class="brand">
         <span class="brand-name">DDB</span>
         <span class="brand-tag">Region IV-A</span>
       </div>
+      ${timerHTML}
       <div class="header-actions">
         <button class="avatar-btn" data-action="go-profile" aria-label="Open private profile">KA</button>
       </div>
