@@ -25,23 +25,35 @@
 }
 
 .light-theme {
-  /* Core Backgrounds */
-  --bg: #f1f5f9;         /* Soft, cool-toned gray instead of harsh white */
-  --surface: #f8fafc;    /* Very light slate for app navigation */
-  --card: #ffffff;       /* Clean white for main content areas */
-  --card-2: #e2e8f0;     /* Soft contrast for elevated elements */
-  --line: rgba(15, 23, 42, 0.08); /* Subtle dark lines */
+  /* Core Backgrounds (Kept as is for clean UI) */
+  --bg: #f1f5f9;         
+  --surface: #f8fafc;    
+  --card: #ffffff;       
+  --card-2: #e2e8f0;     
+  --line: rgba(15, 23, 42, 0.08); 
 
-  /* Accents - Darkened for Light Mode visibility */
-  --teal: #0f766e;       /* Deep, grounding teal */
-  --teal-soft: rgba(15, 118, 110, 0.1);
-  --blue: #4f46e5;       /* Deep, supportive indigo */
-  --blue-soft: rgba(79, 70, 229, 0.08);
+  /* Accents - Updated to DDB Hackathon Branding */
+  
+  /* The folder tab / gear color */
+  --teal: #55959A;       
+  --teal-soft: rgba(85, 149, 154, 0.15); 
+  
+  /* The backpack / DDB banner color */
+  --blue: #2B8CC4;       
+  --blue-soft: rgba(43, 140, 196, 0.15); 
 
-  /* Typography */
-  --text: #0f172a;       /* Very dark slate, easier on the eyes than pure black */
-  --muted: #64748b;      /* Medium slate for secondary text */
-  --faint: #94a3b8;      /* Light slate for disabled/tertiary text */
+  /* NEW: The dominant "HACKATHON" text color */
+  --red: #DA293E;
+  --red-soft: rgba(218, 41, 62, 0.15);
+
+  /* NEW: The "Challenge" banner color */
+  --yellow: #F0CB46;
+  --yellow-soft: rgba(240, 203, 70, 0.15);
+
+  /* Typography (Kept as is for accessibility) */
+  --text: #0f172a;       
+  --muted: #64748b;      
+  --faint: #94a3b8;      
 }
 
 /* Specific Light Mode overrides for elements with hardcoded gradients/shadows */
@@ -1702,3 +1714,7 @@
 
 .light-theme .learn-card-head span { color: #475569; }
 .light-theme .region-banner { color: var(--blue); }
+.light-theme .cal-day { color: rgba(15, 23, 42, 0.6); }
+.light-theme .cal-day.m3 { color: #0f172a; }
+.light-theme .cal-day.m4 { color: #0f172a; }
+.light-theme .cal-day.m5 { color: #0f172a; }
