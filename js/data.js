@@ -45,6 +45,41 @@ const MYTH_CARDS = [
     source: 'Refusal skill',
     explanation: 'A short no works better with an exit plan.',
   },
+  {
+    id: 'm4',
+    statement: 'Vaping is just harmless water vapor and is a completely safe alternative to smoking.',
+    answer: 'myth',
+    source: 'Health Fact',
+    explanation: 'Vapes contain harmful chemicals and highly addictive nicotine that can severely damage developing lungs.',
+  },
+  {
+    id: 'm5',
+    statement: 'Regular exercise, hobbies, and adequate sleep can significantly lower the risk of substance abuse.',
+    answer: 'fact',
+    source: 'Well-being',
+    explanation: 'Healthy daily habits build your resilience against stress, reducing the urge to rely on harmful substances to cope.',
+  },
+  {
+    id: 'm6',
+    statement: 'Prescription medications are always safe to use, even if they aren\'t prescribed to you by a doctor.',
+    answer: 'myth',
+    source: 'Safety Note',
+    explanation: 'Using someone else\'s prescription can cause severe health reactions and quickly lead to dependency.',
+  },
+  {
+    id: 'm7',
+    statement: 'Experiencing anxiety or depression is a sign of personal weakness.',
+    answer: 'myth',
+    source: 'Mental Health',
+    explanation: 'Mental health challenges are medical conditions, and seeking help is actually a sign of strength and self-awareness.',
+  },
+  {
+    id: 'm8',
+    statement: 'You can build a tolerance to alcohol, making it safe for you to drink larger amounts over time.',
+    answer: 'myth',
+    source: 'Health Fact',
+    explanation: 'Tolerance just means your brain needs more of the substance to feel the effects, heavily increasing the risk of organ damage.',
+  },
 ];
 
 const QUIZ = [
@@ -69,6 +104,61 @@ const QUIZ = [
     ],
     answer: 1,
     explanation: 'Name it. Breathe out slowly. Contact support.',
+  },
+  {
+    id: 'q3',
+    question: 'A friend offers you an e-cigarette at a party and won\'t take no for an answer. What is the safest exit strategy?',
+    options: [
+      'Take one puff so they leave you alone',
+      'Make an excuse that you need to make a call, and leave the area',
+      'Get angry and start an argument with them'
+    ],
+    answer: 1,
+    explanation: 'Removing yourself from the situation quickly and safely is the best way to handle persistent peer pressure.',
+  },
+  {
+    id: 'q4',
+    question: 'Which of the following is considered a healthy coping mechanism when you are feeling overwhelmed by schoolwork?',
+    options: [
+      'Taking a 15-minute walk and doing breathing exercises',
+      'Drinking multiple energy drinks to stay up all night',
+      'Ignoring the assignments until the last minute'
+    ],
+    answer: 0,
+    explanation: 'Stepping away to breathe and reset helps lower your body\'s stress levels and actually improves your focus.',
+  },
+  {
+    id: 'q5',
+    question: 'What should you do if you notice a friend is suddenly withdrawing from activities they used to love and acting unusually secretive?',
+    options: [
+      'Assume they are just busy and ignore it',
+      'Tell other people about their strange behavior',
+      'Reach out privately to ask how they are doing and listen without judgment'
+    ],
+    answer: 2,
+    explanation: 'Approaching them with privacy and empathy shows you care and creates a safe space for them to open up.',
+  },
+  {
+    id: 'q6',
+    question: 'True or False: Mixing energy drinks with alcohol reduces the intoxicating effects of the alcohol.',
+    options: [
+      'True, the caffeine cancels out the alcohol',
+      'False, it only masks the effects, making you feel less drunk than you are',
+      'True, it speeds up your metabolism'
+    ],
+    answer: 1,
+    explanation: 'Caffeine masks the depressant effects of alcohol, which often leads to dangerous overconsumption.',
+  },
+  {
+    id: 'q7',
+    question: 'When practicing the 4-7-8 breathing technique for anxiety, what does the "7" stand for?',
+    options: [
+      'Inhale for 7 seconds',
+      'Exhale for 7 seconds',
+      'Hold your breath for 7 seconds'
+    ],
+    answer: 2,
+    explanation: 'The calming pattern is: inhale for 4 seconds, hold for 7 seconds, and exhale slowly for 8 seconds.',
   },
 ];
 
