@@ -99,7 +99,7 @@ function expandedContentHTML() {
       <div class="card reflect active-step-card" style="margin-bottom: 16px;">
         <div class="card-title">What was your 1% positive moment today?</div>
         <p class="card-sub">One small good thing.</p>
-        <textarea id="reflectInput" placeholder="Today, one small good thing was..."></textarea>
+        <textarea id="reflectInput" placeholder="Today, one small good thing was...">${state.reflection || ''}</textarea>
         <button class="btn btn-primary" data-action="submit-journal"><i data-lucide="feather"></i> Save privately</button>
       </div>`;
   } else if (state.expandedQuest === 'support') {
