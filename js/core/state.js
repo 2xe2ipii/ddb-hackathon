@@ -7,6 +7,8 @@ var state = {
   mythAnswers: {},
   mythFlowIndex: 0,
   quizAnswers: {},
+  quizFlowIndex: 0,
+  quizTimeLeft: 10,
   learnMode: 'myth',
   journalDone: false,
   reflection: '',
@@ -24,3 +26,4 @@ var phoneWrap = document.getElementById('phoneWrap');
 
 var breatheTimer = null;
 var countTimer = null;
+var quizTimer = null;

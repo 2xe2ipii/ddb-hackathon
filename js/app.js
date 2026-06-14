@@ -79,7 +79,19 @@ function handleAppClick(e) {
 
     case 'toggle-quiz':
       state.quizOpened = !state.quizOpened;
-      if (state.quizOpened) state.mythOpened = false;
+      if (state.quizOpened) {
+        state.mythOpened = false;
+        if (state.quizFlowIndex < 5 && state.quizAnswers[QUIZ[state.quizFlowIndex].id] === undefined) {
+          startQuizTimer();
+        }
+      } else {
+        stopQuizTimer();
+      }
+      render();
+      break;
+
+    case 'close-quiz-flow':
+      state.quizOpened = false;
       render();
       break;
 
@@ -104,10 +116,22 @@ function handleAppClick(e) {
     }
 
     case 'answer-quiz': {
-      const quizId = el.dataset.id || QUIZ[0].id;
+      const quizId = el.dataset.id || QUIZ[state.quizFlowIndex].id;
       state.quizAnswers[quizId] = Number(el.dataset.index);
+      stopQuizTimer();
       render();
-      setTimeout(() => toast(state.quizAnswers[quizId] === QUIZ[0].answer ? 'check' : 'book-open', 'Quiz explanation unlocked'), 250);
+      setTimeout(() => toast(state.quizAnswers[quizId] === QUIZ[state.quizFlowIndex].answer ? 'check' : 'book-open', 'Quiz explanation unlocked'), 250);
+      break;
+    }
+
+    case 'next-quiz': {
+      state.quizFlowIndex++;
+      if (state.quizFlowIndex < 5) {
+        startQuizTimer();
+      } else {
+        setTimeout(() => toast('badge-check', 'Daily quiz finished'), 250);
+      }
+      render();
       break;
     }
 
@@ -202,6 +226,33 @@ function initApp() {
   app.addEventListener('pointercancel', endSwipe);
 
   render();
+}
+
+function startQuizTimer() {
+  stopQuizTimer();
+  state.quizTimeLeft = 10;
+  quizTimer = setInterval(() => {
+    state.quizTimeLeft--;
+    if (state.quizTimeLeft <= 0) {
+      stopQuizTimer();
+      const q = QUIZ[state.quizFlowIndex];
+      state.quizAnswers[q.id] = -1; // Unanswered
+      state.quizFlowIndex++;
+      if (state.quizFlowIndex < 5) {
+        startQuizTimer();
+      } else {
+        setTimeout(() => toast('badge-check', 'Daily quiz finished'), 250);
+      }
+    }
+    render();
+  }, 1000);
+}
+
+function stopQuizTimer() {
+  if (quizTimer) {
+    clearInterval(quizTimer);
+    quizTimer = null;
+  }
 }
 
 initApp();
