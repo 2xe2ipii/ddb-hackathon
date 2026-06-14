@@ -234,6 +234,37 @@ function initApp() {
   app.addEventListener('pointerup', endSwipe);
   app.addEventListener('pointercancel', endSwipe);
 
+  const restartBtn = document.getElementById('btnRestartApp');
+  if (restartBtn) {
+    restartBtn.addEventListener('click', () => {
+      Object.assign(state, {
+        launched: false,
+        tab: 'today',
+        todayMood: null,
+        mythAnswers: {},
+        mythFlowIndex: 0,
+        quizAnswers: {},
+        quizFlowIndex: 0,
+        quizTimeLeft: 10,
+        learnMode: 'myth',
+        journalDone: false,
+        reflection: '',
+        streak: 7,
+        registered: new Set(),
+        savedSupport: new Set(),
+        breathing: false,
+        mythOpened: false,
+        quizOpened: false,
+        theme: 'dark'
+      });
+      document.body.classList.remove('light-theme');
+      stopQuizTimer();
+      if (typeof stopBreathing === 'function') stopBreathing();
+      render();
+      setTimeout(() => toast('rotate-ccw', 'Application restarted'), 300);
+    });
+  }
+
   render();
 }
 
