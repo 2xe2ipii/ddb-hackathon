@@ -51,6 +51,21 @@ function learnHTML() {
   const currentQuizCard = state.sessionQuizIds ? QUIZ.find(q => q.id === state.sessionQuizIds[state.quizFlowIndex < 5 ? state.quizFlowIndex : 0]) : QUIZ[0];
 
   return `
+    <style>
+      @keyframes flashGlow {
+        0% { background-color: transparent; box-shadow: 0 0 0px var(--teal); transform: scale(1); }
+        50% { background-color: rgba(20, 184, 166, 0.3); box-shadow: 0 0 15px var(--teal); transform: scale(1.02); }
+        100% { background-color: rgba(20, 184, 166, 0.1); box-shadow: 0 0 0px var(--teal); transform: scale(1); }
+      }
+      @keyframes fadeOutUp {
+        0% { opacity: 1; transform: translateY(0); }
+        80% { opacity: 1; transform: translateY(-10px); }
+        100% { opacity: 0; transform: translateY(-20px); }
+      }
+      .flash-correct {
+        animation: flashGlow 0.8s ease-out;
+      }
+    </style>
     <div class="screen" style="height: 100%; display: flex; flex-direction: column;">
       ${(!state.mythOpened && !state.quizOpened) ? `
       <div class="greeting" style="margin-bottom: 16px;">
@@ -170,21 +185,6 @@ function dailyQuizCardHTML() {
       <span class="eyebrow" style="margin-bottom: 16px;"><i data-lucide="timer"></i> Daily quiz</span>
       
       <div class="card-title" style="font-size: 18px; line-height: 1.5; margin-bottom: 24px;">${q.question}</div>
-      <style>
-        @keyframes flashGlow {
-          0% { background-color: transparent; box-shadow: 0 0 0px var(--teal); transform: scale(1); }
-          50% { background-color: rgba(20, 184, 166, 0.3); box-shadow: 0 0 15px var(--teal); transform: scale(1.02); }
-          100% { background-color: rgba(20, 184, 166, 0.1); box-shadow: 0 0 0px var(--teal); transform: scale(1); }
-        }
-        @keyframes fadeOutUp {
-          0% { opacity: 1; transform: translateY(0); }
-          80% { opacity: 1; transform: translateY(-10px); }
-          100% { opacity: 0; transform: translateY(-20px); }
-        }
-        .flash-correct {
-          animation: flashGlow 0.8s ease-out;
-        }
-      </style>
       <div class="quiz-options" style="display: flex; flex-direction: column; gap: 12px;">
         ${q.options.map((opt, i) => {
           let borderColor = 'var(--line)';
