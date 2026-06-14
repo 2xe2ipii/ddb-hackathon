@@ -257,3 +257,16 @@ body {
 @media (max-width: 900px) {
   .device-panel { right: 12px; width: 170px; padding: 14px 12px; }
 }
+
+/* =====================================================
+   LIGHT THEME OVERRIDES FOR FRAME
+   ===================================================== */
+
+.light-theme .statusbar {
+  color: #0f172a;
+}
+
+.light-theme .home-indicator {
+  background: rgba(15, 23, 42, 0.35);
+}
+
