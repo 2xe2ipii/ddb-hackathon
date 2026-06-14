@@ -1056,27 +1056,10 @@
 
 .hero-card {
   position: relative;
-  overflow: hidden;
-  border-radius: 28px;
-  padding: 24px;
-  background:
-    radial-gradient(circle at 88% 20%, rgba(69,196,176,0.26), transparent 33%),
-    linear-gradient(135deg, #112b39, #14213a 62%, #16233b);
-  border: 1px solid rgba(69, 196, 176, 0.28);
+  padding: 12px 0 24px 0;
 }
 
-.region-shape {
-  position: absolute;
-  right: -18px;
-  top: 14px;
-  width: 126px;
-  height: 166px;
-  opacity: 0.18;
-  background: linear-gradient(160deg, var(--teal), #7fb8d8);
-  clip-path: polygon(46% 0, 73% 10%, 64% 26%, 88% 36%, 70% 50%, 78% 68%, 50% 81%, 36% 100%, 24% 75%, 7% 62%, 25% 43%, 14% 25%);
-  transform: rotate(12deg);
-  filter: blur(0.2px);
-}
+
 
 .hero-card h1 {
   max-width: 310px;
@@ -1901,7 +1884,7 @@
 .light-theme .launcher-dock { background: rgba(255, 255, 255, 0.6); }
 .light-theme .launcher-dock span { background: rgba(255, 255, 255, 0.9); color: #0f172a; }
 
-.light-theme .hero-card { background: radial-gradient(circle at 88% 20%, rgba(15,118,110,0.1), transparent 33%), linear-gradient(135deg, #f8fafc, #e2e8f0 62%, #cbd5e1); }
+.light-theme .hero-card { background: none; }
 .light-theme .hero-card h1 { color: #0f172a; }
 .light-theme .hero-card p { color: #334155; }
 .light-theme .mission-dot.active { background: rgba(79,70,229,0.1); color: var(--blue); border-color: rgba(79,70,229,0.25); }
