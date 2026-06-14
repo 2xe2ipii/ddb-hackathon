@@ -88,6 +88,30 @@ const MYTH_CARDS = [
     explanationCorrect: 'Correct. Tolerance just means your brain is struggling to feel the effects, which heavily increases the risk of organ damage.',
     explanationIncorrect: 'Try looking at it this way: tolerance just means your body needs more of the substance to feel it, which actually increases the risk of severe organ damage.'
   },
+  {
+    id: 'm9',
+    statement: "You can't get addicted if you only use drugs occasionally.",
+    answer: 'myth',
+    source: 'Health Fact',
+    explanationCorrect: "Even occasional use can lead to dependence — addiction risk depends on the substance, dosage, and individual factors, not just frequency.",
+    explanationIncorrect: "Actually, this is a myth — occasional use still carries addiction risk."
+  },
+  {
+    id: 'm10',
+    statement: "Vaping is completely safe because it's just water vapor.",
+    answer: 'myth',
+    source: 'Health Fact',
+    explanationCorrect: "Vape aerosol contains nicotine, chemicals, and metals — not just water vapor — and can harm developing lungs.",
+    explanationIncorrect: "This is a myth — vape aerosol contains harmful substances beyond water vapor."
+  },
+  {
+    id: 'm11',
+    statement: "Talking about mental health struggles can help reduce stigma.",
+    answer: 'fact',
+    source: 'Mental Health',
+    explanationCorrect: "Open conversations about mental health help normalize seeking support and reduce shame around it.",
+    explanationIncorrect: "Actually, this is a fact — open dialogue helps reduce stigma."
+  }
 ];
 
 const QUIZ = [
@@ -175,6 +199,32 @@ const QUIZ = [
     explanationCorrect: 'You got it. The calming pattern is: inhale for 4 seconds, hold your breath for 7 seconds, and exhale slowly for 8 seconds.',
     explanationIncorrect: 'Not quite. The "7" stands for holding your breath. The full pattern is: inhale for 4, hold for 7, and exhale slowly for 8 seconds to calm your nervous system.',
   },
+  {
+    id: 'q8',
+    question: "What is one early warning sign of drug misuse in a friend?",
+    options: [
+      "Sudden change in friend groups and behavior",
+      "Getting better grades",
+      "Sleeping at normal hours",
+      "Eating healthier"
+    ],
+    answer: 0,
+    explanationCorrect: "Sudden changes in social circles, mood, or routine can be early signs worth paying attention to.",
+    explanationIncorrect: "The correct answer is sudden behavioral and social changes."
+  },
+  {
+    id: 'q9',
+    question: "Which of these is a healthy way to cope with stress?",
+    options: [
+      "Bottling it up",
+      "Talking to a trusted friend or counselor",
+      "Avoiding all responsibilities",
+      "Isolating completely"
+    ],
+    answer: 1,
+    explanationCorrect: "Talking to someone you trust is a proven way to process stress healthily.",
+    explanationIncorrect: "The healthiest option here is talking to a trusted friend or counselor."
+  }
 ];
 
 const SUPPORT_RESOURCES = [

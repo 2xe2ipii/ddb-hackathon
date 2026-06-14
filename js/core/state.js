@@ -24,7 +24,9 @@ var defaultState = {
   relaxCheckinIndex: 0,
   relaxSelectedExercise: 'box', // 'box', '478', 'coherent'
   relaxToolkitOpen: null,
-  expandedQuest: null
+  expandedQuest: null,
+  sessionMythIds: [],
+  sessionQuizIds: []
 };
 
 function loadState() {

@@ -124,6 +124,16 @@ function handleAppClick(e) {
       render();
       break;
 
+    case 'reset-learn-session':
+      state.mythFlowIndex = 0;
+      state.quizFlowIndex = 0;
+      state.mythAnswers = {};
+      state.quizAnswers = {};
+      state.sessionMythIds = pickSessionItems(MYTH_CARDS, 5);
+      state.sessionQuizIds = pickSessionItems(QUIZ, 5);
+      render();
+      break;
+
     case 'pick-mood':
       state.todayMood = el.dataset.mood;
       render();
@@ -259,7 +269,16 @@ function handleAppClick(e) {
 
 const swipeState = { isDragging: false, startX: 0, currentX: 0, cardEl: null, mythId: null };
 
+function pickSessionItems(pool, count) {
+  const shuffled = [...pool].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count).map(item => item.id);
+}
+
 function initApp() {
+  if (!state.sessionMythIds || state.sessionMythIds.length === 0) {
+    state.sessionMythIds = pickSessionItems(MYTH_CARDS, 5);
+    state.sessionQuizIds = pickSessionItems(QUIZ, 5);
+  }
   if (state.theme === 'light') {
     document.body.classList.add('light-theme');
   } else {
@@ -333,6 +352,8 @@ function initApp() {
     state.relaxCheckinIndex = 0;
     state.relaxSelectedExercise = 'box';
     state.relaxToolkitOpen = null;
+    state.sessionMythIds = pickSessionItems(MYTH_CARDS, 5);
+    state.sessionQuizIds = pickSessionItems(QUIZ, 5);
     localStorage.removeItem('ddb_state');
     
     document.body.classList.remove('light-theme');
