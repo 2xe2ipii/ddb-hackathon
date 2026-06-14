@@ -1,6 +1,11 @@
 /* App orchestration: render routing, delegated events, and startup. */
 
+let lastRenderedTab = null;
+
 function render() {
+  const oldScreen = document.querySelector('.screen, .breathe-screen');
+  const scrollTop = oldScreen ? oldScreen.scrollTop : 0;
+
   stopBreathing();
   if (!state.launched) {
     app.innerHTML = launcherHTML();
@@ -18,6 +23,13 @@ function render() {
   };
   app.innerHTML = headerHTML() + screens[state.tab]() + navHTML() + '<div class="toast-zone"></div>';
   icons();
+
+  const newScreen = document.querySelector('.screen, .breathe-screen');
+  if (newScreen && lastRenderedTab === state.tab) {
+    newScreen.scrollTop = scrollTop;
+  }
+  lastRenderedTab = state.tab;
+
   if (typeof saveState === 'function') saveState();
 }
 
