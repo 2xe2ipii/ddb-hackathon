@@ -57,11 +57,13 @@ function handleAppClick(e) {
 
     case 'toggle-myth':
       state.mythOpened = !state.mythOpened;
+      if (state.mythOpened) state.quizOpened = false;
       render();
       break;
 
     case 'toggle-quiz':
       state.quizOpened = !state.quizOpened;
+      if (state.quizOpened) state.mythOpened = false;
       render();
       break;
 
