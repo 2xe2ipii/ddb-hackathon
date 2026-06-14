@@ -280,3 +280,127 @@ body {
   background: rgba(15, 23, 42, 0.35);
 }
 
+/* =====================================================
+   MOBILE RESPONSIVENESS (< 600px)
+   ===================================================== */
+.mobile-fab-container {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  /* Hide desktop side panels */
+  .side-panels {
+    display: none;
+  }
+
+  /* Show floating action button container */
+  .mobile-fab-container {
+    display: none !important;
+  }
+
+  .fab-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .fab-menu.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .fab-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: rgba(13, 20, 34, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e8eef6;
+    font-size: 14px;
+    font-weight: 800;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    white-space: nowrap;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  
+  .fab-menu-item:active {
+    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .fab-menu-item svg {
+    width: 18px;
+    height: 18px;
+    color: var(--teal, #45c4b0);
+  }
+
+  .fab-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal, #45c4b0), #3aa893);
+    border: none;
+    color: #07211c;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    box-shadow: 0 8px 24px -6px rgba(69, 196, 176, 0.6);
+    transition: transform 0.2s ease;
+  }
+
+  .fab-btn:active {
+    transform: scale(0.92);
+  }
+
+  .fab-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Full screen layout */
+  .stage {
+    padding: 0;
+  }
+
+  .phone-wrap {
+    transform: none !important;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .phone {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    background: var(--bg, #0b1220);
+  }
+
+  .phone-screen {
+    inset: 0;
+    border-radius: 0;
+  }
+
+  /* Hide simulated hardware features */
+  .hw-btn, .cutout, .statusbar, .home-indicator {
+    display: none;
+  }
+
+  /* Increase spacing above header since statusbar is hidden */
+  .app-header {
+    padding-top: max(40px, env(safe-area-inset-top, 40px));
+  }
+}
+

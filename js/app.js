@@ -241,21 +241,39 @@ function initApp() {
   app.addEventListener('pointerup', endSwipe);
   app.addEventListener('pointercancel', endSwipe);
 
+  const restartAppHandler = () => {
+    Object.assign(state, defaultState);
+    state.registered = new Set();
+    state.savedSupport = new Set();
+    state.mythAnswers = {};
+    state.quizAnswers = {};
+    localStorage.removeItem('ddb_state');
+    
+    document.body.classList.remove('light-theme');
+    stopQuizTimer();
+    if (typeof stopBreathing === 'function') stopBreathing();
+    render();
+    setTimeout(() => toast('rotate-ccw', 'Application restarted'), 300);
+    
+    const fabMenu = document.getElementById('fabMenu');
+    if (fabMenu) fabMenu.classList.remove('open');
+  };
+
   const restartBtn = document.getElementById('btnRestartApp');
   if (restartBtn) {
-    restartBtn.addEventListener('click', () => {
-      Object.assign(state, defaultState);
-      state.registered = new Set();
-      state.savedSupport = new Set();
-      state.mythAnswers = {};
-      state.quizAnswers = {};
-      localStorage.removeItem('ddb_state');
-      
-      document.body.classList.remove('light-theme');
-      stopQuizTimer();
-      if (typeof stopBreathing === 'function') stopBreathing();
-      render();
-      setTimeout(() => toast('rotate-ccw', 'Application restarted'), 300);
+    restartBtn.addEventListener('click', restartAppHandler);
+  }
+
+  const fabRestartBtn = document.getElementById('fabBtnRestartApp');
+  if (fabRestartBtn) {
+    fabRestartBtn.addEventListener('click', restartAppHandler);
+  }
+
+  const fabToggleBtn = document.getElementById('fabToggleBtn');
+  const fabMenu = document.getElementById('fabMenu');
+  if (fabToggleBtn && fabMenu) {
+    fabToggleBtn.addEventListener('click', () => {
+      fabMenu.classList.toggle('open');
     });
   }
 
