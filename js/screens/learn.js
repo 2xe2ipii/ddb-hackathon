@@ -107,7 +107,7 @@ function mythFlowHTML() {
           <i data-lucide="check-circle" style="width: 32px; height: 32px;"></i>
         </div>
         <h2 style="font-size: 20px; margin-bottom: 12px;">All 5 Cleared!</h2>
-        <p style="color: var(--text-muted); margin-bottom: 32px; font-size: 14px;">You've uncovered the facts. Great job!</p>
+        <p style="color: var(--muted); margin-bottom: 32px; font-size: 14px;">You've uncovered the facts. Great job!</p>
         <button class="btn btn-primary" data-action="close-myth-flow" style="width: 100%; padding: 16px; border-radius: 16px; font-size: 14px;">Back to Learn</button>
       </div>
     `;
@@ -121,13 +121,13 @@ function mythFlowHTML() {
   return `
     <div class="card myth-card" ${!answered ? 'data-swipeable="true" data-id="' + card.id + '"' : ''} style="flex: 1; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 8px 30px rgba(0,0,0,0.12); border-radius: 24px; padding: 24px; position: relative; touch-action: pan-y; transition: transform 0.3s ease, opacity 0.3s ease;">
       ${correct ? '<div class="xp-toast" style="position: absolute; top: 16px; left: 20px; font-size: 14px; font-weight: bold; color: var(--teal); animation: fadeOutUp 1.5s forwards;">[+10 XP]</div>' : ''}
-      <div style="position: absolute; top: 16px; right: 20px; font-size: 14px; font-weight: bold; color: var(--text-muted); opacity: 0.7;">
+      <div style="position: absolute; top: 16px; right: 20px; font-size: 14px; font-weight: bold; color: var(--muted); opacity: 0.7;">
         ${state.mythFlowIndex + 1} / 5
       </div>
       <div class="card-title" style="font-size: 18px; font-weight: 800; line-height: 1.4; margin-bottom: 32px; margin-top: 16px; text-align: center;">"${card.statement}"</div>
       
       ${!answered ? `
-      <div style="text-align: center; color: var(--text-muted); font-size: 13px; margin-bottom: 24px; display: flex; justify-content: center; align-items: center; gap: 8px;">
+      <div style="text-align: center; color: var(--muted); font-size: 13px; margin-bottom: 24px; display: flex; justify-content: center; align-items: center; gap: 8px;">
         <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i>
         Swipe Left Myth, Right Fact
         <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
@@ -164,7 +164,7 @@ function dailyQuizCardHTML() {
           <i data-lucide="check-circle" style="width: 32px; height: 32px;"></i>
         </div>
         <h2 style="font-size: 20px; margin-bottom: 12px;">Quiz Completed!</h2>
-        <p style="color: var(--text-muted); margin-bottom: 32px; font-size: 14px;">Great job completing your daily quiz.</p>
+        <p style="color: var(--muted); margin-bottom: 32px; font-size: 14px;">Great job completing your daily quiz.</p>
         <button class="btn btn-primary" data-action="close-quiz-flow" style="width: 100%; padding: 16px; border-radius: 16px; font-size: 14px;">Back to Learn</button>
       </div>
     `;
@@ -179,7 +179,7 @@ function dailyQuizCardHTML() {
   return `
     <div class="card quiz-card" style="position: relative; box-shadow: 0 8px 30px rgba(0,0,0,0.12); border-radius: 24px; padding: 24px;">
       ${correct ? '<div class="xp-toast" style="position: absolute; top: 16px; left: 20px; font-size: 14px; font-weight: bold; color: var(--teal); animation: fadeOutUp 1.5s forwards;">[+10 XP]</div>' : ''}
-      <div style="position: absolute; top: 16px; right: 20px; font-size: 14px; font-weight: bold; color: var(--text-muted); opacity: 0.7;">
+      <div style="position: absolute; top: 16px; right: 20px; font-size: 14px; font-weight: bold; color: var(--muted); opacity: 0.7;">
         ${state.quizFlowIndex + 1} / 5
       </div>
       <span class="eyebrow" style="margin-bottom: 16px;"><i data-lucide="timer"></i> Daily quiz</span>
@@ -188,7 +188,7 @@ function dailyQuizCardHTML() {
       <div class="quiz-options" style="display: flex; flex-direction: column; gap: 12px;">
         ${q.options.map((opt, i) => {
           let borderColor = 'var(--line)';
-          let textColor = 'var(--text-muted)';
+          let textColor = 'var(--muted)';
           let bgColor = 'transparent';
           let flashClass = '';
           if (answered) {

@@ -1900,7 +1900,8 @@
 
 .light-theme .hero-card { background: none; }
 .light-theme .hero-card h1 { color: #0f172a; }
-.light-theme .hero-card p { color: #334155; }
+.light-theme .hero-card small { color: #334155; }
+.light-theme .progress-strip { background: rgba(15, 23, 42, 0.1); }
 .light-theme .mission-dot.active { background: rgba(79,70,229,0.1); color: var(--blue); border-color: rgba(79,70,229,0.25); }
 .light-theme .mission-dot.done { background: var(--teal-soft); color: var(--teal); border-color: rgba(15,118,110,0.25); }
 

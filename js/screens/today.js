@@ -13,20 +13,20 @@ function heroCardHTML() {
   const p = missionProgress();
   let icon = 'shield';
   let badgeName = 'Base Shield';
-  let color = '#45c4b0';
+  let color = 'var(--teal)';
   
   if (state.streak >= 30) {
     icon = 'flame';
     badgeName = 'Flame of Clarity';
-    color = '#e25858';
+    color = 'var(--red)';
   } else if (state.streak >= 11) {
     icon = 'sword';
     badgeName = 'Sword of Truth';
-    color = '#6cc6c0';
+    color = 'var(--blue)';
   } else if (state.streak >= 4) {
     icon = 'scale';
     badgeName = 'Golden Scales';
-    color = '#f0cb46';
+    color = 'var(--yellow)';
   }
 
   return `
@@ -132,11 +132,11 @@ function communityCardHTML() {
   if (!ev) return '';
   return `
     <div class="card community-card" style="margin-top: 16px;">
-      <div class="card-title" style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 8px;">
+      <div class="card-title" style="font-size: 0.9rem; color: var(--muted); margin-bottom: 8px;">
         <i data-lucide="map-pin" style="width:14px; height:14px; vertical-align: middle;"></i> Upcoming near you
       </div>
       <div style="font-weight: 700; margin-bottom: 4px; line-height: 1.3;">${ev.title}</div>
-      <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">${ev.date} · ${ev.time}</div>
+      <div style="font-size: 0.85rem; color: var(--muted); margin-bottom: 12px;">${ev.date} · ${ev.time}</div>
       <button class="btn btn-primary" data-action="nav" data-tab="community" style="width: 100%; padding: 10px; font-size: 0.95rem;">
         Register Now <i data-lucide="arrow-right"></i>
       </button>
