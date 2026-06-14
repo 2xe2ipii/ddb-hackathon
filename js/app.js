@@ -247,12 +247,6 @@ function startQuizTimer() {
       stopQuizTimer();
       const q = QUIZ[state.quizFlowIndex];
       state.quizAnswers[q.id] = -1; // Unanswered
-      state.quizFlowIndex++;
-      if (state.quizFlowIndex < 5) {
-        startQuizTimer();
-      } else {
-        setTimeout(() => toast('badge-check', 'Daily quiz finished'), 250);
-      }
       render();
     }
   }, 1000);

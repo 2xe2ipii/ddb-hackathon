@@ -121,19 +121,46 @@ function dailyQuizCardHTML() {
       </div>
       ` : ''}
       <div class="card-title" style="font-size: 18px; line-height: 1.5; margin-bottom: 24px;">${q.question}</div>
+      <style>
+        @keyframes flashGlow {
+          0% { background-color: transparent; box-shadow: 0 0 0px var(--teal); transform: scale(1); }
+          50% { background-color: rgba(20, 184, 166, 0.3); box-shadow: 0 0 15px var(--teal); transform: scale(1.02); }
+          100% { background-color: rgba(20, 184, 166, 0.1); box-shadow: 0 0 0px var(--teal); transform: scale(1); }
+        }
+        .flash-correct {
+          animation: flashGlow 0.8s ease-out;
+        }
+      </style>
       <div class="quiz-options" style="display: flex; flex-direction: column; gap: 12px;">
-        ${q.options.map((opt, i) => `
-          <button class="quiz-option ${state.quizAnswers[q.id] === i ? 'picked' : ''}" data-action="answer-quiz" data-id="${q.id}" data-index="${i}" style="text-align: left; padding: 16px; border-radius: 16px; border: 2px solid ${state.quizAnswers[q.id] === i ? 'var(--primary)' : 'var(--line)'}; font-size: 14px;" ${answered ? 'disabled' : ''}>
-            <span style="font-weight: 800; margin-right: 12px; color: ${state.quizAnswers[q.id] === i ? 'var(--primary)' : 'var(--text-muted)'};">${String.fromCharCode(65 + i)}</span>${opt}
-          </button>`).join('')}
+        ${q.options.map((opt, i) => {
+          let borderColor = 'var(--line)';
+          let textColor = 'var(--text-muted)';
+          let bgColor = 'transparent';
+          let flashClass = '';
+          if (answered) {
+            if (i === q.answer) {
+              borderColor = 'var(--teal)';
+              textColor = 'var(--teal)';
+              bgColor = 'rgba(20, 184, 166, 0.1)';
+              flashClass = 'flash-correct';
+            } else if (state.quizAnswers[q.id] === i) {
+              borderColor = '#e28e8e';
+              textColor = '#e28e8e';
+            }
+          }
+          return `
+          <button class="quiz-option ${state.quizAnswers[q.id] === i ? 'picked' : ''} ${flashClass}" data-action="answer-quiz" data-id="${q.id}" data-index="${i}" style="text-align: left; padding: 16px; border-radius: 16px; border: 2px solid ${borderColor}; background: ${bgColor}; font-size: 14px; transition: all 0.3s;" ${answered ? 'disabled' : ''}>
+            <span style="font-weight: 800; margin-right: 12px; color: ${textColor};">${String.fromCharCode(65 + i)}</span>${opt}
+          </button>`;
+        }).join('')}
       </div>
-      ${answered && state.quizAnswers[q.id] !== -1 ? `
+      ${answered ? `
         <div class="answer-panel ${correct ? 'right' : 'wrong'}" style="margin-top: 24px; padding: 20px; border-radius: 16px;">
           <strong style="font-size: 15px; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: ${correct ? 'var(--teal)' : '#e28e8e'};">
             <i data-lucide="${correct ? 'check-circle' : 'x-circle'}" style="width: 20px; height: 20px;"></i>
-            ${correct ? 'Correct!' : 'Incorrect'}
+            ${correct ? 'Correct!' : (state.quizAnswers[q.id] === -1 ? "Time's up!" : 'Incorrect')}
           </strong>
-          <p style="font-size: 14px; line-height: 1.5;">${q.explanation}</p>
+          <p style="font-size: 14px; line-height: 1.5;">${correct ? q.explanationCorrect : q.explanationIncorrect}</p>
         </div>
         <button class="btn btn-primary" data-action="next-quiz" style="margin-top: 24px; padding: 16px; border-radius: 16px; font-size: 14px; display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%;">
           Next <i data-lucide="arrow-right" style="width: 18px; height: 18px;"></i>
