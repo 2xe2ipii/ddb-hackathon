@@ -1778,6 +1778,72 @@
 }
 
 /* =====================================================
+   TODAY DASHBOARD STYLES
+   ===================================================== */
+.gentle-prompt {
+  background: rgba(110, 143, 181, 0.12);
+  border-color: rgba(110, 143, 181, 0.3);
+  margin-bottom: 16px;
+}
+
+.quest-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.quest-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 16px;
+  border-radius: 20px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quest-card i {
+  width: 22px;
+  height: 22px;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+
+.quest-card .qc-label {
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+
+.quest-card .qc-status {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.quest-card.done {
+  border-color: rgba(69,196,176,0.36);
+  background: var(--teal-soft);
+}
+
+.quest-card.done i, .quest-card.done .qc-status {
+  color: var(--teal);
+}
+
+.quest-card.active {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 1px var(--teal);
+}
+
+.expanded-quest-container {
+  animation: pop-in 0.35s cubic-bezier(0.34, 1.2, 0.64, 1) both;
+}
+
+/* =====================================================
    LIGHT THEME ELEMENT OVERRIDES
    ===================================================== */
 .light-theme .fact-card {
@@ -1861,3 +1927,32 @@
 .light-theme .cal-day.m3 { color: #0f172a; }
 .light-theme .cal-day.m4 { color: #0f172a; }
 .light-theme .cal-day.m5 { color: #0f172a; }
+
+.light-theme .gentle-prompt {
+  background: rgba(79, 70, 229, 0.08);
+  border-color: rgba(79, 70, 229, 0.2);
+}
+
+.light-theme .quest-card {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.1);
+}
+
+.light-theme .quest-card .qc-label {
+  color: #0f172a;
+}
+
+.light-theme .quest-card .qc-status {
+  color: #64748b;
+}
+
+.light-theme .quest-card.done {
+  background: var(--teal-soft);
+  border-color: rgba(15, 118, 110, 0.25);
+}
+
+.light-theme .quest-card.active {
+  background: rgba(15, 118, 110, 0.05);
+  border-color: var(--teal);
+  box-shadow: 0 0 0 1px var(--teal);
+}

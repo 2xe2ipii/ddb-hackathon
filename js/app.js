@@ -66,6 +66,11 @@ function handleAppClick(e) {
       render();
       break;
 
+    case 'toggle-quest':
+      state.expandedQuest = state.expandedQuest === el.dataset.quest ? null : el.dataset.quest;
+      render();
+      break;
+
     case 'answer-myth': {
       const mythId = el.dataset.id;
       state.mythAnswers[mythId] = el.dataset.answer;

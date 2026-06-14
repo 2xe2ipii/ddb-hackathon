@@ -23,7 +23,8 @@ var defaultState = {
   relaxCheckinAnswers: {},
   relaxCheckinIndex: 0,
   relaxSelectedExercise: 'box', // 'box', '478', 'coherent'
-  relaxToolkitOpen: null
+  relaxToolkitOpen: null,
+  expandedQuest: null
 };
 
 function loadState() {
