@@ -120,7 +120,6 @@ function handleAppClick(e) {
       state.quizAnswers[quizId] = Number(el.dataset.index);
       stopQuizTimer();
       render();
-      setTimeout(() => toast(state.quizAnswers[quizId] === QUIZ[state.quizFlowIndex].answer ? 'check' : 'book-open', 'Quiz explanation unlocked'), 250);
       break;
     }
 
@@ -234,10 +233,6 @@ function startQuizTimer() {
   quizTimer = setInterval(() => {
     state.quizTimeLeft--;
     
-    const pb = document.getElementById('quiz-progress-bar');
-    if (pb) {
-      pb.style.width = ((state.quizTimeLeft / 10) * 100) + '%';
-    }
     const ht = document.getElementById('header-timer-text');
     if (ht) {
       ht.innerText = `0:${state.quizTimeLeft.toString().padStart(2, '0')}`;
