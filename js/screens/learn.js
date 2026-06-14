@@ -71,8 +71,11 @@ function mythFlowHTML() {
 
       ${answered ? `
         <div class="answer-panel ${correct ? 'right' : 'wrong'}" style="margin-top: 24px; padding: 20px; border-radius: 16px;">
-          <strong style="font-size: 1.1rem;">${correct ? 'Correct.' : 'Not quite.'}</strong>
-          <p style="margin-top: 12px; font-size: 1.05rem; line-height: 1.5;">${card.explanation}</p>
+          <strong style="font-size: 1.1rem; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: ${correct ? 'var(--teal)' : '#e28e8e'};">
+            <i data-lucide="${correct ? 'check-circle' : 'x-circle'}" style="width: 20px; height: 20px;"></i>
+            ${correct ? 'Correct!' : 'Incorrect'}
+          </strong>
+          <p style="font-size: 1.05rem; line-height: 1.5;">${correct ? card.explanationCorrect : card.explanationIncorrect}</p>
         </div>
         <button class="btn btn-primary" data-action="next-myth" style="margin-top: 24px; padding: 16px; border-radius: 16px; font-size: 1.1rem; display: flex; justify-content: center; align-items: center; gap: 8px;">
           Next <i data-lucide="arrow-right" style="width: 20px; height: 20px;"></i>
@@ -97,8 +100,11 @@ function dailyQuizCardHTML(q) {
       </div>
       ${answered ? `
         <div class="answer-panel ${correct ? 'right' : 'wrong'}" style="margin-top: 24px; padding: 20px; border-radius: 16px;">
-          <strong style="font-size: 1.1rem;">${correct ? 'Correct.' : 'Try this instead.'}</strong>
-          <p style="margin-top: 12px; font-size: 1.05rem; line-height: 1.5;">${q.explanation}</p>
+          <strong style="font-size: 1.1rem; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: ${correct ? 'var(--teal)' : '#e28e8e'};">
+            <i data-lucide="${correct ? 'check-circle' : 'x-circle'}" style="width: 20px; height: 20px;"></i>
+            ${correct ? 'Correct!' : 'Incorrect'}
+          </strong>
+          <p style="font-size: 1.05rem; line-height: 1.5;">${q.explanation}</p>
         </div>` : ''}
     </div>`;
 }
