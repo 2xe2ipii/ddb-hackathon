@@ -19,6 +19,11 @@ var defaultState = {
   mythOpened: false,
   quizOpened: false,
   theme: 'dark',
+  relaxCheckinState: 'not_started', // 'not_started', 'in_progress', 'completed'
+  relaxCheckinAnswers: {},
+  relaxCheckinIndex: 0,
+  relaxSelectedExercise: 'box', // 'box', '478', 'coherent'
+  relaxToolkitOpen: null
 };
 
 function loadState() {
@@ -28,6 +33,7 @@ function loadState() {
       const parsed = JSON.parse(saved);
       if (parsed.registered) parsed.registered = new Set(parsed.registered);
       if (parsed.savedSupport) parsed.savedSupport = new Set(parsed.savedSupport);
+      if (parsed.tab === 'breathe') parsed.tab = 'relax';
       return Object.assign({}, defaultState, parsed);
     } catch(e) {
       console.error('Failed to load state', e);

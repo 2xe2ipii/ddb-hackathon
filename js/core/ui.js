@@ -123,7 +123,7 @@ function navHTML() {
   const tabs = [
     { id: 'today', icon: 'sparkles', label: 'Today' },
     { id: 'learn', icon: 'book-open-check', label: 'Learn' },
-    { id: 'breathe', icon: 'wind', label: 'Breathe' },
+    { id: 'relax', icon: 'wind', label: 'Relax' },
     { id: 'community', icon: 'users', label: 'Support' },
   ];
   return `

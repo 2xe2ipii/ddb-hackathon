@@ -12,7 +12,7 @@ function render() {
   const screens = {
     today: todayHTML,
     learn: learnHTML,
-    breathe: breatheHTML,
+    relax: relaxHTML,
     community: communityHTML,
     profile: profileHTML,
   };
@@ -147,7 +147,66 @@ function handleAppClick(e) {
     }
 
     case 'toggle-breathe':
-      toggleBreathing();
+      if (typeof toggleBreathing === 'function') toggleBreathing();
+      break;
+
+    case 'start-checkin':
+      state.relaxCheckinState = 'in_progress';
+      state.relaxCheckinIndex = 0;
+      state.relaxCheckinAnswers = {};
+      render();
+      break;
+
+    case 'answer-checkin':
+      const score = parseInt(el.dataset.score, 10);
+      state.relaxCheckinAnswers[state.relaxCheckinIndex] = score;
+      
+      // Auto advance
+      if (state.relaxCheckinIndex < 3) {
+        state.relaxCheckinIndex++;
+      } else {
+        // finished
+        state.relaxCheckinState = 'completed';
+        
+        // Calculate score and assign exercise
+        let total = 0;
+        for (let i = 0; i < 4; i++) {
+          total += state.relaxCheckinAnswers[i] || 0;
+        }
+        if (total <= 2) {
+          state.relaxSelectedExercise = 'coherent';
+        } else if (total <= 5) {
+          state.relaxSelectedExercise = 'box';
+        } else if (total <= 8) {
+          state.relaxSelectedExercise = 'box';
+        } else {
+          state.relaxSelectedExercise = '478';
+        }
+      }
+      render();
+      break;
+
+    case 'retake-checkin':
+      state.relaxCheckinState = 'not_started';
+      state.relaxCheckinAnswers = {};
+      state.relaxCheckinIndex = 0;
+      render();
+      break;
+
+    case 'select-exercise':
+      state.relaxSelectedExercise = el.dataset.exercise;
+      if (typeof stopBreathing === 'function') stopBreathing();
+      render();
+      break;
+
+    case 'toggle-toolkit':
+      const tkId = el.dataset.id;
+      if (state.relaxToolkitOpen === tkId) {
+        state.relaxToolkitOpen = null;
+      } else {
+        state.relaxToolkitOpen = tkId;
+      }
+      render();
       break;
 
     case 'helpline':
@@ -247,6 +306,11 @@ function initApp() {
     state.savedSupport = new Set();
     state.mythAnswers = {};
     state.quizAnswers = {};
+    state.relaxCheckinState = 'not_started';
+    state.relaxCheckinAnswers = {};
+    state.relaxCheckinIndex = 0;
+    state.relaxSelectedExercise = 'box';
+    state.relaxToolkitOpen = null;
     localStorage.removeItem('ddb_state');
     
     document.body.classList.remove('light-theme');
