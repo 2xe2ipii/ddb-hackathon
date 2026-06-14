@@ -1,6 +1,11 @@
 /* App orchestration: render routing, delegated events, and startup. */
 
+let lastRenderedTab = null;
+
 function render() {
+  const oldScreen = document.querySelector('.screen, .breathe-screen');
+  const scrollTop = oldScreen ? oldScreen.scrollTop : 0;
+
   stopBreathing();
   if (!state.launched) {
     app.innerHTML = launcherHTML();
@@ -12,12 +17,19 @@ function render() {
   const screens = {
     today: todayHTML,
     learn: learnHTML,
-    breathe: breatheHTML,
+    relax: relaxHTML,
     community: communityHTML,
     profile: profileHTML,
   };
   app.innerHTML = headerHTML() + screens[state.tab]() + navHTML() + '<div class="toast-zone"></div>';
   icons();
+
+  const newScreen = document.querySelector('.screen, .breathe-screen');
+  if (newScreen && lastRenderedTab === state.tab) {
+    newScreen.scrollTop = scrollTop;
+  }
+  lastRenderedTab = state.tab;
+
   if (typeof saveState === 'function') saveState();
 }
 
@@ -147,7 +159,66 @@ function handleAppClick(e) {
     }
 
     case 'toggle-breathe':
-      toggleBreathing();
+      if (typeof toggleBreathing === 'function') toggleBreathing();
+      break;
+
+    case 'start-checkin':
+      state.relaxCheckinState = 'in_progress';
+      state.relaxCheckinIndex = 0;
+      state.relaxCheckinAnswers = {};
+      render();
+      break;
+
+    case 'answer-checkin':
+      const score = parseInt(el.dataset.score, 10);
+      state.relaxCheckinAnswers[state.relaxCheckinIndex] = score;
+      
+      // Auto advance
+      if (state.relaxCheckinIndex < 3) {
+        state.relaxCheckinIndex++;
+      } else {
+        // finished
+        state.relaxCheckinState = 'completed';
+        
+        // Calculate score and assign exercise
+        let total = 0;
+        for (let i = 0; i < 4; i++) {
+          total += state.relaxCheckinAnswers[i] || 0;
+        }
+        if (total <= 2) {
+          state.relaxSelectedExercise = 'coherent';
+        } else if (total <= 5) {
+          state.relaxSelectedExercise = 'box';
+        } else if (total <= 8) {
+          state.relaxSelectedExercise = 'box';
+        } else {
+          state.relaxSelectedExercise = '478';
+        }
+      }
+      render();
+      break;
+
+    case 'retake-checkin':
+      state.relaxCheckinState = 'not_started';
+      state.relaxCheckinAnswers = {};
+      state.relaxCheckinIndex = 0;
+      render();
+      break;
+
+    case 'select-exercise':
+      state.relaxSelectedExercise = el.dataset.exercise;
+      if (typeof stopBreathing === 'function') stopBreathing();
+      render();
+      break;
+
+    case 'toggle-toolkit':
+      const tkId = el.dataset.id;
+      if (state.relaxToolkitOpen === tkId) {
+        state.relaxToolkitOpen = null;
+      } else {
+        state.relaxToolkitOpen = tkId;
+      }
+      render();
       break;
 
     case 'helpline':
@@ -247,6 +318,11 @@ function initApp() {
     state.savedSupport = new Set();
     state.mythAnswers = {};
     state.quizAnswers = {};
+    state.relaxCheckinState = 'not_started';
+    state.relaxCheckinAnswers = {};
+    state.relaxCheckinIndex = 0;
+    state.relaxSelectedExercise = 'box';
+    state.relaxToolkitOpen = null;
     localStorage.removeItem('ddb_state');
     
     document.body.classList.remove('light-theme');
@@ -306,5 +382,26 @@ function stopQuizTimer() {
     quizTimer = null;
   }
 }
+
+const RELAX_AFFIRMATIONS = [
+  "This feeling is temporary. It will pass.",
+  "I am safe right now in this moment.",
+  "I can handle this one step at a time.",
+  "It is okay to ask for help.",
+  "I have gotten through hard moments before."
+];
+let relaxAffirmationIndex = 0;
+
+setInterval(() => {
+  const el = document.getElementById('flashing-affirmation');
+  if (el) {
+    el.style.opacity = '0';
+    setTimeout(() => {
+      relaxAffirmationIndex = (relaxAffirmationIndex + 1) % RELAX_AFFIRMATIONS.length;
+      el.textContent = RELAX_AFFIRMATIONS[relaxAffirmationIndex];
+      el.style.opacity = '1';
+    }, 500);
+  }
+}, 10000);
 
 initApp();
