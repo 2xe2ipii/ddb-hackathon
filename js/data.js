@@ -100,7 +100,8 @@ const QUIZ = [
       'Try it once so they stop pressuring you',
     ],
     answer: 0,
-    explanation: 'Say no. Move away. Message someone safe.',
+    explanationCorrect: 'Spot on. Saying a clear no, moving away, and messaging someone safe is the best exit strategy.',
+    explanationIncorrect: 'Not quite. The safest strategy is to say no clearly, remove yourself from the situation, and reach out to someone you trust.',
   },
   {
     id: 'q2',
@@ -111,7 +112,8 @@ const QUIZ = [
       'Scroll online until it disappears',
     ],
     answer: 1,
-    explanation: 'Name it. Breathe out slowly. Contact support.',
+    explanationCorrect: 'Exactly. Naming the feeling, taking slow breaths, and contacting support helps you ride out the wave safely.',
+    explanationIncorrect: 'Try this instead: naming the feeling, breathing slowly, and reaching out to your support system is a much safer way to handle intense urges.',
   },
   {
     id: 'q3',
@@ -122,7 +124,8 @@ const QUIZ = [
       'Get angry and start an argument with them'
     ],
     answer: 1,
-    explanation: 'Removing yourself from the situation quickly and safely is the best way to handle persistent peer pressure.',
+    explanationCorrect: 'Great answer. Making a quick excuse and leaving the area safely removes you from the pressure without escalating the situation.',
+    explanationIncorrect: 'Actually, the safest approach is to make a quick excuse to leave the area. This removes you from the situation without starting an argument.',
   },
   {
     id: 'q4',
@@ -133,7 +136,8 @@ const QUIZ = [
       'Ignoring the assignments until the last minute'
     ],
     answer: 0,
-    explanation: 'Stepping away to breathe and reset helps lower your body\'s stress levels and actually improves your focus.',
+    explanationCorrect: 'Right. Stepping away to breathe and reset lowers your body\'s stress levels and actually improves your focus.',
+    explanationIncorrect: 'Not quite. A healthier approach is taking a short walk and doing breathing exercises. It resets your stress levels and helps you focus better later.',
   },
   {
     id: 'q5',
@@ -144,7 +148,8 @@ const QUIZ = [
       'Reach out privately to ask how they are doing and listen without judgment'
     ],
     answer: 2,
-    explanation: 'Approaching them with privacy and empathy shows you care and creates a safe space for them to open up.',
+    explanationCorrect: 'Absolutely. Reaching out privately with empathy shows you care and creates a safe space for them to open up.',
+    explanationIncorrect: 'A better approach is to reach out privately and listen without judgment. Showing empathy creates a safe space for them to share what\'s going on.',
   },
   {
     id: 'q6',
@@ -155,7 +160,8 @@ const QUIZ = [
       'True, it speeds up your metabolism'
     ],
     answer: 1,
-    explanation: 'Caffeine masks the depressant effects of alcohol, which often leads to dangerous overconsumption.',
+    explanationCorrect: 'Correct. Caffeine only masks the depressant effects, making you feel less drunk than you are, which can lead to dangerous overconsumption.',
+    explanationIncorrect: 'Actually, it\'s false. Caffeine just masks the depressant effects of alcohol, which makes you feel artificially alert and increases the risk of dangerous overconsumption.',
   },
   {
     id: 'q7',
@@ -166,7 +172,8 @@ const QUIZ = [
       'Hold your breath for 7 seconds'
     ],
     answer: 2,
-    explanation: 'The calming pattern is: inhale for 4 seconds, hold for 7 seconds, and exhale slowly for 8 seconds.',
+    explanationCorrect: 'You got it. The calming pattern is: inhale for 4 seconds, hold your breath for 7 seconds, and exhale slowly for 8 seconds.',
+    explanationIncorrect: 'Not quite. The "7" stands for holding your breath. The full pattern is: inhale for 4, hold for 7, and exhale slowly for 8 seconds to calm your nervous system.',
   },
 ];
 
