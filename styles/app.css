@@ -434,15 +434,16 @@
 }
 .ex-chip {
   flex: 0 0 auto;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 4px;
   padding: 12px 16px;
-  border-radius: var(--r-md);
-  background: var(--surface);
-  border: 1.5px solid var(--line);
+  background: transparent;
+  border: none;
+  border-radius: 0 0 var(--r-md) var(--r-md);
   color: var(--muted);
   font-family: inherit;
   font-size: 13px;
@@ -450,9 +451,21 @@
   transition: all 0.2s ease;
   min-width: 110px;
 }
+.ex-chip::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 3px;
+  background: var(--line);
+  transition: background 0.2s ease;
+}
 .ex-chip strong { font-weight: 800; color: var(--text); }
 .suggested-badge { font-size: 10px; font-weight: 800; color: var(--teal); background: var(--teal-soft); padding: 2px 6px; border-radius: 100px; text-transform: uppercase; }
-.ex-chip.active { border-color: var(--teal); background: rgba(69, 196, 176, 0.08); }
+.ex-chip.active { background: rgba(69, 196, 176, 0.08); }
+.ex-chip.active::before { background: var(--teal); }
 .ex-chip.active strong { color: var(--teal); }
 
 /* breathing orb */
@@ -1887,7 +1900,8 @@
 
 .light-theme .hero-card { background: none; }
 .light-theme .hero-card h1 { color: #0f172a; }
-.light-theme .hero-card p { color: #334155; }
+.light-theme .hero-card small { color: #334155; }
+.light-theme .progress-strip { background: rgba(15, 23, 42, 0.1); }
 .light-theme .mission-dot.active { background: rgba(79,70,229,0.1); color: var(--blue); border-color: rgba(79,70,229,0.25); }
 .light-theme .mission-dot.done { background: var(--teal-soft); color: var(--teal); border-color: rgba(15,118,110,0.25); }
 

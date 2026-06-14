@@ -124,6 +124,18 @@ function handleAppClick(e) {
       render();
       break;
 
+    case 'reset-learn-session':
+      state.mythFlowIndex = 0;
+      state.quizFlowIndex = 0;
+      state.mythAnswers = {};
+      state.quizAnswers = {};
+      state.sessionMythIds = pickSessionItems(MYTH_CARDS, 5);
+      state.sessionQuizIds = pickSessionItems(QUIZ, 5);
+      const availableMythsReset = MYTH_CARDS.filter(m => !state.sessionMythIds.includes(m.id));
+      state.todayMythId = availableMythsReset.length > 0 ? availableMythsReset[Math.floor(Math.random() * availableMythsReset.length)].id : MYTH_CARDS[0].id;
+      render();
+      break;
+
     case 'pick-mood':
       state.todayMood = el.dataset.mood;
       render();
@@ -259,7 +271,20 @@ function handleAppClick(e) {
 
 const swipeState = { isDragging: false, startX: 0, currentX: 0, cardEl: null, mythId: null };
 
+function pickSessionItems(pool, count) {
+  const shuffled = [...pool].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count).map(item => item.id);
+}
+
 function initApp() {
+  if (!state.sessionMythIds || state.sessionMythIds.length === 0) {
+    state.sessionMythIds = pickSessionItems(MYTH_CARDS, 5);
+    state.sessionQuizIds = pickSessionItems(QUIZ, 5);
+  }
+  if (!state.todayMythId) {
+    const availableMythsInit = MYTH_CARDS.filter(m => !(state.sessionMythIds || []).includes(m.id));
+    state.todayMythId = availableMythsInit.length > 0 ? availableMythsInit[Math.floor(Math.random() * availableMythsInit.length)].id : MYTH_CARDS[0].id;
+  }
   if (state.theme === 'light') {
     document.body.classList.add('light-theme');
   } else {
@@ -333,6 +358,10 @@ function initApp() {
     state.relaxCheckinIndex = 0;
     state.relaxSelectedExercise = 'box';
     state.relaxToolkitOpen = null;
+    state.sessionMythIds = pickSessionItems(MYTH_CARDS, 5);
+    state.sessionQuizIds = pickSessionItems(QUIZ, 5);
+    const availableMythsRestart = MYTH_CARDS.filter(m => !state.sessionMythIds.includes(m.id));
+    state.todayMythId = availableMythsRestart.length > 0 ? availableMythsRestart[Math.floor(Math.random() * availableMythsRestart.length)].id : MYTH_CARDS[0].id;
     localStorage.removeItem('ddb_state');
     
     document.body.classList.remove('light-theme');
@@ -398,7 +427,14 @@ const RELAX_AFFIRMATIONS = [
   "I am safe right now in this moment.",
   "I can handle this one step at a time.",
   "It is okay to ask for help.",
-  "I have gotten through hard moments before."
+  "I have gotten through hard moments before.",
+  "I am allowed to rest.",
+  "I can breathe through this.",
+  "I release what I cannot control.",
+  "My feelings are valid.",
+  "I am doing my best.",
+  "I am gentle with myself.",
+  "I choose peace over worry."
 ];
 let relaxAffirmationIndex = 0;
 
@@ -407,11 +443,11 @@ setInterval(() => {
   if (el) {
     el.style.opacity = '0';
     setTimeout(() => {
-      relaxAffirmationIndex = (relaxAffirmationIndex + 1) % RELAX_AFFIRMATIONS.length;
+      relaxAffirmationIndex = Math.floor(Math.random() * RELAX_AFFIRMATIONS.length);
       el.textContent = RELAX_AFFIRMATIONS[relaxAffirmationIndex];
       el.style.opacity = '1';
     }, 500);
   }
-}, 10000);
+}, 7000);
 
 initApp();
