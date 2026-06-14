@@ -427,7 +427,14 @@ const RELAX_AFFIRMATIONS = [
   "I am safe right now in this moment.",
   "I can handle this one step at a time.",
   "It is okay to ask for help.",
-  "I have gotten through hard moments before."
+  "I have gotten through hard moments before.",
+  "I am allowed to rest.",
+  "I can breathe through this.",
+  "I release what I cannot control.",
+  "My feelings are valid.",
+  "I am doing my best.",
+  "I am gentle with myself.",
+  "I choose peace over worry."
 ];
 let relaxAffirmationIndex = 0;
 
@@ -436,11 +443,11 @@ setInterval(() => {
   if (el) {
     el.style.opacity = '0';
     setTimeout(() => {
-      relaxAffirmationIndex = (relaxAffirmationIndex + 1) % RELAX_AFFIRMATIONS.length;
+      relaxAffirmationIndex = Math.floor(Math.random() * RELAX_AFFIRMATIONS.length);
       el.textContent = RELAX_AFFIRMATIONS[relaxAffirmationIndex];
       el.style.opacity = '1';
     }, 500);
   }
-}, 10000);
+}, 7000);
 
 initApp();
