@@ -5,6 +5,7 @@ function render() {
   if (!state.launched) {
     app.innerHTML = launcherHTML();
     icons();
+    if (typeof saveState === 'function') saveState();
     return;
   }
 
@@ -17,6 +18,7 @@ function render() {
   };
   app.innerHTML = headerHTML() + screens[state.tab]() + navHTML() + '<div class="toast-zone"></div>';
   icons();
+  if (typeof saveState === 'function') saveState();
 }
 
 function handleAppClick(e) {
@@ -177,6 +179,11 @@ function handleAppClick(e) {
 const swipeState = { isDragging: false, startX: 0, currentX: 0, cardEl: null, mythId: null };
 
 function initApp() {
+  if (state.theme === 'light') {
+    document.body.classList.add('light-theme');
+  } else {
+    document.body.classList.remove('light-theme');
+  }
   initDeviceFrame();
   app.addEventListener('click', handleAppClick);
 
@@ -237,26 +244,13 @@ function initApp() {
   const restartBtn = document.getElementById('btnRestartApp');
   if (restartBtn) {
     restartBtn.addEventListener('click', () => {
-      Object.assign(state, {
-        launched: false,
-        tab: 'today',
-        todayMood: null,
-        mythAnswers: {},
-        mythFlowIndex: 0,
-        quizAnswers: {},
-        quizFlowIndex: 0,
-        quizTimeLeft: 10,
-        learnMode: 'myth',
-        journalDone: false,
-        reflection: '',
-        streak: 7,
-        registered: new Set(),
-        savedSupport: new Set(),
-        breathing: false,
-        mythOpened: false,
-        quizOpened: false,
-        theme: 'dark'
-      });
+      Object.assign(state, defaultState);
+      state.registered = new Set();
+      state.savedSupport = new Set();
+      state.mythAnswers = {};
+      state.quizAnswers = {};
+      localStorage.removeItem('ddb_state');
+      
       document.body.classList.remove('light-theme');
       stopQuizTimer();
       if (typeof stopBreathing === 'function') stopBreathing();

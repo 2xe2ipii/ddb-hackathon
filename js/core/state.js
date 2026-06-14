@@ -1,6 +1,6 @@
 /* Shared mutable app state and DOM anchors. */
 
-var state = {
+var defaultState = {
   launched: false,
   tab: 'today',
   todayMood: null,
@@ -20,6 +20,30 @@ var state = {
   quizOpened: false,
   theme: 'dark',
 };
+
+function loadState() {
+  const saved = localStorage.getItem('ddb_state');
+  if (saved) {
+    try {
+      const parsed = JSON.parse(saved);
+      if (parsed.registered) parsed.registered = new Set(parsed.registered);
+      if (parsed.savedSupport) parsed.savedSupport = new Set(parsed.savedSupport);
+      return Object.assign({}, defaultState, parsed);
+    } catch(e) {
+      console.error('Failed to load state', e);
+    }
+  }
+  return Object.assign({}, defaultState);
+}
+
+var state = loadState();
+
+function saveState() {
+  const toSave = Object.assign({}, state);
+  toSave.registered = Array.from(toSave.registered);
+  toSave.savedSupport = Array.from(toSave.savedSupport);
+  localStorage.setItem('ddb_state', JSON.stringify(toSave));
+}
 
 var app = document.getElementById('app');
 var phone = document.getElementById('phone');
