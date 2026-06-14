@@ -105,7 +105,7 @@ function renderCheckinSection() {
     
     return `
       <div class="relax-card result-card">
-        <h3>✅ Check-in complete</h3>
+        <h3><i data-lucide="check-circle"></i> Check-in complete</h3>
         <div class="result-score">
           <span class="score-num">${score}/12</span>
           <span class="score-band band-${band.label.toLowerCase()}">${band.label}</span>
@@ -248,7 +248,7 @@ function relaxHTML() {
 
       <div class="breathe-meta">
         <div class="pattern">${currentEx.patternText}</div>
-        <div class="cycles" id="cycleNote">${currentEx.tagline}</div>
+        <div class="cycles" id="cycleNote">${currentEx.phases.reduce((a,b)=>a+b.secs,0)}s per cycle</div>
       </div>
       
       <div class="breathe-cta">
@@ -280,7 +280,7 @@ function runPhase(idx, cycle) {
   const p = phases[idx];
   
   phaseEl.textContent = p.name;
-  if (cycleEl) cycleEl.textContent = `Cycle ${cycle} - ${currentEx.tagline}`;
+  if (cycleEl) cycleEl.textContent = `Cycle ${cycle} - ${currentEx.phases.reduce((a,b)=>a+b.secs,0)}s per cycle`;
 
   orb.style.transition = `transform ${p.secs}s cubic-bezier(0.45, 0, 0.3, 1)`;
   orb.style.transform = `scale(${p.scale})`;
@@ -309,6 +309,8 @@ function toggleBreathing() {
     document.getElementById('orbCount').textContent = 'tap start to resume';
     orb.style.transition = 'transform 1.2s ease';
     orb.style.transform = 'scale(0.55)';
+    const currentEx = RELAX_EXERCISES[state.relaxSelectedExercise];
+    document.getElementById('cycleNote').textContent = `${currentEx.phases.reduce((a,b)=>a+b.secs,0)}s per cycle`;
   } else {
     state.breathing = true;
     btn.innerHTML = '<i data-lucide="pause"></i> End session';
