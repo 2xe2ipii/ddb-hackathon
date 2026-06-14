@@ -233,6 +233,16 @@ function startQuizTimer() {
   state.quizTimeLeft = 10;
   quizTimer = setInterval(() => {
     state.quizTimeLeft--;
+    
+    const pb = document.getElementById('quiz-progress-bar');
+    if (pb) {
+      pb.style.width = ((state.quizTimeLeft / 10) * 100) + '%';
+    }
+    const ht = document.getElementById('header-timer-text');
+    if (ht) {
+      ht.innerText = `0:${state.quizTimeLeft.toString().padStart(2, '0')}`;
+    }
+
     if (state.quizTimeLeft <= 0) {
       stopQuizTimer();
       const q = QUIZ[state.quizFlowIndex];
@@ -243,8 +253,8 @@ function startQuizTimer() {
       } else {
         setTimeout(() => toast('badge-check', 'Daily quiz finished'), 250);
       }
+      render();
     }
-    render();
   }, 1000);
 }
 

@@ -117,7 +117,7 @@ function dailyQuizCardHTML() {
       
       ${!answered ? `
       <div style="width: 100%; background: var(--line); height: 6px; border-radius: 3px; margin-bottom: 16px; overflow: hidden;">
-        <div style="width: ${progressPct}%; height: 100%; background: var(--primary); transition: width 1s linear;"></div>
+        <div id="quiz-progress-bar" style="width: ${progressPct}%; height: 100%; background: var(--primary); transition: width 1s linear;"></div>
       </div>
       ` : ''}
       <div class="card-title" style="font-size: 18px; line-height: 1.5; margin-bottom: 24px;">${q.question}</div>
