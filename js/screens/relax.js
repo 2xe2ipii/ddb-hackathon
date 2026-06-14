@@ -189,7 +189,7 @@ function renderGroundingToolkit() {
            This feeling is temporary. It will pass.
          </div>
       </div>
-      <h3 class="toolkit-title">Grounding toolkit</h3>
+      <h3 class="toolkit-title">Relief space</h3>
       <div class="toolkit-cards">
         ${tools.map(t => {
           const isOpen = state.relaxToolkitOpen === t.id;
