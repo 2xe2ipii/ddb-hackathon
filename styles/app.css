@@ -315,6 +315,7 @@
   gap: 16px;
   overflow-y: auto;
 }
+.breathe-screen > * { flex-shrink: 0; }
 
 .breathe-top {
   width: 100%;

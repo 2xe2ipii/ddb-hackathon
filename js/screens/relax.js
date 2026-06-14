@@ -62,7 +62,7 @@ function renderCheckinSection() {
   if (state.relaxCheckinState === 'not_started') {
     return `
       <div class="relax-card">
-        <h3>❤️🩹 How have you been feeling?</h3>
+        <h3><i data-lucide="heart"></i> How have you been feeling?</h3>
         <p>A quick 4-question check-in (about 1 minute). Private and just for you.</p>
         <button class="btn btn-primary" data-action="start-checkin" style="margin-top: 12px;">Start check-in</button>
       </div>
