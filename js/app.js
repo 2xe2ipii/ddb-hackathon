@@ -66,6 +66,11 @@ function handleAppClick(e) {
       render();
       break;
 
+    case 'toggle-quest':
+      state.expandedQuest = state.expandedQuest === el.dataset.quest ? null : el.dataset.quest;
+      render();
+      break;
+
     case 'answer-myth': {
       const mythId = el.dataset.id;
       state.mythAnswers[mythId] = el.dataset.answer;
@@ -127,15 +132,20 @@ function handleAppClick(e) {
 
     case 'submit-journal': {
       const txt = document.getElementById('reflectInput').value.trim();
-      if (!txt) {
+      const words = txt.split(/\s+/).filter(w => w.length > 0);
+      if (words.length < 3) {
         toast('feather', 'Even three words count - give it a try');
         return;
       }
       state.reflection = txt;
-      state.journalDone = true;
-      state.streak += 1;
+      if (!state.journalDone) {
+        state.journalDone = true;
+        state.streak += 1;
+        setTimeout(() => toast('flame', `Current streak: ${state.streak} days`), 300);
+      } else {
+        setTimeout(() => toast('feather', 'Reflection updated'), 300);
+      }
       render();
-      setTimeout(() => toast('flame', `Current streak: ${state.streak} days`), 300);
       break;
     }
 
