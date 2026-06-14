@@ -91,7 +91,7 @@ function mythCardHTML(location) {
           <p>${card.explanation}</p>
         </div>
         ${location === 'learn'
-          ? `<button class="btn btn-primary wide-btn" data-action="learn-mode" data-mode="quiz"><i data-lucide="arrow-right"></i> Take quiz</button>`
+          ? `<p class="learn-next-note"><i data-lucide="arrow-down"></i> Daily quiz is ready below.</p>`
           : ''}` : ''}
     </div>`;
 }

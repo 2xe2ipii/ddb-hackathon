@@ -1001,6 +1001,52 @@
   border-color: rgba(69, 196, 176, 0.32);
 }
 
+.learn-stack {
+  display: grid;
+  gap: 9px;
+}
+
+.learn-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.learn-card-head span,
+.learn-card-head b {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.learn-card-head span {
+  color: #c9d8e7;
+}
+
+.learn-card-head b {
+  color: var(--muted);
+}
+
+.learn-card-head.quiz b {
+  color: var(--muted);
+}
+
+.learn-card-head svg {
+  width: 13px;
+  height: 13px;
+  color: var(--teal);
+}
+
+.myth-card {
+  position: relative;
+  background: var(--card);
+}
+
 .myth-card .card-title {
   font-size: 18px;
   line-height: 1.35;
@@ -1058,6 +1104,23 @@
 .answer-panel.wrong {
   border-color: rgba(110,143,181,0.36);
   background: rgba(110,143,181,0.11);
+}
+
+.learn-next-note {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 800;
+}
+
+.learn-next-note svg {
+  width: 14px;
+  height: 14px;
+  color: var(--teal);
 }
 
 .quick-support {
@@ -1122,6 +1185,10 @@
   display: grid;
   gap: 10px;
   margin-top: 14px;
+}
+
+.quiz-card {
+  background: var(--card);
 }
 
 .quiz-option {
