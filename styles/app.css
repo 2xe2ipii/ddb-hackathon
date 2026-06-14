@@ -24,6 +24,40 @@
   --r-sm: 12px;
 }
 
+.light-theme {
+  /* Core Backgrounds */
+  --bg: #f1f5f9;         /* Soft, cool-toned gray instead of harsh white */
+  --surface: #f8fafc;    /* Very light slate for app navigation */
+  --card: #ffffff;       /* Clean white for main content areas */
+  --card-2: #e2e8f0;     /* Soft contrast for elevated elements */
+  --line: rgba(15, 23, 42, 0.08); /* Subtle dark lines */
+
+  /* Accents - Darkened for Light Mode visibility */
+  --teal: #0f766e;       /* Deep, grounding teal */
+  --teal-soft: rgba(15, 118, 110, 0.1);
+  --blue: #4f46e5;       /* Deep, supportive indigo */
+  --blue-soft: rgba(79, 70, 229, 0.08);
+
+  /* Typography */
+  --text: #0f172a;       /* Very dark slate, easier on the eyes than pure black */
+  --muted: #64748b;      /* Medium slate for secondary text */
+  --faint: #94a3b8;      /* Light slate for disabled/tertiary text */
+}
+
+/* Specific Light Mode overrides for elements with hardcoded gradients/shadows */
+.light-theme .avatar-btn {
+  background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+  color: var(--teal);
+  border-color: rgba(15, 118, 110, 0.3);
+}
+
+.light-theme .brand-name {
+  background: linear-gradient(100deg, var(--teal), var(--blue));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .app {
   flex: 1;
   display: flex;
@@ -1587,3 +1621,84 @@
   padding: 8px 10px;
   min-width: 72px;
 }
+
+/* =====================================================
+   LIGHT THEME ELEMENT OVERRIDES
+   ===================================================== */
+.light-theme .fact-card {
+  background: linear-gradient(135deg, #e2e8f0, #f8fafc 70%);
+  border-color: rgba(15, 118, 110, 0.28);
+}
+.light-theme .fact-card p { color: #334155; }
+.light-theme .fact-card p strong { color: var(--teal); }
+
+.light-theme .btn-primary,
+.light-theme .btn-register {
+  background: linear-gradient(120deg, var(--teal), #14b8a6);
+  color: #ffffff;
+}
+
+.light-theme .done-card .done-ring {
+  background: var(--teal-soft);
+  color: var(--teal);
+  border-color: rgba(15, 118, 110, 0.5);
+}
+
+.light-theme .breathe-screen .orb {
+  background: radial-gradient(circle at 38% 32%, rgba(15, 118, 110, 0.25), rgba(15, 118, 110, 0.1) 45%, rgba(79, 70, 229, 0.05) 100%);
+  box-shadow: 0 0 70px -8px rgba(15, 118, 110, 0.2), inset 0 0 50px rgba(255, 255, 255, 0.5);
+}
+.light-theme .orb-phase { color: #0f172a; }
+.light-theme .orb-count { color: #475569; }
+
+.light-theme .event-band { background: linear-gradient(120deg, rgba(15, 118, 110, 0.08), rgba(79, 70, 229, 0.05)); }
+.light-theme .event-band.alt { background: linear-gradient(120deg, rgba(79, 70, 229, 0.08), rgba(15, 118, 110, 0.05)); }
+.light-theme .event-kind { color: var(--teal); }
+.light-theme .btn-ig { background: var(--blue-soft); border-color: rgba(79,70,229,0.3); color: var(--blue); }
+
+.light-theme .profile-ava {
+  background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+  color: var(--teal);
+}
+
+.light-theme .wrapped { background: linear-gradient(125deg, #e2e8f0 0%, #cbd5e1 55%, #94a3b8 100%); }
+.light-theme .wrapped p { color: #334155; }
+.light-theme .wrapped h3 { color: #0f172a; }
+
+.light-theme .bottom-nav { background: linear-gradient(180deg, rgba(241, 245, 249, 0) 0%, rgba(241, 245, 249, 0.92) 28%, #f1f5f9 100%); }
+
+.light-theme .toast { background: #ffffff; color: #0f172a; box-shadow: 0 14px 34px -10px rgba(0, 0, 0, 0.15); }
+
+.light-theme .phone-home {
+  background: radial-gradient(circle at 22% 10%, rgba(15, 118, 110, 0.08), transparent 30%), radial-gradient(circle at 84% 74%, rgba(79, 70, 229, 0.08), transparent 34%), linear-gradient(160deg, #f8fafc 0%, #e2e8f0 46%, #cbd5e1 100%);
+}
+.light-theme .home-date span { color: #475569; }
+.light-theme .home-date strong { color: #0f172a; }
+.light-theme .home-widget { background: rgba(255, 255, 255, 0.72); box-shadow: 0 20px 50px -28px rgba(0,0,0,0.1); }
+.light-theme .home-widget h2 { color: #0f172a; }
+.light-theme .home-app b { text-shadow: none; color: #1e293b; }
+.light-theme .launcher-dock { background: rgba(255, 255, 255, 0.6); }
+.light-theme .launcher-dock span { background: rgba(255, 255, 255, 0.9); color: #0f172a; }
+
+.light-theme .hero-card { background: radial-gradient(circle at 88% 20%, rgba(15,118,110,0.1), transparent 33%), linear-gradient(135deg, #f8fafc, #e2e8f0 62%, #cbd5e1); }
+.light-theme .hero-card h1 { color: #0f172a; }
+.light-theme .hero-card p { color: #334155; }
+.light-theme .mission-dot.active { background: rgba(79,70,229,0.1); color: var(--blue); border-color: rgba(79,70,229,0.25); }
+.light-theme .mission-dot.done { background: var(--teal-soft); color: var(--teal); border-color: rgba(15,118,110,0.25); }
+
+.light-theme .answer-panel p { color: #334155; }
+.light-theme .support-paths button { color: #334155; }
+.light-theme .admin-card small { color: #64748b; }
+.light-theme .partner-strip b { color: #1e293b; }
+
+.light-theme .deployment-card { background: radial-gradient(circle at 90% 16%, rgba(15,118,110,0.08), transparent 30%), linear-gradient(135deg, #f8fafc, #e2e8f0); }
+.light-theme .deployment-head h3 { color: #0f172a; }
+
+.light-theme .progress-card { background: radial-gradient(circle at 16% 18%, rgba(15,118,110,0.1), transparent 28%), linear-gradient(135deg, #f8fafc, #e2e8f0); }
+.light-theme .progress-card h2 { color: #0f172a; }
+
+.light-theme .hotline-num b { color: var(--blue); }
+.light-theme .modal-veil { background: rgba(15, 23, 42, 0.4); }
+
+.light-theme .learn-card-head span { color: #475569; }
+.light-theme .region-banner { color: var(--blue); }

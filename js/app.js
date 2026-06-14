@@ -42,6 +42,16 @@ function handleAppClick(e) {
       render();
       break;
 
+    case 'toggle-theme':
+      state.theme = state.theme === 'light' ? 'dark' : 'light';
+      if (state.theme === 'light') {
+        document.body.classList.add('light-theme');
+      } else {
+        document.body.classList.remove('light-theme');
+      }
+      render();
+      break;
+
     case 'answer-myth': {
       const mythId = el.dataset.id;
       state.mythAnswers[mythId] = el.dataset.answer;

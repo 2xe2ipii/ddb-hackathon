@@ -74,6 +74,7 @@ function profileHTML() {
         <button><i data-lucide="smartphone"></i> Local journal storage</button>
         <button><i data-lucide="trash-2"></i> Delete my data</button>
         <button><i data-lucide="languages"></i> English / Filipino</button>
+        <button data-action="toggle-theme"><i data-lucide="${state.theme === 'light' ? 'moon' : 'sun'}"></i> ${state.theme === 'light' ? 'Dark Mode' : 'Light Mode'}</button>
       </div>
     </div>`;
 }

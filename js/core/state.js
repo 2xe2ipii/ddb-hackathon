@@ -18,6 +18,7 @@ var state = {
   breathing: false,
   mythOpened: false,
   quizOpened: false,
+  theme: 'dark',
 };
 
 var app = document.getElementById('app');
