@@ -55,6 +55,16 @@ function handleAppClick(e) {
       render();
       break;
 
+    case 'toggle-myth':
+      state.mythOpened = !state.mythOpened;
+      render();
+      break;
+
+    case 'toggle-quiz':
+      state.quizOpened = !state.quizOpened;
+      render();
+      break;
+
     case 'pick-mood':
       state.todayMood = el.dataset.mood;
       render();

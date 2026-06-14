@@ -14,6 +14,8 @@ var state = {
   registered: new Set(),
   savedSupport: new Set(),
   breathing: false,
+  mythOpened: false,
+  quizOpened: false,
 };
 
 var app = document.getElementById('app');

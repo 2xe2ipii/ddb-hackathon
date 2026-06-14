@@ -13,19 +13,19 @@ function learnHTML() {
       </div>
 
       <section class="learn-stack">
-        <div class="learn-card-head">
+        <div class="learn-card-head" data-action="toggle-myth" style="cursor: pointer; padding: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 16px;">
           <span><i data-lucide="shield-question"></i> Myths vs facts</span>
-          <b>${mythAnswered ? 'Answered' : 'Tap your call'}</b>
+          <b>${mythAnswered ? 'Answered' : (state.mythOpened ? 'Close' : 'Tap to open')}</b>
         </div>
-        ${mythCardHTML('learn')}
+        ${state.mythOpened ? mythCardHTML('learn') : ''}
       </section>
 
       <section class="learn-stack">
-        <div class="learn-card-head quiz">
+        <div class="learn-card-head quiz" data-action="toggle-quiz" style="cursor: pointer; padding: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 16px;">
           <span><i data-lucide="timer"></i> Daily quiz</span>
-          <b>${quizAnswered ? 'Explained' : '1 question'}</b>
+          <b>${quizAnswered ? 'Explained' : (state.quizOpened ? 'Close' : 'Tap to open')}</b>
         </div>
-        ${dailyQuizCardHTML(q)}
+        ${state.quizOpened ? dailyQuizCardHTML(q) : ''}
       </section>
     </div>`;
 }
