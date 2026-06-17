@@ -19,25 +19,46 @@ function heroCardHTML() {
     icon = 'flame';
     badgeName = 'Flame of Clarity';
     color = 'var(--red)';
-  } else if (state.streak >= 11) {
+  } else if (state.streak >= 20) {
     icon = 'sword';
     badgeName = 'Sword of Truth';
     color = 'var(--blue)';
-  } else if (state.streak >= 4) {
+  } else if (state.streak >= 7) {
     icon = 'scale';
     badgeName = 'Golden Scales';
     color = 'var(--yellow)';
+  } else if (state.streak >= 1) {
+    icon = 'shield';
+    badgeName = 'Base Shield';
+    color = 'var(--teal)';
+  } else {
+    icon = 'lock';
+    badgeName = 'Base Shield (Locked)';
+    color = 'var(--muted)';
   }
 
   // Use dynamic profile name instead of hardcoded 'Kai' /* added for Profile module — see SRS.md §6.1 */
   const name = state.profileName || 'Kai';
 
+  let miniImgHTML = '';
+  if (state.streak >= 1) {
+    let imgSrc = 'assets/streak_base_shield.png';
+    if (state.streak >= 30) imgSrc = 'assets/streak_flame_of_clarity.png';
+    else if (state.streak >= 20) imgSrc = 'assets/streak_sword_of_truth.png';
+    else if (state.streak >= 7) imgSrc = 'assets/streak_golden_scales.png';
+    
+    miniImgHTML = `<img src="${imgSrc}" class="streak-badge-mini-img" alt="" />`;
+  } else {
+    miniImgHTML = `<i data-lucide="lock"></i>`;
+  }
+
   return `
     <div class="hero-card">
       <div class="streak-badge" style="color: ${color}; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; font-weight: 700;">
-        <i data-lucide="${icon}"></i>
+        ${miniImgHTML}
         <span>${state.streak}-Day Streak: ${badgeName}</span>
       </div>
+
       <h1>Hi ${name}. Build one safer habit today.</h1>
       <div class="progress-strip">
         <span style="width:${p * 25}%"></span>

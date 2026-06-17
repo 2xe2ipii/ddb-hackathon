@@ -14,6 +14,7 @@ var defaultState = {
   journalDaysCount: 0,
   reflection: '',
   streak: 7,
+  triggerCelebration: true,
   registered: new Set(),
   savedSupport: new Set(),
   breathing: false,
