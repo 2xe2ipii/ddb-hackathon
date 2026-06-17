@@ -106,6 +106,10 @@ function headerHTML() {
     }
   }
 
+  const initials = (state.profileName || 'Kai').substring(0, 2).toUpperCase(); /* added for Achievements module — see SRS.md §5.3 */
+  const avatarStyle = state.profilePic ? `background-image: url(${state.profilePic}); background-size: cover; background-position: center;` : ''; /* added for Achievements module — see SRS.md §5.3 */
+  const avatarContent = state.profilePic ? '' : initials; /* added for Achievements module — see SRS.md §5.3 */
+
   return `
     <div class="app-header" style="position: relative;">
       <div class="brand">
@@ -114,7 +118,7 @@ function headerHTML() {
       </div>
       ${timerHTML}
       <div class="header-actions">
-        <button class="avatar-btn" data-action="go-profile" aria-label="Open private profile">KA</button>
+        <button class="avatar-btn" data-action="go-profile" aria-label="Open private profile" style="${avatarStyle}">${avatarContent}</button>
       </div>
     </div>`;
 }

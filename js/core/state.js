@@ -11,6 +11,7 @@ var defaultState = {
   quizTimeLeft: 10,
   learnMode: 'myth',
   journalDone: false,
+  journalDaysCount: 0,
   reflection: '',
   streak: 7,
   registered: new Set(),
@@ -25,9 +26,19 @@ var defaultState = {
   relaxSelectedExercise: 'box', // 'box', '478', 'coherent'
   relaxToolkitOpen: null,
   expandedQuest: null,
+  profileBadgeOpen: null, /* added for Achievements module — see SRS.md §5.3 */
+  achievementsExpanded: false,
   sessionMythIds: [],
   sessionQuizIds: [],
-  todayMythId: null
+  todayMythId: null,
+  textSize: 'medium', /* added for Accessibility enhancements — see implementation_plan.md */
+  colorblindMode: false, /* added for Accessibility enhancements — see implementation_plan.md */
+  profileName: 'Kai', /* added for Profile enhancements — see implementation_plan.md */
+  profileAge: 17, /* added for Profile enhancements — see implementation_plan.md */
+  profilePic: null, /* added for Profile enhancements — see implementation_plan.md */
+  shareModalOpen: false, /* added for Profile sharing — see implementation_plan.md */
+  profileEditing: false, /* added for Profile enhancements — see implementation_plan.md */
+  selectedMoodFilter: null /* added for Mood calendar filters — see implementation_plan.md */
 };
 
 function loadState() {
@@ -39,7 +50,7 @@ function loadState() {
       if (parsed.savedSupport) parsed.savedSupport = new Set(parsed.savedSupport);
       if (parsed.tab === 'breathe') parsed.tab = 'relax';
       return Object.assign({}, defaultState, parsed);
-    } catch(e) {
+    } catch (e) {
       console.error('Failed to load state', e);
     }
   }

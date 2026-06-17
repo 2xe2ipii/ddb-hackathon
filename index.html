@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,6 +11,7 @@
   <link rel="stylesheet" href="styles/frame.css" />
   <link rel="stylesheet" href="styles/app.css" />
 </head>
+
 <body>
 
   <!-- ===== Abstract dark-mode desktop backdrop ===== -->
@@ -70,7 +72,7 @@
         <span class="dp-name">Samsung Galaxy S23</span>
         <span class="dp-dims">380 × 800</span>
       </button>
-      <p class="dp-footnote">DDB Mobile App Challenge<br/>IDADAIT 2026 · Region IV-A</p>
+      <p class="dp-footnote">DDB Mobile App Challenge<br />IDADAIT 2026 · Region IV-A</p>
     </aside>
 
     <!-- ===== Prototype Control Panel ===== -->
@@ -82,6 +84,12 @@
         </span>
         <span class="dp-dims">Reset application state</span>
       </button>
+      <button class="dp-option" id="btnToggleDemo">
+        <span class="dp-name" style="display:flex;align-items:center;gap:6px;">
+          <i data-lucide="sparkles" style="width:14px;height:14px;"></i> Toggle Demo State
+        </span>
+        <span class="dp-dims" id="demoStateText">Day 1 View</span>
+      </button>
     </aside>
   </div>
 
@@ -90,6 +98,9 @@
     <div class="fab-menu" id="fabMenu">
       <button class="fab-menu-item" id="fabBtnRestartApp">
         <i data-lucide="rotate-ccw"></i> Restart App
+      </button>
+      <button class="fab-menu-item" id="fabBtnToggleDemo">
+        <i data-lucide="sparkles"></i> Toggle Demo
       </button>
     </div>
     <button class="fab-btn" id="fabToggleBtn">
@@ -105,7 +116,9 @@
   <script src="js/screens/learn.js"></script>
   <script src="js/screens/relax.js"></script>
   <script src="js/screens/community.js"></script>
+  <script src="js/screens/achievements.js"></script>
   <script src="js/screens/profile.js"></script>
   <script src="js/app.js"></script>
 </body>
+
 </html>
