@@ -26,7 +26,8 @@ var defaultState = {
   relaxSelectedExercise: 'box', // 'box', '478', 'coherent'
   relaxToolkitOpen: null,
   expandedQuest: null,
-  profileBadgeOpen: null,
+  profileBadgeOpen: null, /* added for Achievements module — see SRS.md §5.3 */
+  achievementsExpanded: false,
   sessionMythIds: [],
   sessionQuizIds: [],
   todayMythId: null

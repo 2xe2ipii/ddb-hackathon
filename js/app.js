@@ -31,10 +31,20 @@ function render() {
   lastRenderedTab = state.tab;
 
   if (typeof saveState === 'function') saveState();
+  if (typeof updateDemoButtonUI === 'function') updateDemoButtonUI();
+}
+
+function updateDemoButtonUI() {
+  const isDay20 = state.streak >= 20;
+  const textEl = document.getElementById('demoStateText');
+  if (textEl) {
+    textEl.innerText = isDay20 ? 'Day 20+ View' : 'Day 1 View';
+  }
 }
 
 /* Snapshot the unlocked-badge set before a state mutation that could
-   earn a new achievement, then diff it after to fire unlock toasts. */
+   earn a new achievement, then diff it after to fire unlock toasts.
+   added for Achievements module — see SRS.md §5.3 */
 function snapshotAchievements() {
   return (typeof getUnlockedIds === 'function') ? getUnlockedIds(state) : new Set();
 }
@@ -296,6 +306,42 @@ function handleAppClick(e) {
       break;
     }
 
+    case 'delete-data':
+      if (confirm("Are you sure you want to delete all your data? This will reset your streak and achievements.")) {
+        Object.assign(state, defaultState);
+        state.launched = true;
+        state.tab = 'today';
+        state.registered = new Set();
+        state.savedSupport = new Set();
+        state.mythAnswers = {};
+        state.quizAnswers = {};
+        state.journalDaysCount = 0;
+        state.relaxCheckinState = 'not_started';
+        state.relaxCheckinAnswers = {};
+        state.relaxCheckinIndex = 0;
+        state.relaxSelectedExercise = 'box';
+        state.relaxToolkitOpen = null;
+        state.achievementsExpanded = false;
+        state.sessionMythIds = pickSessionItems(MYTH_CARDS, 5);
+        state.sessionQuizIds = pickSessionItems(QUIZ, 5);
+        const availableMythsRestart = MYTH_CARDS.filter(m => !state.sessionMythIds.includes(m.id));
+        state.todayMythId = availableMythsRestart.length > 0 ? availableMythsRestart[Math.floor(Math.random() * availableMythsRestart.length)].id : MYTH_CARDS[0].id;
+        localStorage.removeItem('ddb_state');
+
+        document.body.classList.remove('light-theme');
+        stopQuizTimer();
+        if (typeof stopBreathing === 'function') stopBreathing();
+
+        render();
+        setTimeout(() => toast('rotate-ccw', 'All data deleted. Reset to Today.'), 300);
+      }
+      break;
+
+    case 'toggle-achievements-expand':
+      state.achievementsExpanded = !state.achievementsExpanded;
+      render();
+      break;
+
     case 'share-ig':
       toast('instagram', 'Advocacy story template ready');
       break;
@@ -394,6 +440,7 @@ function initApp() {
     state.relaxCheckinIndex = 0;
     state.relaxSelectedExercise = 'box';
     state.relaxToolkitOpen = null;
+    state.achievementsExpanded = false;
     state.sessionMythIds = pickSessionItems(MYTH_CARDS, 5);
     state.sessionQuizIds = pickSessionItems(QUIZ, 5);
     const availableMythsRestart = MYTH_CARDS.filter(m => !state.sessionMythIds.includes(m.id));
@@ -418,6 +465,69 @@ function initApp() {
   const fabRestartBtn = document.getElementById('fabBtnRestartApp');
   if (fabRestartBtn) {
     fabRestartBtn.addEventListener('click', restartAppHandler);
+  }
+
+  const toggleDemoHandler = () => {
+    const isDay20 = state.streak >= 20;
+    if (isDay20) {
+      // Reset state back to default but keep it launched on the profile tab
+      Object.assign(state, defaultState);
+      state.launched = true;
+      state.tab = 'profile';
+      state.registered = new Set();
+      state.savedSupport = new Set();
+      state.mythAnswers = {};
+      state.quizAnswers = {};
+      state.journalDaysCount = 0;
+      state.relaxCheckinState = 'not_started';
+      state.relaxCheckinAnswers = {};
+      state.relaxCheckinIndex = 0;
+      state.relaxSelectedExercise = 'box';
+      state.relaxToolkitOpen = null;
+      state.achievementsExpanded = false;
+      state.sessionMythIds = pickSessionItems(MYTH_CARDS, 5);
+      state.sessionQuizIds = pickSessionItems(QUIZ, 5);
+      const availableMythsRestart = MYTH_CARDS.filter(m => !state.sessionMythIds.includes(m.id));
+      state.todayMythId = availableMythsRestart.length > 0 ? availableMythsRestart[Math.floor(Math.random() * availableMythsRestart.length)].id : MYTH_CARDS[0].id;
+      localStorage.removeItem('ddb_state');
+
+      document.body.classList.remove('light-theme');
+      stopQuizTimer();
+      if (typeof stopBreathing === 'function') stopBreathing();
+      render();
+      setTimeout(() => toast('rotate-ccw', 'Reset to Day 1 state'), 300);
+    } else {
+      // Switch to Day 20+ View
+      const prevUnlocked = snapshotAchievements();
+      state.streak = 25;
+      state.journalDaysCount = 7;
+      state.journalDone = true;
+      state.relaxCheckinState = 'completed';
+      state.savedSupport = new Set(['r1', 'r2', 'r3']);
+      state.registered = new Set(['ev1', 'ev2']);
+      
+      // Populate myths (correct answers)
+      state.sessionMythIds = ['m1', 'm2', 'm3', 'm4', 'm5'];
+      state.mythAnswers = { m1: 'myth', m2: 'fact', m3: 'fact', m4: 'myth', m5: 'fact' };
+      
+      // Populate quiz (correct answers)
+      state.sessionQuizIds = ['q1', 'q2', 'q3', 'q4', 'q5'];
+      state.quizAnswers = { q1: 0, q2: 1, q3: 1, q4: 0, q5: 2 };
+      
+      render();
+      setTimeout(() => toast('sparkles', 'Simulated Day 20+ state loaded!'), 250);
+      reportAchievements(prevUnlocked);
+    }
+  };
+
+  const toggleDemoBtn = document.getElementById('btnToggleDemo');
+  if (toggleDemoBtn) {
+    toggleDemoBtn.addEventListener('click', toggleDemoHandler);
+  }
+
+  const fabToggleDemoBtn = document.getElementById('fabBtnToggleDemo');
+  if (fabToggleDemoBtn) {
+    fabToggleDemoBtn.addEventListener('click', toggleDemoHandler);
   }
 
   const fabToggleBtn = document.getElementById('fabToggleBtn');
