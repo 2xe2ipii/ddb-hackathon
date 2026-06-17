@@ -42,7 +42,8 @@ var defaultState = {
   achievementCategoryFilter: null, /* added for Achievement category chips — see implementation_plan.md */
   language: 'en', /* added for Tagalog translation toggle — see SRS.md §7.3 */
   communityTab: 'support',
-  eventModalOpen: null
+  eventModalOpen: null,
+  igStoryModalOpen: false
 };
 
 function loadState() {

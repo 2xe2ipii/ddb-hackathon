@@ -84,6 +84,23 @@ function communityHTML() {
     }
   }
 
+  if (state.igStoryModalOpen) {
+    modalHTML += `
+      <div class="overlay" data-action="close-ig-story" style="position: absolute; inset: 0; background: #000; z-index: 200; display: flex; align-items: center; justify-content: center; animation: story-zoom-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+        <img src="assets/ig_template.jpg" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px; box-shadow: 0 4px 30px rgba(0,0,0,0.5);" alt="IG Story Template">
+        <button class="icon-btn" data-action="close-ig-story" style="position: absolute; top: 24px; right: 24px; background: rgba(0,0,0,0.5); border: none; border-radius: 50%; padding: 12px; color: #fff; z-index: 201;">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <style>
+        @keyframes story-zoom-in {
+          from { opacity: 0; transform: scale(0.9); }
+          to { opacity: 1; transform: scale(1); }
+        }
+      </style>
+    `;
+  }
+
   const cards = EVENTS.map((ev) => {
     const isReg = state.registered.has(ev.id);
     return `
