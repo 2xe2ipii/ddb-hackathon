@@ -29,13 +29,16 @@ function heroCardHTML() {
     color = 'var(--yellow)';
   }
 
+  // Use dynamic profile name instead of hardcoded 'Kai' /* added for Profile module — see SRS.md §6.1 */
+  const name = state.profileName || 'Kai';
+
   return `
     <div class="hero-card">
       <div class="streak-badge" style="color: ${color}; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; font-weight: 700;">
         <i data-lucide="${icon}"></i>
         <span>${state.streak}-Day Streak: ${badgeName}</span>
       </div>
-      <h1>Hi Kai. Build one safer habit today.</h1>
+      <h1>Hi ${name}. Build one safer habit today.</h1>
       <div class="progress-strip">
         <span style="width:${p * 25}%"></span>
       </div>

@@ -1,5 +1,13 @@
 /* Profile screen: private progress, calendar, badges, and settings. */
 
+function getAnimClass(delay) {
+  // Only animate sections on first entry to the profile tab.
+  // If .profile-hero already exists, we're re-rendering within the same tab
+  // (button click, filter, etc.) — skip animation to avoid jarring flash.
+  const isFirstEntry = !document.querySelector('.profile-hero');
+  return isFirstEntry ? `profile-animate" style="--delay: ${delay}` : `profile-no-anim`;
+}
+
 /* --- Wrapped: live computed stats from state --- */
 function getWrappedStats(s) {
   const quizCount = Object.keys(s.quizAnswers || {}).length;
@@ -116,7 +124,7 @@ function achievementsHTML() {
     </button>` : '';
 
   return `
-    <div class="card achievements-card profile-animate" style="--delay: 0.25s">
+    <div class="card achievements-card ${getAnimClass('0.25s')}">
       <div class="achievements-head">
         <span class="eyebrow"><i data-lucide="award"></i> Achievements</span>
         <span class="achv-count">${earned}/${total} unlocked</span>
@@ -163,11 +171,7 @@ function handleAvatarFileSelect(input) {
 
 /* --- Main profile screen render --- */
 function profileHTML() {
-  // Only animate sections on first entry to the profile tab.
-  // If .profile-hero already exists, we're re-rendering within the same tab
-  // (button click, filter, etc.) — skip animation to avoid jarring flash.
-  const isFirstEntry = !document.querySelector('.profile-hero');
-  const anim = (delay) => isFirstEntry ? `profile-animate" style="--delay: ${delay}` : `profile-no-anim`;
+  const anim = getAnimClass;
   const dows = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
     .map((d) => `<span class="cal-dow">${d}</span>`).join('');
 
@@ -424,7 +428,7 @@ function profileHTML() {
         </div>
       </div>
 
-      ${editModalHTML}
-      ${shareModalHTML}
-    </div>`;
+    </div>
+    ${editModalHTML}
+    ${shareModalHTML}`;
 }
