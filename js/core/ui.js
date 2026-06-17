@@ -476,7 +476,7 @@ const TRANSLATIONS = {
   "All data deleted. Reset to Today.": "Na-delete ang lahat ng data. I-reset sa Ngayon.",
   "Advocacy story template ready": "Handa na ang template ng advocacy story",
   "Application restarted": "Na-restart ang application",
-  "Reset to Day 1 state": "I-reset sa estado ng Araw 1",
+  "Reset to Day 7 state": "I-reset sa estado ng Araw 7",
   "Simulated Day 20+ state loaded!": "Na-load ang kunwaring estado ng Araw 20+!",
   "Saving Impact Card to device...": "Inililigtas ang Impact Card sa device...",
   "Image saved successfully!": "Matagumpay na nai-save ang larawan!",

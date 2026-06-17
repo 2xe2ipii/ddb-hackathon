@@ -50,7 +50,7 @@ function updateDemoButtonUI() {
   const isDay20 = state.streak >= 20;
   const textEl = document.getElementById('demoStateText');
   if (textEl) {
-    textEl.innerText = isDay20 ? 'Day 20+ View' : 'Day 1 View';
+    textEl.innerText = isDay20 ? 'Day 20+ View' : 'Day 7 View';
   }
 }
 
@@ -694,7 +694,7 @@ function initApp() {
       stopQuizTimer();
       if (typeof stopBreathing === 'function') stopBreathing();
       render();
-      setTimeout(() => toast('rotate-ccw', 'Reset to Day 1 state'), 300);
+      setTimeout(() => toast('rotate-ccw', 'Reset to Day 7 state'), 300);
     } else {
       // Switch to Day 20+ View
       const prevUnlocked = snapshotAchievements();
