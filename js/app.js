@@ -467,6 +467,26 @@ function handleAppClick(e) {
       setTimeout(() => toast('badge-check', 'Profile updated!'), 200);
       break;
     }
+
+    case 'switch-community-tab': {
+      state.communityTab = el.dataset.tab;
+      render();
+      break;
+    }
+
+    case 'open-event-info': {
+      state.eventModalOpen = el.dataset.event;
+      render();
+      break;
+    }
+
+    case 'close-event-info': {
+      if (e.target === el || el.dataset.action === 'close-event-info') {
+        state.eventModalOpen = null;
+        render();
+      }
+      break;
+    }
   }
 }
 
