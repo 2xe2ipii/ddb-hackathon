@@ -90,10 +90,7 @@ function handleAppClick(e) {
       render();
       break;
 
-    case 'toggle-badge-hint':
-      state.profileBadgeOpen = state.profileBadgeOpen === el.dataset.badge ? null : el.dataset.badge;
-      render();
-      break;
+    /* case 'toggle-badge-hint' removed — Achievements module spec A.2 */
 
     case 'answer-myth': {
       const prevUnlocked = snapshotAchievements();
