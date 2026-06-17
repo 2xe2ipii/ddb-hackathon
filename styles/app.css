@@ -2887,3 +2887,766 @@
   border-color: var(--line);
   color: var(--muted);
 }
+
+/* =====================================================
+   PROFILE & ACHIEVEMENTS ENHANCEMENTS — see implementation_plan.md
+   ===================================================== */
+
+/* Category Gradients for Badges */
+.badge-icon.cat-streak {
+  background: linear-gradient(135deg, #ff9966, #ff5e62) !important;
+  color: #ffffff !important;
+}
+.badge-icon.cat-learn {
+  background: linear-gradient(135deg, #45c4b0, #1b2a47) !important;
+  color: #ffffff !important;
+}
+.badge-icon.cat-mental {
+  background: linear-gradient(135deg, #a78bfa, #6366f1) !important;
+  color: #ffffff !important;
+}
+.badge-icon.cat-community {
+  background: linear-gradient(135deg, #6e8fb5, #2B8CC4) !important;
+  color: #ffffff !important;
+}
+
+/* Settings & Privacy List Layout */
+.settings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: transform 0.1s ease, background 0.15s ease;
+  text-align: left;
+}
+
+.settings-row:active {
+  transform: scale(0.98);
+  background: var(--card-2);
+}
+
+.settings-row.btn-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.settings-row.btn-disabled:active {
+  transform: none;
+  background: var(--surface);
+}
+
+.settings-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-label svg {
+  width: 18px;
+  height: 18px;
+  color: var(--teal);
+}
+
+.settings-value {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.settings-badge {
+  font-size: 10px;
+  font-weight: 850;
+  padding: 3px 9px;
+  border-radius: 100px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.badge-green {
+  background: rgba(69, 196, 176, 0.15);
+  color: var(--teal);
+}
+
+.badge-danger {
+  background: rgba(218, 41, 62, 0.15);
+  color: var(--red, #da293e);
+}
+
+.badge-teal {
+  background: var(--teal-soft);
+  color: var(--teal);
+}
+
+.badge-muted {
+  background: var(--line);
+  color: var(--muted);
+}
+
+/* Accessibility Text Scaling */
+body.text-size-small { font-size: 13px; }
+body.text-size-medium { font-size: 15px; }
+body.text-size-large { font-size: 17px; }
+
+body.text-size-small h1 { font-size: 18px; }
+body.text-size-large h1 { font-size: 26px; }
+body.text-size-small h2 { font-size: 15px; }
+body.text-size-large h2 { font-size: 22px; }
+body.text-size-small .card-title { font-size: 14px; }
+body.text-size-large .card-title { font-size: 19px; }
+body.text-size-small .settings-row { padding: 10px 14px; font-size: 12.5px; }
+body.text-size-large .settings-row { padding: 14px 18px; font-size: 14.5px; }
+
+/* Accessibility Colorblind-Mode Palette overrides */
+body.colorblind-mode {
+  --teal: #33b0ff !important;
+  --teal-soft: rgba(51, 176, 255, 0.15) !important;
+  --blue: #56B4E9 !important;
+  --yellow: #F0E442 !important;
+  --red: #D55E00 !important;
+}
+
+/* Colorblind Calendar cell contrast changes */
+body.colorblind-mode .cal-day.m1 { background: rgba(86, 165, 175, 0.16) !important; }
+body.colorblind-mode .cal-day.m2 { background: rgba(86, 180, 233, 0.28) !important; }
+body.colorblind-mode .cal-day.m3 { background: rgba(0, 114, 178, 0.45) !important; }
+body.colorblind-mode .cal-day.m4 { background: rgba(213, 94, 0, 0.6) !important; }
+body.colorblind-mode .cal-day.m5 { background: rgba(240, 228, 66, 0.85) !important; color: #000 !important; }
+
+/* Mood Calendar Legend Filters */
+.card-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.btn-clear-filter {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 750;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.btn-clear-filter:hover {
+  background: var(--line);
+  color: var(--text);
+}
+
+.btn-clear-filter svg {
+  width: 13px;
+  height: 13px;
+}
+
+.cal-legend {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.legend-text {
+  text-transform: uppercase;
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+}
+
+.legend-swatches {
+  display: flex;
+  gap: 6px;
+}
+
+.legend-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  border: 1.5px solid transparent;
+}
+
+.legend-swatch:hover {
+  transform: scale(1.15);
+}
+
+.legend-swatch.active {
+  transform: scale(1.25);
+  border-color: var(--text);
+  box-shadow: 0 0 8px var(--teal);
+}
+
+.swatch-m1 { background: rgba(110, 143, 181, 0.18); }
+.swatch-m2 { background: rgba(86, 165, 175, 0.24); }
+.swatch-m3 { background: rgba(69, 196, 176, 0.32); }
+.swatch-m4 { background: rgba(69, 196, 176, 0.55); }
+.swatch-m5 { background: var(--teal); }
+
+body.colorblind-mode .swatch-m1 { background: rgba(86, 180, 233, 0.2) !important; }
+body.colorblind-mode .swatch-m2 { background: rgba(86, 180, 233, 0.4) !important; }
+body.colorblind-mode .swatch-m3 { background: rgba(0, 114, 178, 0.6) !important; }
+body.colorblind-mode .swatch-m4 { background: rgba(213, 94, 0, 0.7) !important; }
+body.colorblind-mode .swatch-m5 { background: rgba(240, 228, 66, 1.0) !important; }
+
+/* Calendar Filter highlighting & dimming */
+.cal-day {
+  transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.cal-day.dimmed {
+  opacity: 0.15;
+  transform: scale(0.9);
+  pointer-events: none;
+}
+
+.cal-day.highlighted {
+  transform: scale(1.15);
+  box-shadow: 0 0 12px var(--teal);
+  border-color: var(--teal) !important;
+  z-index: 5;
+  font-weight: 900;
+}
+
+/* Edit Profile Header Styles */
+.profile-info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.profile-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-icon-edit {
+  background: var(--teal-soft);
+  border: 1px solid rgba(69, 196, 176, 0.25);
+  color: var(--teal);
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+
+.btn-icon-edit:active {
+  transform: scale(0.9);
+}
+
+.btn-icon-edit svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Wrapped header and Share trigger */
+.wrapped-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.btn-share-wrapped {
+  background: var(--teal-soft);
+  border: 1px solid rgba(69, 196, 176, 0.25);
+  color: var(--teal);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+
+.btn-share-wrapped:active {
+  transform: scale(0.9);
+}
+
+.btn-share-wrapped svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Share Story Modal */
+.share-modal-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(11, 18, 32, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: fade-in 0.25s ease;
+}
+
+.share-modal-content {
+  width: 100%;
+  max-height: 90%;
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  animation: slide-up 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.share-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 800;
+  font-size: 15.5px;
+  color: var(--text);
+}
+
+.btn-close-share {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--muted);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.story-preview-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 0;
+}
+
+.story-card {
+  position: relative;
+  width: 280px;
+  height: 440px;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #0e1829 0%, #060a12 100%);
+  border: 1.5px solid rgba(69, 196, 176, 0.25);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+}
+
+.story-bg-circles {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.sc-1 {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--teal-soft) 0%, transparent 70%);
+  top: -40px;
+  right: -60px;
+}
+
+.sc-2 {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--blue-soft) 0%, transparent 70%);
+  bottom: -40px;
+  left: -60px;
+}
+
+.story-header {
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.story-logo {
+  font-size: 17px;
+  font-weight: 950;
+  letter-spacing: 0.1em;
+  color: var(--teal);
+  text-shadow: 0 0 8px var(--teal-soft);
+}
+
+.story-subtitle {
+  font-size: 8px;
+  font-weight: 800;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  margin-top: 1px;
+}
+
+.story-user {
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.story-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--teal);
+  background: linear-gradient(135deg, #1d3a52, #14443e);
+  color: var(--teal);
+  font-weight: 900;
+  font-size: 15px;
+  display: grid;
+  place-items: center;
+}
+
+.story-user h3 {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.story-user p {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 1px;
+}
+
+.story-stats-grid {
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.story-stat-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ss-val {
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--teal);
+}
+
+.ss-label {
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-top: 1px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.story-quote {
+  z-index: 1;
+  font-size: 11px;
+  font-style: italic;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  line-height: 1.4;
+  border-top: 1px dashed var(--line);
+  border-bottom: 1px dashed var(--line);
+  padding: 10px 0;
+}
+
+.story-footer {
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+
+.story-footer p {
+  font-size: 9px;
+  color: var(--muted);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.story-footer small {
+  font-size: 7px;
+  color: var(--faint);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.share-actions-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+}
+
+.btn-share-story {
+  background: rgba(135, 92, 255, 0.12) !important;
+  border: 1px solid rgba(135, 92, 255, 0.25) !important;
+  color: #c0abff !important;
+}
+
+/* Edit Profile Modal Dialog Inner layout */
+.edit-profile-content {
+  gap: 16px;
+  border-radius: var(--r-lg);
+  margin-bottom: auto;
+  margin-top: auto;
+  width: calc(100% - 40px);
+  max-width: 340px;
+}
+
+.edit-profile-form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.form-label {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+
+.form-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 700;
+  margin-top: 6px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.form-input:focus {
+  border-color: var(--teal);
+}
+
+.edit-profile-actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.edit-profile-actions .btn {
+  flex: 1;
+}
+
+/* =====================================================
+   LIGHT THEME OVERRIDES
+   ===================================================== */
+.light-theme .settings-row {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--text);
+}
+
+.light-theme .settings-row:active {
+  background: var(--card-2);
+}
+
+.light-theme .badge-green {
+  background: rgba(15, 118, 110, 0.08);
+  color: var(--teal);
+}
+
+.light-theme .badge-danger {
+  background: rgba(218, 41, 62, 0.1);
+  color: var(--red);
+}
+
+.light-theme .badge-teal {
+  background: var(--teal-soft);
+  color: var(--teal);
+}
+
+.light-theme .badge-muted {
+  background: var(--line);
+  color: var(--muted);
+}
+
+.light-theme .legend-swatch.active {
+  border-color: var(--text);
+  box-shadow: 0 0 8px var(--teal);
+}
+
+.light-theme .story-card {
+  background: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%);
+  border-color: rgba(85, 149, 154, 0.25);
+}
+
+.light-theme .story-stat-box {
+  background: rgba(15, 23, 42, 0.03);
+  border-color: rgba(15, 23, 42, 0.05);
+}
+
+.light-theme .story-user h3 {
+  color: #0f172a;
+}
+
+.light-theme .story-quote {
+  color: #0f172a;
+  border-color: var(--line);
+}
+
+.light-theme .story-avatar {
+  background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+  color: var(--teal);
+}
+
+.light-theme .btn-icon-edit {
+  background: var(--teal-soft);
+  border-color: rgba(85, 149, 154, 0.25);
+  color: var(--teal);
+}
+
+.light-theme .btn-share-wrapped {
+  background: var(--teal-soft);
+  border-color: rgba(85, 149, 154, 0.25);
+  color: var(--teal);
+}
+
+.light-theme .form-input {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--text);
+}
+
+/* Modal Open state: prevents scrolling of background screen */
+.screen.modal-open {
+  overflow: hidden !important;
+}
+
+/* Edit Avatar Upload section in Edit Profile modal */
+.edit-avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  z-index: 1;
+}
+
+.edit-avatar-preview {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 2px solid var(--teal);
+  background: linear-gradient(135deg, #1d3a52, #14443e);
+  color: var(--teal);
+  font-weight: 900;
+  font-size: 20px;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.light-theme .edit-avatar-preview {
+  background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+  color: var(--teal);
+}
+
+/* Thin native-style scrollbar for overflowed screens
+   added for Profile/Accessibility module — see implementation_plan.md */
+.screen::-webkit-scrollbar,
+.breathe-screen::-webkit-scrollbar {
+  width: 5px !important;
+  height: 5px !important;
+}
+
+.screen::-webkit-scrollbar-track,
+.breathe-screen::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.screen::-webkit-scrollbar-thumb,
+.breathe-screen::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18) !important;
+  border-radius: 99px !important;
+}
+
+.screen::-webkit-scrollbar-thumb:hover,
+.breathe-screen::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3) !important;
+}
+
+.light-theme .screen::-webkit-scrollbar-thumb,
+.light-theme .breathe-screen::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.15) !important;
+}
+
+.light-theme .screen::-webkit-scrollbar-thumb:hover,
+.light-theme .breathe-screen::-webkit-scrollbar-thumb:hover {
+  background: rgba(15, 23, 42, 0.25) !important;
+}

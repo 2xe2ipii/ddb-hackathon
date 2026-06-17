@@ -30,7 +30,15 @@ var defaultState = {
   achievementsExpanded: false,
   sessionMythIds: [],
   sessionQuizIds: [],
-  todayMythId: null
+  todayMythId: null,
+  textSize: 'medium', /* added for Accessibility enhancements — see implementation_plan.md */
+  colorblindMode: false, /* added for Accessibility enhancements — see implementation_plan.md */
+  profileName: 'Kai', /* added for Profile enhancements — see implementation_plan.md */
+  profileAge: 17, /* added for Profile enhancements — see implementation_plan.md */
+  profilePic: null, /* added for Profile enhancements — see implementation_plan.md */
+  shareModalOpen: false, /* added for Profile sharing — see implementation_plan.md */
+  profileEditing: false, /* added for Profile enhancements — see implementation_plan.md */
+  selectedMoodFilter: null /* added for Mood calendar filters — see implementation_plan.md */
 };
 
 function loadState() {

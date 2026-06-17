@@ -307,6 +307,7 @@ function handleAppClick(e) {
     }
 
     case 'delete-data':
+      /* added for Profile/Achievements module — see implementation_plan.md */
       if (confirm("Are you sure you want to delete all your data? This will reset your streak and achievements.")) {
         Object.assign(state, defaultState);
         state.launched = true;
@@ -329,6 +330,8 @@ function handleAppClick(e) {
         localStorage.removeItem('ddb_state');
 
         document.body.classList.remove('light-theme');
+        applyTextSizeClass();
+        applyColorblindClass();
         stopQuizTimer();
         if (typeof stopBreathing === 'function') stopBreathing();
 
@@ -345,6 +348,109 @@ function handleAppClick(e) {
     case 'share-ig':
       toast('instagram', 'Advocacy story template ready');
       break;
+
+    case 'toggle-text-size':
+      /* added for Profile/Accessibility module — see implementation_plan.md */
+      if (state.textSize === 'medium' || !state.textSize) {
+        state.textSize = 'large';
+      } else if (state.textSize === 'large') {
+        state.textSize = 'small';
+      } else {
+        state.textSize = 'medium';
+      }
+      applyTextSizeClass();
+      render();
+      break;
+
+    case 'toggle-colorblind':
+      /* added for Profile/Accessibility module — see implementation_plan.md */
+      state.colorblindMode = !state.colorblindMode;
+      applyColorblindClass();
+      render();
+      break;
+
+    case 'open-share-impact':
+      /* added for Profile/Achievements module — see implementation_plan.md */
+      state.shareModalOpen = true;
+      render();
+      break;
+
+    case 'close-share-overlay':
+      /* added for Profile/Achievements module — see implementation_plan.md */
+      if (e.target === el) {
+        state.shareModalOpen = false;
+        render();
+      }
+      break;
+
+    case 'close-share-impact':
+      /* added for Profile/Achievements module — see implementation_plan.md */
+      state.shareModalOpen = false;
+      render();
+      break;
+
+    case 'save-story-image':
+      /* added for Profile/Achievements module — see implementation_plan.md */
+      toast('download', 'Saving Impact Card to device...');
+      setTimeout(() => toast('badge-check', 'Image saved successfully!'), 1200);
+      break;
+
+    case 'share-story-instagram':
+      /* added for Profile/Achievements module — see implementation_plan.md */
+      toast('instagram', 'Opening Instagram Stories...');
+      setTimeout(() => toast('sparkles', 'Story template shared!'), 1000);
+      break;
+
+    case 'toggle-mood-filter': {
+      /* added for Profile/Achievements module — see implementation_plan.md */
+      const mood = el.dataset.mood;
+      state.selectedMoodFilter = state.selectedMoodFilter === mood ? null : mood;
+      render();
+      break;
+    }
+
+    case 'clear-mood-filter':
+      /* added for Profile/Achievements module — see implementation_plan.md */
+      state.selectedMoodFilter = null;
+      render();
+      break;
+
+    case 'edit-profile':
+      /* added for Profile/Achievements module — see implementation_plan.md */
+      state.profileEditing = true;
+      render();
+      break;
+
+    case 'close-edit-profile':
+      /* added for Profile/Achievements module — see implementation_plan.md */
+      delete window.tempProfilePic;
+      state.profileEditing = false;
+      render();
+      break;
+
+    case 'save-edit-profile': {
+      /* added for Profile/Achievements module — see implementation_plan.md */
+      const nameVal = document.getElementById('editNameInput').value.trim();
+      const ageVal = parseInt(document.getElementById('editAgeInput').value.trim(), 10);
+      if (nameVal.length === 0) {
+        toast('user', 'Name cannot be empty');
+        return;
+      }
+      if (isNaN(ageVal) || ageVal < 1 || ageVal > 120) {
+        toast('user', 'Please enter a valid age (1-120)');
+        return;
+      }
+      state.profileName = nameVal;
+      state.profileAge = ageVal;
+      if (window.tempProfilePic) {
+        state.profilePic = window.tempProfilePic;
+        delete window.tempProfilePic;
+      }
+      state.profileEditing = false;
+      render();
+      setTimeout(() => toast('badge-check', 'Profile updated!'), 200);
+      break;
+    }
   }
 }
 
@@ -369,6 +475,8 @@ function initApp() {
   } else {
     document.body.classList.remove('light-theme');
   }
+  applyTextSizeClass(); /* added for Accessibility enhancements — see implementation_plan.md */
+  applyColorblindClass(); /* added for Accessibility enhancements — see implementation_plan.md */
   initDeviceFrame();
   app.addEventListener('click', handleAppClick);
 
@@ -448,6 +556,8 @@ function initApp() {
     localStorage.removeItem('ddb_state');
 
     document.body.classList.remove('light-theme');
+    applyTextSizeClass(); /* added for Accessibility enhancements — see implementation_plan.md */
+    applyColorblindClass(); /* added for Accessibility enhancements — see implementation_plan.md */
     stopQuizTimer();
     if (typeof stopBreathing === 'function') stopBreathing();
     render();
@@ -492,6 +602,8 @@ function initApp() {
       localStorage.removeItem('ddb_state');
 
       document.body.classList.remove('light-theme');
+      applyTextSizeClass(); /* added for Accessibility enhancements — see implementation_plan.md */
+      applyColorblindClass(); /* added for Accessibility enhancements — see implementation_plan.md */
       stopQuizTimer();
       if (typeof stopBreathing === 'function') stopBreathing();
       render();
@@ -595,5 +707,21 @@ setInterval(() => {
     }, 500);
   }
 }, 7000);
+
+function applyTextSizeClass() {
+  /* added for Accessibility enhancements — see implementation_plan.md */
+  document.body.classList.remove('text-size-small', 'text-size-medium', 'text-size-large');
+  const size = state.textSize || 'medium';
+  document.body.classList.add('text-size-' + size);
+}
+
+function applyColorblindClass() {
+  /* added for Accessibility enhancements — see implementation_plan.md */
+  if (state.colorblindMode) {
+    document.body.classList.add('colorblind-mode');
+  } else {
+    document.body.classList.remove('colorblind-mode');
+  }
+}
 
 initApp();
