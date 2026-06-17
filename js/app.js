@@ -415,6 +415,14 @@ function handleAppClick(e) {
       render();
       break;
 
+    case 'filter-achievement-category':
+      /* added for Profile/Achievements module — see implementation_plan.md */
+      const cat = el.dataset.cat;
+      state.achievementCategoryFilter = (cat === 'all' || state.achievementCategoryFilter === cat) ? null : cat;
+      state.achievementsExpanded = false; // reset expand when changing filter
+      render();
+      break;
+
     case 'edit-profile':
       /* added for Profile/Achievements module — see implementation_plan.md */
       state.profileEditing = true;
