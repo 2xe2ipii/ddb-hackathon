@@ -672,7 +672,7 @@ function initApp() {
     } else {
       // Switch to Day 20+ View
       const prevUnlocked = snapshotAchievements();
-      state.streak = 25;
+      state.streak = 20;
       state.journalDaysCount = 7;
       state.journalDone = true;
       state.relaxCheckinState = 'completed';

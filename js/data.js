@@ -316,7 +316,7 @@ const EVENTS = [
 const PROGRESS_BADGES = [
   { icon: 'shield', grad: 'g1', name: 'Base Shield', desc: 'First mission', locked: false },
   { icon: 'scale', grad: 'g2', name: 'Golden Scales', desc: '7-day streak', locked: false },
-  { icon: 'sword', grad: 'g3', name: 'Sword of Truth', desc: 'Debunked 20 myths', locked: false },
+  { icon: 'sword', grad: 'g3', name: 'Sword of Truth', desc: '20-day streak', locked: false },
   { icon: 'flame', grad: 'g4', name: 'Flame of Clarity', desc: '30-day badge', locked: true },
 ];
 
