@@ -1,5 +1,37 @@
 /* Profile screen: private progress, calendar, badges, and settings. */
 
+function achievementsHTML() {
+  const unlockedIds = getUnlockedIds(state);
+  const total = ACHIEVEMENTS.length;
+  const earned = unlockedIds.size;
+
+  const cards = ACHIEVEMENTS.map((a) => {
+    const unlocked = unlockedIds.has(a.id);
+    const isOpen = state.profileBadgeOpen === a.id;
+    return `
+      <div class="badge ${unlocked ? '' : 'locked'} ${isOpen ? 'badge-open' : ''}" data-action="toggle-badge-hint" data-badge="${a.id}">
+        <span class="badge-icon ${a.grad}">
+          <i data-lucide="${unlocked ? a.icon : 'lock'}"></i>
+        </span>
+        <span>
+          <b>${a.name}</b>
+          <small>${unlocked ? a.desc : (isOpen ? getAchievementHint(a, state) : 'Locked - tap to see how')}</small>
+        </span>
+        ${unlocked ? '<i data-lucide="check" class="badge-earned-tick"></i>' : ''}
+      </div>`;
+  }).join('');
+
+  return `
+    <div class="card achievements-card">
+      <div class="achievements-head">
+        <span class="eyebrow"><i data-lucide="award"></i> Achievements</span>
+        <span class="achv-count">${earned}/${total} unlocked</span>
+      </div>
+      <div class="card-title">Progress</div>
+      <div class="badge-row">${cards}</div>
+    </div>`;
+}
+
 function profileHTML() {
   const dows = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
     .map((d) => `<span class="cal-dow">${d}</span>`).join('');
@@ -17,11 +49,7 @@ function profileHTML() {
     cells += `<span class="${cls}">${day}</span>`;
   }
 
-  const badges = PROGRESS_BADGES.map((b) => `
-    <div class="badge ${b.locked ? 'locked' : ''}">
-      <span class="badge-icon ${b.grad}"><i data-lucide="${b.icon}"></i></span>
-      <span><b>${b.name}</b><small>${b.desc}</small></span>
-    </div>`).join('');
+  const unlockedIds = getUnlockedIds(state);
 
   return `
     <div class="screen">
@@ -44,7 +72,7 @@ function profileHTML() {
           <div class="seal-lockup">
             <span>DDB</span><span>Region IV-A</span><span>IDADAIT 2026</span>
           </div>
-          <h2>Golden Scales unlocked</h2>
+          <h2>${unlockedIds.size}/${ACHIEVEMENTS.length} badges earned</h2>
           <p>${state.streak}-day streak.</p>
         </div>
       </div>
@@ -64,11 +92,7 @@ function profileHTML() {
         </div>
       </div>
 
-      <div class="card">
-        <span class="eyebrow"><i data-lucide="award"></i> Achievements</span>
-        <div class="card-title">Progress</div>
-        <div class="badge-row">${badges}</div>
-      </div>
+      ${achievementsHTML()}
 
       <div class="privacy-controls">
         <button><i data-lucide="smartphone"></i> Local journal storage</button>

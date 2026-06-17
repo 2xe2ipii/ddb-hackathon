@@ -33,6 +33,15 @@ function render() {
   if (typeof saveState === 'function') saveState();
 }
 
+/* Snapshot the unlocked-badge set before a state mutation that could
+   earn a new achievement, then diff it after to fire unlock toasts. */
+function snapshotAchievements() {
+  return (typeof getUnlockedIds === 'function') ? getUnlockedIds(state) : new Set();
+}
+function reportAchievements(prevUnlocked) {
+  if (typeof checkAchievements === 'function') checkAchievements(prevUnlocked, state);
+}
+
 function handleAppClick(e) {
   const el = e.target.closest('[data-action]');
   if (!el) return;
@@ -71,7 +80,13 @@ function handleAppClick(e) {
       render();
       break;
 
+    case 'toggle-badge-hint':
+      state.profileBadgeOpen = state.profileBadgeOpen === el.dataset.badge ? null : el.dataset.badge;
+      render();
+      break;
+
     case 'answer-myth': {
+      const prevUnlocked = snapshotAchievements();
       const mythId = el.dataset.id;
       state.mythAnswers[mythId] = el.dataset.answer;
       render();
@@ -79,6 +94,7 @@ function handleAppClick(e) {
       if (card && state.mythAnswers[mythId] === card.answer) {
         setTimeout(() => toast('badge-check', 'Knowledge step completed'), 250);
       }
+      reportAchievements(prevUnlocked);
       break;
     }
 
@@ -96,10 +112,13 @@ function handleAppClick(e) {
       render();
       break;
 
-    case 'next-myth':
+    case 'next-myth': {
+      const prevUnlocked = snapshotAchievements();
       state.mythFlowIndex++;
       render();
+      reportAchievements(prevUnlocked);
       break;
+    }
 
     case 'close-myth-flow':
       state.mythOpened = false;
@@ -149,27 +168,33 @@ function handleAppClick(e) {
         toast('feather', 'Even three words count - give it a try');
         return;
       }
+      const prevUnlocked = snapshotAchievements();
       state.reflection = txt;
       if (!state.journalDone) {
         state.journalDone = true;
+        state.journalDaysCount = (state.journalDaysCount || 0) + 1;
         state.streak += 1;
         setTimeout(() => toast('flame', `Current streak: ${state.streak} days`), 300);
       } else {
         setTimeout(() => toast('feather', 'Reflection updated'), 300);
       }
       render();
+      reportAchievements(prevUnlocked);
       break;
     }
 
     case 'answer-quiz': {
+      const prevUnlocked = snapshotAchievements();
       const quizId = el.dataset.id || QUIZ[state.quizFlowIndex].id;
       state.quizAnswers[quizId] = Number(el.dataset.index);
       stopQuizTimer();
       render();
+      reportAchievements(prevUnlocked);
       break;
     }
 
     case 'next-quiz': {
+      const prevUnlocked = snapshotAchievements();
       state.quizFlowIndex++;
       if (state.quizFlowIndex < 5) {
         startQuizTimer();
@@ -177,6 +202,7 @@ function handleAppClick(e) {
         setTimeout(() => toast('badge-check', 'Daily quiz finished'), 250);
       }
       render();
+      reportAchievements(prevUnlocked);
       break;
     }
 
@@ -191,17 +217,18 @@ function handleAppClick(e) {
       render();
       break;
 
-    case 'answer-checkin':
+    case 'answer-checkin': {
+      const prevUnlocked = snapshotAchievements();
       const score = parseInt(el.dataset.score, 10);
       state.relaxCheckinAnswers[state.relaxCheckinIndex] = score;
-      
+
       // Auto advance
       if (state.relaxCheckinIndex < 3) {
         state.relaxCheckinIndex++;
       } else {
         // finished
         state.relaxCheckinState = 'completed';
-        
+
         // Calculate score and assign exercise
         let total = 0;
         for (let i = 0; i < 4; i++) {
@@ -218,7 +245,9 @@ function handleAppClick(e) {
         }
       }
       render();
+      reportAchievements(prevUnlocked);
       break;
+    }
 
     case 'retake-checkin':
       state.relaxCheckinState = 'not_started';
@@ -248,18 +277,22 @@ function handleAppClick(e) {
       break;
 
     case 'save-resource': {
+      const prevUnlocked = snapshotAchievements();
       state.savedSupport.add(el.dataset.resource);
       render();
       setTimeout(() => toast('bookmark-check', 'Support resource saved'), 220);
+      reportAchievements(prevUnlocked);
       break;
     }
 
     case 'register': {
       const id = el.dataset.event;
       if (state.registered.has(id)) return;
+      const prevUnlocked = snapshotAchievements();
       state.registered.add(id);
       render();
       setTimeout(() => toast('ticket', 'Registered'), 250);
+      reportAchievements(prevUnlocked);
       break;
     }
 
@@ -296,7 +329,7 @@ function initApp() {
   app.addEventListener('pointerdown', (e) => {
     const card = e.target.closest('.myth-card[data-swipeable="true"]');
     if (!card || e.target.closest('button')) return;
-    
+
     swipeState.isDragging = true;
     swipeState.startX = e.clientX;
     swipeState.currentX = e.clientX;
@@ -317,24 +350,26 @@ function initApp() {
   const endSwipe = (e) => {
     if (!swipeState.isDragging || !swipeState.cardEl) return;
     swipeState.isDragging = false;
-    
+
     const deltaX = swipeState.currentX - swipeState.startX;
     const threshold = 100;
-    
+
     if (Math.abs(deltaX) > threshold) {
+      const prevUnlocked = snapshotAchievements();
       const answer = deltaX > 0 ? 'fact' : 'myth';
       state.mythAnswers[swipeState.mythId] = answer;
-      
+
       swipeState.cardEl.style.transition = 'transform 0.3s ease-out, opacity 0.3s ease-out';
       swipeState.cardEl.style.transform = `translateX(${deltaX > 0 ? 300 : -300}px) rotate(${deltaX * 0.1}deg)`;
       swipeState.cardEl.style.opacity = '0';
-      
+
       setTimeout(() => {
         render();
         const mCard = MYTH_CARDS.find(m => m.id === swipeState.mythId);
         if (mCard && answer === mCard.answer) {
           setTimeout(() => toast('badge-check', 'Knowledge step completed'), 250);
         }
+        reportAchievements(prevUnlocked);
       }, 300);
     } else {
       swipeState.cardEl.style.transition = 'transform 0.3s ease-out';
@@ -353,6 +388,7 @@ function initApp() {
     state.savedSupport = new Set();
     state.mythAnswers = {};
     state.quizAnswers = {};
+    state.journalDaysCount = 0;
     state.relaxCheckinState = 'not_started';
     state.relaxCheckinAnswers = {};
     state.relaxCheckinIndex = 0;
@@ -363,13 +399,13 @@ function initApp() {
     const availableMythsRestart = MYTH_CARDS.filter(m => !state.sessionMythIds.includes(m.id));
     state.todayMythId = availableMythsRestart.length > 0 ? availableMythsRestart[Math.floor(Math.random() * availableMythsRestart.length)].id : MYTH_CARDS[0].id;
     localStorage.removeItem('ddb_state');
-    
+
     document.body.classList.remove('light-theme');
     stopQuizTimer();
     if (typeof stopBreathing === 'function') stopBreathing();
     render();
     setTimeout(() => toast('rotate-ccw', 'Application restarted'), 300);
-    
+
     const fabMenu = document.getElementById('fabMenu');
     if (fabMenu) fabMenu.classList.remove('open');
   };
@@ -400,7 +436,7 @@ function startQuizTimer() {
   state.quizTimeLeft = 10;
   quizTimer = setInterval(() => {
     state.quizTimeLeft--;
-    
+
     const ht = document.getElementById('header-timer-text');
     if (ht) {
       ht.innerText = `0:${state.quizTimeLeft.toString().padStart(2, '0')}`;

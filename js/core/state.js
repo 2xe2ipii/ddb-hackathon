@@ -11,6 +11,7 @@ var defaultState = {
   quizTimeLeft: 10,
   learnMode: 'myth',
   journalDone: false,
+  journalDaysCount: 0,
   reflection: '',
   streak: 7,
   registered: new Set(),
@@ -25,6 +26,7 @@ var defaultState = {
   relaxSelectedExercise: 'box', // 'box', '478', 'coherent'
   relaxToolkitOpen: null,
   expandedQuest: null,
+  profileBadgeOpen: null,
   sessionMythIds: [],
   sessionQuizIds: [],
   todayMythId: null
@@ -39,7 +41,7 @@ function loadState() {
       if (parsed.savedSupport) parsed.savedSupport = new Set(parsed.savedSupport);
       if (parsed.tab === 'breathe') parsed.tab = 'relax';
       return Object.assign({}, defaultState, parsed);
-    } catch(e) {
+    } catch (e) {
       console.error('Failed to load state', e);
     }
   }
