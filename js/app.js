@@ -354,7 +354,15 @@ function handleAppClick(e) {
       break;
 
     case 'share-ig':
-      toast('instagram', 'Advocacy story template ready');
+      state.igStoryModalOpen = true;
+      render();
+      break;
+
+    case 'close-ig-story':
+      if (e.target === el || el.dataset.action === 'close-ig-story') {
+        state.igStoryModalOpen = false;
+        render();
+      }
       break;
 
     case 'toggle-text-size':
