@@ -111,10 +111,24 @@ function achievementsHTML(unlockedIds) {
           </div>`;
       }
     }
+
+    let badgeIconContent = `<i data-lucide="${a.icon}"></i>`;
+    if (a.category === 'streak') {
+      let assetPath = '';
+      if (a.id === 'base-shield') assetPath = 'assets/streak_base_shield.png';
+      else if (a.id === 'golden-scales') assetPath = 'assets/streak_golden_scales.png';
+      else if (a.id === 'sword-of-truth') assetPath = 'assets/streak_sword_of_truth.png';
+      else if (a.id === 'flame-of-clarity') assetPath = 'assets/streak_flame_of_clarity.png';
+
+      if (assetPath) {
+        badgeIconContent = `<img src="${assetPath}" class="badge-icon-img" alt="${a.name}" />`;
+      }
+    }
+
     return `
       <div class="badge ${unlocked ? 'badge-earned' : 'locked'}">
         <span class="badge-icon ${a.grad}">
-          <i data-lucide="${a.icon}"></i>
+          ${badgeIconContent}
         </span>
         <span class="badge-text-col">
           <b>${a.name}</b>
@@ -254,7 +268,17 @@ function profileHTML() {
   const avatarContent = state.profilePic ? '' : initials;
 
   // Streak chip
-  const streakChip = `<span class="profile-streak-chip"><i data-lucide="flame"></i>${state.streak}d</span>`;
+  let streakTierClass = '';
+  if (state.streak >= 30) {
+    streakTierClass = 'streak-tier-flame';
+  } else if (state.streak >= 20) {
+    streakTierClass = 'streak-tier-sword';
+  } else if (state.streak >= 7) {
+    streakTierClass = 'streak-tier-scales';
+  } else if (state.streak >= 1) {
+    streakTierClass = 'streak-tier-base';
+  }
+  const streakChip = `<span class="profile-streak-chip ${streakTierClass}"><i data-lucide="flame"></i>${state.streak}d</span>`;
   const badgeChip = `<span class="profile-badge-chip"><i data-lucide="award"></i>${unlockedIds.size}/${ACHIEVEMENTS.length}</span>`;
 
   // Live Wrapped stats

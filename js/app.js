@@ -35,6 +35,15 @@ function render() {
 
   if (typeof saveState === 'function') saveState();
   if (typeof updateDemoButtonUI === 'function') updateDemoButtonUI();
+
+  if (state.triggerCelebration) {
+    state.triggerCelebration = false;
+    setTimeout(() => {
+      if (typeof playStreakCelebration === 'function') {
+        playStreakCelebration(state.streak);
+      }
+    }, 100);
+  }
 }
 
 function updateDemoButtonUI() {
@@ -189,6 +198,10 @@ function handleAppClick(e) {
         state.journalDone = true;
         state.journalDaysCount = (state.journalDaysCount || 0) + 1;
         state.streak += 1;
+        const milestones = [1, 7, 20, 30];
+        if (milestones.includes(state.streak)) {
+          state.triggerCelebration = true;
+        }
         setTimeout(() => toast('flame', `Current streak: ${state.streak} days`), 300);
       } else {
         setTimeout(() => toast('feather', 'Reflection updated'), 300);
@@ -627,7 +640,7 @@ function initApp() {
       // Reset state back to default but keep it launched on the profile tab
       Object.assign(state, defaultState);
       state.launched = true;
-      state.tab = 'profile';
+      state.tab = 'today';
       state.registered = new Set();
       state.savedSupport = new Set();
       state.mythAnswers = {};
@@ -644,6 +657,10 @@ function initApp() {
       const availableMythsRestart = MYTH_CARDS.filter(m => !state.sessionMythIds.includes(m.id));
       state.todayMythId = availableMythsRestart.length > 0 ? availableMythsRestart[Math.floor(Math.random() * availableMythsRestart.length)].id : MYTH_CARDS[0].id;
       localStorage.removeItem('ddb_state');
+      
+      // Reset is Golden Scales (streak 7)
+      state.streak = 7;
+      state.triggerCelebration = true;
 
       document.body.classList.remove('light-theme');
       applyTextSizeClass(); /* added for Accessibility enhancements — see implementation_plan.md */
@@ -670,6 +687,9 @@ function initApp() {
       state.sessionQuizIds = ['q1', 'q2', 'q3', 'q4', 'q5'];
       state.quizAnswers = { q1: 0, q2: 1, q3: 1, q4: 0, q5: 2 };
       
+      state.tab = 'today';
+      state.triggerCelebration = true;
+
       render();
       setTimeout(() => toast('sparkles', 'Simulated Day 20+ state loaded!'), 250);
       reportAchievements(prevUnlocked);
@@ -766,6 +786,141 @@ function applyColorblindClass() {
   } else {
     document.body.classList.remove('colorblind-mode');
   }
+}
+
+function playStreakCelebration(streak) {
+  let imgSrc = 'assets/streak_base_shield.png';
+  let badgeName = 'Base Shield';
+  let color = 'var(--teal)';
+  let congratsText = 'Streak Started!';
+
+  if (streak >= 30) {
+    imgSrc = 'assets/streak_flame_of_clarity.png';
+    badgeName = 'Flame of Clarity';
+    color = 'var(--red)';
+    congratsText = '30-Day Streak!';
+  } else if (streak >= 20) {
+    imgSrc = 'assets/streak_sword_of_truth.png';
+    badgeName = 'Sword of Truth';
+    color = 'var(--blue)';
+    congratsText = '20-Day Streak!';
+  } else if (streak >= 7) {
+    imgSrc = 'assets/streak_golden_scales.png';
+    badgeName = 'Golden Scales';
+    color = 'var(--yellow)';
+    congratsText = '7-Day Streak!';
+  } else if (streak >= 1) {
+    imgSrc = 'assets/streak_base_shield.png';
+    badgeName = 'Base Shield';
+    color = 'var(--teal)';
+    congratsText = 'Streak Started!';
+  }
+
+  if (state.language === 'tl') {
+    if (streak >= 30) congratsText = '30-Araw na Streak!';
+    else if (streak >= 20) congratsText = '20-Araw na Streak!';
+    else if (streak >= 7) congratsText = '7-araw na streak';
+    else congratsText = 'Nagsimula na ang streak';
+  }
+
+  const screen = document.querySelector('.phone-screen');
+  if (!screen) return;
+
+  const overlay = document.createElement('div');
+  overlay.id = 'streak-celebration-overlay';
+  overlay.className = 'streak-celebration-overlay';
+  overlay.innerHTML = `
+    <div class="celebration-backdrop"></div>
+    <div class="celebration-content">
+      <div class="celebration-glow" style="background: radial-gradient(circle, ${color} 0%, transparent 70%)"></div>
+      <div class="celebration-particles"></div>
+      <div class="celebration-badge-container">
+        <img src="${imgSrc}" class="celebration-badge-img" alt="${badgeName}" />
+      </div>
+      <h2 class="celebration-title">${congratsText}</h2>
+      <p class="celebration-subtitle">${badgeName} Milestone Reached!</p>
+    </div>
+  `;
+
+  screen.appendChild(overlay);
+
+  const particlesContainer = overlay.querySelector('.celebration-particles');
+  const particleColors = [color, 'var(--teal)', 'var(--yellow)', '#ffffff'];
+  for (let i = 0; i < 40; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'celebration-particle';
+    const size = Math.random() * 8 + 4;
+    const randomColor = particleColors[Math.floor(Math.random() * particleColors.length)];
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.background = randomColor;
+    particle.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    particle.style.left = '50%';
+    particle.style.top = '50%';
+    
+    const angle = Math.random() * Math.PI * 2;
+    const distance = Math.random() * 120 + 40;
+    const tx = Math.cos(angle) * distance;
+    const ty = Math.sin(angle) * distance;
+    particle.style.setProperty('--tx', `${tx}px`);
+    particle.style.setProperty('--ty', `${ty}px`);
+    
+    particle.style.animation = `particle-burst ${Math.random() * 1.5 + 1.0}s cubic-bezier(0.1, 0.8, 0.3, 1) forwards`;
+    particlesContainer.appendChild(particle);
+  }
+
+  // Force reflow
+  overlay.offsetHeight;
+  overlay.classList.add('active');
+
+  const targetMiniImg = document.querySelector('.streak-badge-mini-img');
+  if (targetMiniImg) {
+    targetMiniImg.style.opacity = '0';
+  }
+
+  setTimeout(() => {
+    if (!overlay.parentNode) return;
+
+    overlay.classList.add('transitioning');
+
+    const screenRect = screen.getBoundingClientRect();
+    const badgeContainer = overlay.querySelector('.celebration-badge-container');
+    const badgeImg = overlay.querySelector('.celebration-badge-img');
+    const badgeRect = badgeImg.getBoundingClientRect();
+
+    badgeContainer.style.position = 'absolute';
+    badgeContainer.style.left = `${badgeRect.left - screenRect.left}px`;
+    badgeContainer.style.top = `${badgeRect.top - screenRect.top}px`;
+    badgeContainer.style.width = `${badgeRect.width}px`;
+    badgeContainer.style.height = `${badgeRect.height}px`;
+    badgeContainer.style.margin = '0';
+    badgeContainer.style.transform = 'none';
+
+    // Force reflow
+    badgeContainer.offsetHeight;
+    badgeContainer.classList.add('settling');
+
+    if (targetMiniImg) {
+      const targetRect = targetMiniImg.getBoundingClientRect();
+      badgeContainer.style.left = `${targetRect.left - screenRect.left}px`;
+      badgeContainer.style.top = `${targetRect.top - screenRect.top}px`;
+      badgeContainer.style.width = `${targetRect.width}px`;
+      badgeContainer.style.height = `${targetRect.height}px`;
+    } else {
+      badgeContainer.style.opacity = '0';
+      badgeContainer.style.transform = 'scale(0.5)';
+    }
+
+    setTimeout(() => {
+      if (targetMiniImg) {
+        targetMiniImg.style.opacity = '1';
+      }
+      if (overlay.parentNode) {
+        overlay.parentNode.removeChild(overlay);
+      }
+    }, 800);
+
+  }, 2200);
 }
 
 initApp();
