@@ -38,7 +38,8 @@ var defaultState = {
   profilePic: null, /* added for Profile enhancements — see implementation_plan.md */
   shareModalOpen: false, /* added for Profile sharing — see implementation_plan.md */
   profileEditing: false, /* added for Profile enhancements — see implementation_plan.md */
-  selectedMoodFilter: null /* added for Mood calendar filters — see implementation_plan.md */
+  selectedMoodFilter: null, /* added for Mood calendar filters — see implementation_plan.md */
+  achievementCategoryFilter: null /* added for Achievement category chips — see implementation_plan.md */
 };
 
 function loadState() {
