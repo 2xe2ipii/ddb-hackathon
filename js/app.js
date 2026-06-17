@@ -636,11 +636,29 @@ function initApp() {
 
   const toggleDemoHandler = () => {
     const isDay20 = state.streak >= 20;
+
+    // Preserve Settings & Profile states across Day view switches
+    const preserved = {
+      tab: state.tab,
+      theme: state.theme,
+      language: state.language,
+      textSize: state.textSize,
+      colorblindMode: state.colorblindMode,
+      profileName: state.profileName,
+      profileAge: state.profileAge,
+      profilePic: state.profilePic,
+      selectedMoodFilter: state.selectedMoodFilter,
+      achievementCategoryFilter: state.achievementCategoryFilter,
+      achievementsExpanded: state.achievementsExpanded,
+      profileEditing: state.profileEditing,
+      shareModalOpen: state.shareModalOpen
+    };
+
     if (isDay20) {
       // Reset state back to default but keep it launched on the profile tab
       Object.assign(state, defaultState);
       state.launched = true;
-      state.tab = 'today';
+      state.tab = preserved.tab;
       state.registered = new Set();
       state.savedSupport = new Set();
       state.mythAnswers = {};
@@ -652,6 +670,10 @@ function initApp() {
       state.relaxSelectedExercise = 'box';
       state.relaxToolkitOpen = null;
       state.achievementsExpanded = false;
+
+      // Restore preserved values
+      Object.assign(state, preserved);
+
       state.sessionMythIds = pickSessionItems(MYTH_CARDS, 5);
       state.sessionQuizIds = pickSessionItems(QUIZ, 5);
       const availableMythsRestart = MYTH_CARDS.filter(m => !state.sessionMythIds.includes(m.id));
@@ -662,7 +684,11 @@ function initApp() {
       state.streak = 7;
       state.triggerCelebration = true;
 
-      document.body.classList.remove('light-theme');
+      if (state.theme === 'light') {
+        document.body.classList.add('light-theme');
+      } else {
+        document.body.classList.remove('light-theme');
+      }
       applyTextSizeClass(); /* added for Accessibility enhancements — see implementation_plan.md */
       applyColorblindClass(); /* added for Accessibility enhancements — see implementation_plan.md */
       stopQuizTimer();
@@ -687,7 +713,7 @@ function initApp() {
       state.sessionQuizIds = ['q1', 'q2', 'q3', 'q4', 'q5'];
       state.quizAnswers = { q1: 0, q2: 1, q3: 1, q4: 0, q5: 2 };
       
-      state.tab = 'today';
+      state.tab = preserved.tab;
       state.triggerCelebration = true;
 
       render();
