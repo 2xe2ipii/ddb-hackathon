@@ -1247,7 +1247,7 @@
 /* achievements */
 .badge-row {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* added for Achievements module layout — see SRS.md §5.3 */
   gap: 11px;
   margin-top: 14px;
 }
@@ -1310,6 +1310,12 @@
   color: var(--muted);
   font-weight: 700;
 }
+
+.badge-text-col {
+  flex: 1;
+  min-width: 0; /* added for Achievements module layout — see SRS.md §5.3 */
+}
+
 
 /* =====================================================
    BOTTOM NAV

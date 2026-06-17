@@ -39,7 +39,8 @@ var defaultState = {
   shareModalOpen: false, /* added for Profile sharing — see implementation_plan.md */
   profileEditing: false, /* added for Profile enhancements — see implementation_plan.md */
   selectedMoodFilter: null, /* added for Mood calendar filters — see implementation_plan.md */
-  achievementCategoryFilter: null /* added for Achievement category chips — see implementation_plan.md */
+  achievementCategoryFilter: null, /* added for Achievement category chips — see implementation_plan.md */
+  language: 'en' /* added for Tagalog translation toggle — see SRS.md §7.3 */
 };
 
 function loadState() {

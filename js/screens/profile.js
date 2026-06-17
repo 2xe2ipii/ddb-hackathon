@@ -479,10 +479,10 @@ function profileHTML() {
 
         <div class="settings-group-label">Preferences</div>
         <div class="settings-list">
-          <div class="settings-row btn-disabled">
+          <button class="settings-row" data-action="toggle-language">
             <span class="settings-label"><i data-lucide="languages"></i> App language</span>
-            <span class="settings-value">English <small style="color: var(--muted); opacity: 0.7;">(Filipino soon)</small></span>
-          </div>
+            <span class="settings-value">${state.language === 'fil' ? 'Filipino' : 'English'}</span>
+          </button>
           <button class="settings-row" data-action="toggle-theme">
             <span class="settings-label"><i data-lucide="${state.theme === 'light' ? 'moon' : 'sun'}"></i> Theme mode</span>
             <span class="settings-value">${state.theme === 'light' ? 'Light' : 'Dark'}</span>
