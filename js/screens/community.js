@@ -49,13 +49,53 @@ function deploymentHTML() {
 }
 
 function communityHTML() {
+  let modalHTML = '';
+  if (state.eventModalOpen) {
+    const ev = EVENTS.find(e => e.id === state.eventModalOpen);
+    if (ev) {
+      modalHTML = `
+        <div class="overlay" data-action="close-event-info" style="position: absolute; inset: 0; background: rgba(0,0,0,0.6); z-index: 100; display: flex; align-items: flex-end; animation: fade-in 0.2s ease;">
+          <div class="modal" style="width: 100%; background: var(--surface); border-radius: 24px 24px 0 0; padding: 24px; animation: slide-up 0.3s ease;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+              <div>
+                <span class="eyebrow" style="margin-bottom: 8px;"><i data-lucide="${ev.icon}"></i> ${ev.kind}</span>
+                <h2 style="font-size: 20px; font-weight: 900; line-height: 1.3;">${ev.title}</h2>
+              </div>
+              <button class="icon-btn" data-action="close-event-info" style="background: var(--card); border: 1px solid var(--line); border-radius: 50%; padding: 8px; color: var(--text);">
+                <i data-lucide="x"></i>
+              </button>
+            </div>
+            <p style="font-size: 14.5px; line-height: 1.6; color: var(--muted); margin-bottom: 24px;">
+              ${ev.description || 'No description available for this event.'}
+            </p>
+            <div class="event-meta" style="margin-bottom: 24px; display: flex; flex-direction: column; gap: 8px;">
+              <span style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--text);"><i data-lucide="calendar" style="color: var(--teal);"></i> ${ev.date}</span>
+              <span style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--text);"><i data-lucide="clock" style="color: var(--teal);"></i> ${ev.time}</span>
+              <span style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--text);"><i data-lucide="map-pin" style="color: var(--teal);"></i> ${ev.place}</span>
+            </div>
+            <button class="btn btn-primary" data-action="close-event-info" style="width: 100%;">Got it</button>
+          </div>
+        </div>
+        <style>
+          @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+          @keyframes slide-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        </style>
+      `;
+    }
+  }
+
   const cards = EVENTS.map((ev) => {
     const isReg = state.registered.has(ev.id);
     return `
       <div class="card event-card">
-        <div class="event-band ${ev.band}">
-          <span class="event-icon"><i data-lucide="${ev.icon}"></i></span>
-          <span class="event-kind">${ev.kind}</span>
+        <div class="event-band ${ev.band}" style="display: flex; justify-content: space-between; align-items: center;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="event-icon"><i data-lucide="${ev.icon}"></i></span>
+            <span class="event-kind">${ev.kind}</span>
+          </div>
+          <button class="icon-btn" data-action="open-event-info" data-event="${ev.id}" style="color: var(--text);">
+            <i data-lucide="info"></i>
+          </button>
         </div>
         <div class="event-body">
           <h3>${ev.title}</h3>
@@ -76,13 +116,46 @@ function communityHTML() {
       </div>`;
   }).join('');
 
-  return `
-    <div class="screen">
-      <div class="greeting">
-        <h1>Community</h1>
-        <p>Events, help, and local programs.</p>
-      </div>
+  const tab = state.communityTab || 'support';
 
+  const toggleHTML = `
+    <style>
+      .community-toggle {
+        display: flex;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 4px;
+        margin-bottom: 16px;
+      }
+      .community-toggle button {
+        flex: 1;
+        padding: 10px 16px;
+        border-radius: 999px;
+        border: none;
+        background: transparent;
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 800;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .community-toggle button.active {
+        background: var(--card);
+        color: var(--text);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+    </style>
+    <div class="community-toggle">
+      <button class="${tab === 'support' ? 'active' : ''}" data-action="switch-community-tab" data-tab="support">Support</button>
+      <button class="${tab === 'activities' ? 'active' : ''}" data-action="switch-community-tab" data-tab="activities">Activities</button>
+    </div>
+  `;
+
+  let contentHTML = '';
+
+  if (tab === 'support') {
+    contentHTML = `
       <div class="region-banner">
         <i data-lucide="map-pin"></i> Calabarzon - Region IV-A
       </div>
@@ -94,9 +167,23 @@ function communityHTML() {
         <div class="resource-list">${supportResourcesHTML()}</div>
       </div>
 
-      ${cards}
-
       ${deploymentHTML()}
+    `;
+  } else {
+    contentHTML = `
+      ${cards}
+    `;
+  }
+
+  return `
+    <div class="screen">
+      <div class="greeting" style="margin-bottom: 12px;">
+        <h1>Community</h1>
+        <p>Events, help, and local programs.</p>
+      </div>
+
+      ${toggleHTML}
+      ${contentHTML}
 
       <div class="admin-card">
         <i data-lucide="database-zap"></i>
@@ -107,5 +194,6 @@ function communityHTML() {
       </div>
 
       <p class="privacy-note"><i data-lucide="megaphone"></i> Announcements only. No public posting.</p>
-    </div>`;
+    </div>
+    ${modalHTML}`;
 }
