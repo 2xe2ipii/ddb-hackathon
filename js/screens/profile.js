@@ -1,5 +1,13 @@
 /* Profile screen: private progress, calendar, badges, and settings. */
 
+function getAnimClass(delay) {
+  // Only animate sections on first entry to the profile tab.
+  // If .profile-hero already exists, we're re-rendering within the same tab
+  // (button click, filter, etc.) — skip animation to avoid jarring flash.
+  const isFirstEntry = !document.querySelector('.profile-hero');
+  return isFirstEntry ? `profile-animate" style="--delay: ${delay}` : `profile-no-anim`;
+}
+
 /* --- Wrapped: live computed stats from state --- */
 function getWrappedStats(s) {
   const quizCount = Object.keys(s.quizAnswers || {}).length;
@@ -30,9 +38,9 @@ function getMoodInsight(s) {
   if (s.streak >= 20) {
     return `${s.streak} days and counting — you've built something real. Keep showing up.`;
   } else if (hasCheckin && isCalmToday) {
-    return 'You tend to feel calmer on days you do a Relax check-in. That pattern is yours to keep.';
+    return 'Completing today\'s self check-in and feeling calmer today is a pattern worth noticing. Keep building self-awareness.';
   } else if (hasCheckin) {
-    return 'Completing a self check-in is a quiet act of self-care. It matters more than you think.';
+    return 'Completing today\'s self check-in is a quiet act of self-care. It matters more than you think.';
   } else if (quizCount >= 5 && mythCount >= 5) {
     return 'You cleared the myths and the quiz. That knowledge stays with you — and it protects others too.';
   } else if (s.streak >= 7) {
@@ -66,16 +74,24 @@ function categoryChipsHTML(s) {
 }
 
 /* --- Achievements card with progress bars --- */
-function achievementsHTML() {
-  const unlockedIds = getUnlockedIds(state);
+function achievementsHTML(unlockedIds) {
   const total = ACHIEVEMENTS.length;
   const earned = unlockedIds.size;
 
   const nudge = getNextBadgeNudge(state);
+  const categoryTabs = {
+    streak: 'today',
+    learn: 'learn',
+    mental: 'relax',
+    community: 'community'
+  };
+  const targetTab = nudge ? (categoryTabs[nudge.badge.category] || 'today') : 'today';
+
   const nudgeHTML = nudge ? `
-    <div class="achv-nudge">
+    <div class="achv-nudge" data-action="nav" data-tab="${targetTab}" title="Go to ${targetTab} tab to work on this badge">
       <i data-lucide="sparkles"></i>
-      <span>Next: <strong>${nudge.badge.name}</strong> — ${nudge.text}</span>
+      <span style="flex: 1;">Next: <strong>${nudge.badge.name}</strong> — ${nudge.text}</span>
+      <i data-lucide="chevron-right" style="width: 14px; height: 14px; opacity: 0.7; flex-shrink: 0;"></i>
     </div>` : '';
 
   const filter = state.achievementCategoryFilter || null;
@@ -116,7 +132,7 @@ function achievementsHTML() {
     </button>` : '';
 
   return `
-    <div class="card achievements-card profile-animate" style="--delay: 0.25s">
+    <div class="card achievements-card ${getAnimClass('0.25s')}">
       <div class="achievements-head">
         <span class="eyebrow"><i data-lucide="award"></i> Achievements</span>
         <span class="achv-count">${earned}/${total} unlocked</span>
@@ -163,21 +179,47 @@ function handleAvatarFileSelect(input) {
 
 /* --- Main profile screen render --- */
 function profileHTML() {
-  // Only animate sections on first entry to the profile tab.
-  // If .profile-hero already exists, we're re-rendering within the same tab
-  // (button click, filter, etc.) — skip animation to avoid jarring flash.
-  const isFirstEntry = !document.querySelector('.profile-hero');
-  const anim = (delay) => isFirstEntry ? `profile-animate" style="--delay: ${delay}` : `profile-no-anim`;
+  const anim = getAnimClass;
   const dows = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
     .map((d) => `<span class="cal-dow">${d}</span>`).join('');
 
-  // Mood calendar cells
+  // Dynamic calendar setup
+  const todayDate = new Date();
+  const todayDay = todayDate.getDate();
+  const currentMonth = todayDate.getMonth();
+  const currentYear = todayDate.getFullYear();
+  const monthName = todayDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+
+  // Number of days in the current month
+  const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+  // Day of the week for the 1st of the month
+  const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay(); // 0 = Sun, 1 = Mon...
+
+  // Deterministic mock mood values (1 to 5) for past days
+  const getMockMoodForDay = (day) => {
+    const moods = [3, 4, 2, 4, 5, 4, 3, 5, 4, 5, 3, 4, 4, 3, 5, 4, 2, 4, 5, 4, 3, 5, 4, 5, 3, 4, 4, 3, 5, 4];
+    return moods[(day - 1) % moods.length];
+  };
+
   const todayWeather = state.todayMood ? WEATHER.find((w) => w.id === state.todayMood) : null;
-  let cells = '<span></span>';
-  for (let day = 1; day <= 30; day++) {
-    const moodVal = day === 10 && state.todayMood
-      ? WEATHER.find((w) => w.id === state.todayMood).value
-      : MOOD_HISTORY[day];
+  let cells = '';
+  // Add blank spacer cells for offset
+  for (let i = 0; i < firstDayIndex; i++) {
+    cells += '<span></span>';
+  }
+
+  for (let day = 1; day <= totalDays; day++) {
+    const isToday = day === todayDay;
+    const isFuture = day > todayDay;
+
+    let moodVal = null;
+    if (isToday) {
+      moodVal = state.todayMood ? WEATHER.find((w) => w.id === state.todayMood).value : null;
+    } else if (!isFuture) {
+      moodVal = getMockMoodForDay(day);
+    }
+
     let isMatch = true;
     let isDimmed = false;
     if (state.selectedMoodFilter !== null) {
@@ -186,15 +228,16 @@ function profileHTML() {
         isDimmed = true;
       }
     }
-    const isToday = day === 10;
+
     const cls = [
       'cal-day',
       moodVal ? 'm' + moodVal : '',
       isToday ? 'today' : '',
-      day > 10 ? 'future' : '',
+      isFuture ? 'future' : '',
       isDimmed ? 'dimmed' : '',
       (state.selectedMoodFilter !== null && isMatch && moodVal) ? 'highlighted' : '',
     ].join(' ').trim();
+
     // Show weather emoji inside the "today" cell if mood was logged
     const todayLabel = isToday && todayWeather ? `<span class="cal-today-emoji">${day}</span>` : day;
     cells += `<span class="${cls}">${todayLabel}</span>`;
@@ -361,7 +404,7 @@ function profileHTML() {
       <div class="card ${anim('0.14s')}">
         <span class="eyebrow"><i data-lucide="calendar-heart"></i> Mood calendar</span>
         <div class="card-head-row">
-          <div class="card-title">June 2026</div>
+          <div class="card-title">${monthName}</div>
           ${state.selectedMoodFilter !== null ? `<button class="btn-clear-filter" data-action="clear-mood-filter"><i data-lucide="x-circle"></i> Clear filter</button>` : ''}
         </div>
         <div class="cal-grid">${dows}${cells}</div>
@@ -379,7 +422,30 @@ function profileHTML() {
       </div>
 
       <!-- ── Achievements ── -->
-      ${achievementsHTML()}
+      ${achievementsHTML(unlockedIds)}
+
+      <!-- ── Privacy Explainer ── -->
+      <div class="card privacy-card ${anim('0.28s')}">
+        <div class="privacy-header">
+          <i data-lucide="shield-check"></i>
+          <h4>Private &amp; On-Device</h4>
+        </div>
+        <p class="privacy-intro">Your data is stored 100% locally in your browser's secure storage. No servers, no accounts, and no trackers.</p>
+        <div class="privacy-list">
+          <div class="privacy-item">
+            <i data-lucide="feather"></i>
+            <span><b>Reflections &amp; Journal</b> — Never uploaded; saved locally.</span>
+          </div>
+          <div class="privacy-item">
+            <i data-lucide="calendar"></i>
+            <span><b>Mental Weather history</b> — private to you; deleted on reset.</span>
+          </div>
+          <div class="privacy-item">
+            <i data-lucide="wind"></i>
+            <span><b>Relax Check-in answers</b> — temporary state, non-punitive.</span>
+          </div>
+        </div>
+      </div>
 
       <!-- ── Settings & Privacy ── -->
       <div class="card settings-card ${anim('0.32s')}">
@@ -413,10 +479,10 @@ function profileHTML() {
 
         <div class="settings-group-label">Preferences</div>
         <div class="settings-list">
-          <div class="settings-row btn-disabled">
+          <button class="settings-row" data-action="toggle-language">
             <span class="settings-label"><i data-lucide="languages"></i> App language</span>
-            <span class="settings-value">English <small style="color: var(--muted); opacity: 0.7;">(Filipino soon)</small></span>
-          </div>
+            <span class="settings-value">${state.language === 'fil' ? 'Filipino' : 'English'}</span>
+          </button>
           <button class="settings-row" data-action="toggle-theme">
             <span class="settings-label"><i data-lucide="${state.theme === 'light' ? 'moon' : 'sun'}"></i> Theme mode</span>
             <span class="settings-value">${state.theme === 'light' ? 'Light' : 'Dark'}</span>
@@ -424,7 +490,7 @@ function profileHTML() {
         </div>
       </div>
 
-      ${editModalHTML}
-      ${shareModalHTML}
-    </div>`;
+    </div>
+    ${editModalHTML}
+    ${shareModalHTML}`;
 }

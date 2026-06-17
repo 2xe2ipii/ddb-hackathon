@@ -1247,7 +1247,7 @@
 /* achievements */
 .badge-row {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* added for Achievements module layout — see SRS.md §5.3 */
   gap: 11px;
   margin-top: 14px;
 }
@@ -1310,6 +1310,12 @@
   color: var(--muted);
   font-weight: 700;
 }
+
+.badge-text-col {
+  flex: 1;
+  min-width: 0; /* added for Achievements module layout — see SRS.md §5.3 */
+}
+
 
 /* =====================================================
    BOTTOM NAV
@@ -3266,7 +3272,7 @@
 /* ── Achievement Badge Cards ── */
 .badge-row {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* added for Achievements module layout — see SRS.md §5.3 */
   gap: 10px;
   margin-top: 10px;
 }
@@ -3319,6 +3325,7 @@
   flex-direction: column;
   min-width: 0;
   flex: 1;
+  padding-right: 14px;
 }
 
 .badge-icon {
@@ -4361,4 +4368,193 @@ body.colorblind-mode {
 .light-theme .achv-count {
   background: var(--teal-soft);
   color: var(--teal);
+}
+
+/* =====================================================
+   ADDITIONAL ENHANCEMENTS — Profile & Achievements Spec
+   ===================================================== */
+
+/* Streak Tiers for Profile Chip */
+.profile-streak-chip.streak-tier-base {
+  background: var(--teal-soft);
+  color: var(--teal);
+  border-color: rgba(69, 196, 176, 0.2);
+}
+.profile-streak-chip.streak-tier-scales {
+  background: rgba(240, 228, 66, 0.12);
+  color: var(--yellow);
+  border-color: rgba(240, 228, 66, 0.25);
+}
+.profile-streak-chip.streak-tier-sword {
+  background: rgba(86, 180, 233, 0.12);
+  color: var(--blue);
+  border-color: rgba(86, 180, 233, 0.25);
+}
+.profile-streak-chip.streak-tier-flame {
+  background: rgba(213, 94, 0, 0.12);
+  color: var(--red);
+  border-color: rgba(213, 94, 0, 0.25);
+}
+
+/* Light theme overrides for streak tiers */
+.light-theme .profile-streak-chip.streak-tier-base {
+  background: var(--teal-soft);
+  border-color: rgba(85, 149, 154, 0.2);
+}
+.light-theme .profile-streak-chip.streak-tier-scales {
+  background: rgba(218, 165, 32, 0.08);
+  color: #c59b27;
+  border-color: rgba(218, 165, 32, 0.18);
+}
+.light-theme .profile-streak-chip.streak-tier-sword {
+  background: rgba(37, 99, 235, 0.06);
+  color: #1d4ed8;
+  border-color: rgba(37, 99, 235, 0.15);
+}
+.light-theme .profile-streak-chip.streak-tier-flame {
+  background: rgba(220, 38, 38, 0.06);
+  color: #dc2626;
+  border-color: rgba(220, 38, 38, 0.15);
+}
+
+/* Privacy Explainer Card */
+.privacy-card {
+  background: linear-gradient(135deg, rgba(69, 196, 176, 0.05) 0%, rgba(11, 18, 32, 0.02) 100%);
+  border-color: rgba(69, 196, 176, 0.15) !important;
+}
+
+.privacy-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  color: var(--teal);
+}
+
+.privacy-header svg {
+  width: 20px;
+  height: 20px;
+}
+
+.privacy-header h4 {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 850;
+  letter-spacing: -0.01em;
+}
+
+.privacy-intro {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.privacy-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+
+.privacy-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 11.5px;
+  color: var(--text);
+  line-height: 1.35;
+}
+
+.privacy-item svg {
+  width: 14px;
+  height: 14px;
+  color: var(--teal);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* Light theme overrides for privacy card */
+.light-theme .privacy-card {
+  background: linear-gradient(135deg, rgba(85, 149, 154, 0.05) 0%, rgba(248, 250, 252, 0.2) 100%);
+  border-color: rgba(85, 149, 154, 0.18) !important;
+}
+
+/* Interactive hover state for achievement nudge */
+.achv-nudge {
+  cursor: pointer;
+  transition: transform 0.1s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.achv-nudge:hover,
+.achv-nudge:active {
+  background: linear-gradient(90deg, rgba(69, 196, 176, 0.13), rgba(110, 143, 181, 0.11)) !important;
+  border-color: rgba(69, 196, 176, 0.25) !important;
+  transform: translateY(-1px);
+}
+
+.achv-nudge:active {
+  transform: scale(0.99) translateY(0);
+}
+
+.light-theme .achv-nudge:hover,
+.light-theme .achv-nudge:active {
+  background: linear-gradient(90deg, rgba(85, 149, 154, 0.13), rgba(43, 140, 196, 0.11)) !important;
+  border-color: rgba(85, 149, 154, 0.25) !important;
+}
+
+/* Accessibility Text Size scaling overrides for Profile */
+body.text-size-small .cal-day { font-size: 9px; }
+body.text-size-large .cal-day { font-size: 12px; }
+
+body.text-size-small .badge b { font-size: 10.5px; }
+body.text-size-large .badge b { font-size: 14.5px; }
+
+body.text-size-small .badge small { font-size: 9px; }
+body.text-size-large .badge small { font-size: 12px; }
+
+body.text-size-small .ss-val { font-size: 13px; }
+body.text-size-large .ss-val { font-size: 20px; }
+
+body.text-size-small .ss-label { font-size: 6.5px; }
+body.text-size-large .ss-label { font-size: 9.5px; }
+
+/* Colorblind category gradients overrides */
+body.colorblind-mode .badge-icon.cat-streak {
+  background: linear-gradient(135deg, var(--red), #e67300) !important;
+}
+body.colorblind-mode .badge-icon.cat-learn {
+  background: linear-gradient(135deg, var(--teal), #6cc0ff) !important;
+  color: #000 !important;
+}
+body.colorblind-mode .badge-icon.cat-mental {
+  background: linear-gradient(135deg, var(--yellow), #f3ea73) !important;
+  color: #000 !important;
+}
+body.colorblind-mode .badge-icon.cat-community {
+  background: linear-gradient(135deg, var(--blue), #80c7ed) !important;
+  color: #000 !important;
+}
+
+/* Colorblind overrides for Profile Hero & Wrapped */
+body.colorblind-mode .profile-hero-bg {
+  background: linear-gradient(135deg, #0a334d 0%, #0d2a45 60%, #111e36 100%) !important;
+}
+
+body.colorblind-mode .profile-hero-bg::after {
+  background: radial-gradient(circle, rgba(51, 176, 255, 0.15) 0%, transparent 70%) !important;
+}
+
+body.colorblind-mode .wrapped {
+  background: linear-gradient(125deg, #0a334d 0%, #143352 55%, #1b2a47 100%) !important;
+  border-color: rgba(51, 176, 255, 0.35) !important;
+}
+
+body.colorblind-mode .wrapped::before {
+  border-color: rgba(51, 176, 255, 0.18) !important;
+}
+
+body.colorblind-mode .wrapped::after {
+  border-color: rgba(86, 180, 233, 0.15) !important;
 }

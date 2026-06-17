@@ -22,6 +22,9 @@ function render() {
     profile: profileHTML,
   };
   app.innerHTML = headerHTML() + screens[state.tab]() + navHTML() + '<div class="toast-zone"></div>';
+  if (typeof translateAndObserve === 'function') { /* added for app translation toggle — see SRS.md §7.3 */
+    translateAndObserve();
+  }
   icons();
 
   const newScreen = document.querySelector('.screen, .breathe-screen');
@@ -85,15 +88,17 @@ function handleAppClick(e) {
       render();
       break;
 
+    case 'toggle-language': /* added for app translation toggle — see SRS.md §7.3 */
+      state.language = state.language === 'en' ? 'fil' : 'en';
+      render();
+      break;
+
     case 'toggle-quest':
       state.expandedQuest = state.expandedQuest === el.dataset.quest ? null : el.dataset.quest;
       render();
       break;
 
-    case 'toggle-badge-hint':
-      state.profileBadgeOpen = state.profileBadgeOpen === el.dataset.badge ? null : el.dataset.badge;
-      render();
-      break;
+    /* case 'toggle-badge-hint' removed — Achievements module spec A.2 */
 
     case 'answer-myth': {
       const prevUnlocked = snapshotAchievements();
@@ -308,7 +313,10 @@ function handleAppClick(e) {
 
     case 'delete-data':
       /* added for Profile/Achievements module — see implementation_plan.md */
-      if (confirm("Are you sure you want to delete all your data? This will reset your streak and achievements.")) {
+      const deleteConfirmMsg = state.language === 'fil'
+        ? "Sigurado ka bang gusto mong burahin ang lahat ng iyong data? I-re-reset nito ang iyong streak at mga nakamit."
+        : "Are you sure you want to delete all your data? This will reset your streak and achievements.";
+      if (confirm(deleteConfirmMsg)) {
         Object.assign(state, defaultState);
         state.launched = true;
         state.tab = 'today';
