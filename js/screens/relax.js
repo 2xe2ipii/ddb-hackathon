@@ -149,38 +149,62 @@ function renderExercisePicker() {
 }
 
 function renderGroundingToolkit() {
-  const tools = [
-    {
-      id: '54321',
-      icon: 'eye',
-      title: '5-4-3-2-1 Grounding',
-      desc: 'Notice your surroundings to anchor back to the present.',
-      content: `
-        <ol>
-          <li>Name 5 things you can see around you.</li>
-          <li>Name 4 things you can touch or feel.</li>
-          <li>Name 3 things you can hear right now.</li>
-          <li>Name 2 things you can smell.</li>
-          <li>Name 1 thing you can taste.</li>
-        </ol>
-      `
-    },
-    {
-      id: 'bodyscan',
-      icon: 'user',
-      title: 'Body Scan',
-      desc: 'Slowly release tension from head to toe.',
-      content: `
-        <ul>
-          <li>Relax your forehead, eyes, and jaw.</li>
-          <li>Drop your shoulders away from your ears.</li>
-          <li>Loosen your hands and arms.</li>
-          <li>Soften your chest and stomach.</li>
-          <li>Let your legs and feet feel heavy and supported.</li>
-        </ul>
-      `
-    }
+  const isGroundingOpen = state.relaxToolkitOpen === '54321';
+  const isBodyscanOpen = state.relaxToolkitOpen === 'bodyscan';
+
+  const groundingSteps = [
+    { text: "Name 5 things you can see around you.", label: "5 things you see" },
+    { text: "Name 4 things you can touch or feel.", label: "4 things you touch" },
+    { text: "Name 3 things you can hear right now.", label: "3 things you hear" },
+    { text: "Name 2 things you can smell.", label: "2 things you smell" },
+    { text: "Name 1 thing you can taste.", label: "1 thing you taste" }
   ];
+
+  const bodyscanSteps = [
+    { text: "Relax your forehead, eyes, and jaw.", label: "Face & Jaw" },
+    { text: "Drop your shoulders away from your ears.", label: "Shoulders" },
+    { text: "Loosen your hands and arms.", label: "Arms & Hands" },
+    { text: "Soften your chest and stomach.", label: "Chest & Torso" },
+    { text: "Let your legs and feet feel heavy and supported.", label: "Legs & Feet" }
+  ];
+
+  function renderStepsContent(type, steps, currentStep) {
+    const totalSteps = steps.length;
+    const progressPercent = ((currentStep + 1) / totalSteps) * 100;
+    const step = steps[currentStep];
+
+    return `
+      <div class="interactive-steps-container" style="margin: 0 16px 16px; text-align: center; padding-top: 8px;">
+        <div style="text-align: center; margin-bottom: 12px; font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em;">
+          Step ${currentStep + 1} of ${totalSteps}
+        </div>
+        <div class="progress-bar" style="height: 6px; background: var(--line); border-radius: 3px; margin-bottom: 20px; overflow: hidden;">
+          <div class="progress-fill" style="height: 100%; width: ${progressPercent}%; background: var(--teal); transition: width 0.3s ease; border-radius: 3px;"></div>
+        </div>
+        
+        <p class="step-text" style="font-size: 15px; font-weight: 700; color: var(--text); min-height: 48px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; line-height: 1.5; padding: 0 8px;">
+          ${step.text}
+        </p>
+
+        <div style="display: flex; gap: 8px; justify-content: center;">
+          ${currentStep > 0 ? `
+            <button class="btn btn-sm" data-action="prev-${type}" style="flex: 1; padding: 8px 12px; font-size: 12px; font-weight: 700; border-radius: 8px; background: var(--line); color: var(--text); border: none;">
+              Back
+            </button>
+          ` : ''}
+          ${currentStep < totalSteps - 1 ? `
+            <button class="btn btn-sm btn-primary" data-action="next-${type}" style="flex: 1; padding: 8px 12px; font-size: 12px; font-weight: 700; border-radius: 8px;">
+              Next
+            </button>
+          ` : `
+            <button class="btn btn-sm" data-action="reset-${type}" style="flex: 1; padding: 8px 12px; font-size: 12px; font-weight: 700; border-radius: 8px; background: var(--teal-soft); color: var(--teal); border: none;">
+              Start Over
+            </button>
+          `}
+        </div>
+      </div>
+    `;
+  }
 
   return `
     <div class="grounding-toolkit">
@@ -191,22 +215,29 @@ function renderGroundingToolkit() {
       </div>
       <h3 class="toolkit-title">Relief space</h3>
       <div class="toolkit-cards">
-        ${tools.map(t => {
-          const isOpen = state.relaxToolkitOpen === t.id;
-          return `
-            <div class="toolkit-card ${isOpen ? 'open' : ''}">
-              <div class="toolkit-header" data-action="toggle-toolkit" data-id="${t.id}">
-                <div class="tk-title-row">
-                  <i data-lucide="${t.icon}"></i>
-                  <strong>${t.title}</strong>
-                </div>
-                <i data-lucide="${isOpen ? 'chevron-up' : 'chevron-down'}"></i>
-              </div>
-              <p class="tk-desc">${t.desc}</p>
-              ${isOpen ? `<div class="tk-content">${t.content}</div>` : ''}
+        <div class="toolkit-card ${isGroundingOpen ? 'open' : ''}">
+          <div class="toolkit-header" data-action="toggle-toolkit" data-id="54321">
+            <div class="tk-title-row">
+              <i data-lucide="eye"></i>
+              <strong>5-4-3-2-1 Grounding</strong>
             </div>
-          `;
-        }).join('')}
+            <i data-lucide="${isGroundingOpen ? 'chevron-up' : 'chevron-down'}"></i>
+          </div>
+          <p class="tk-desc">Notice your surroundings to anchor back to the present.</p>
+          ${isGroundingOpen ? renderStepsContent('grounding', groundingSteps, state.groundingStep || 0) : ''}
+        </div>
+
+        <div class="toolkit-card ${isBodyscanOpen ? 'open' : ''}">
+          <div class="toolkit-header" data-action="toggle-toolkit" data-id="bodyscan">
+            <div class="tk-title-row">
+              <i data-lucide="user"></i>
+              <strong>Body Scan</strong>
+            </div>
+            <i data-lucide="${isBodyscanOpen ? 'chevron-up' : 'chevron-down'}"></i>
+          </div>
+          <p class="tk-desc">Slowly release tension from head to toe.</p>
+          ${isBodyscanOpen ? renderStepsContent('bodyscan', bodyscanSteps, state.bodyScanStep || 0) : ''}
+        </div>
       </div>
     </div>
   `;
@@ -217,26 +248,11 @@ function relaxHTML() {
   
   return `
     <div class="breathe-screen">
-      <div class="breathe-top">
-        <div>
-          <h1>Relax</h1>
-          <p>Check in, breathe, and ground yourself</p>
-        </div>
-        <button class="helpline-btn" data-action="helpline">
-          <i data-lucide="phone-call"></i> ${HELPLINE.number}
-        </button>
-      </div>
-
-      <div class="support-paths">
-        <button data-action="helpline"><i data-lucide="siren"></i><span>I need help now</span></button>
-        <button data-action="save-resource" data-resource="r2"><i data-lucide="users"></i><span>I'm worried about a friend</span></button>
-      </div>
-
       ${renderCheckinSection()}
 
       ${renderExercisePicker()}
 
-      <div class="orb-stage" style="margin-top: 24px;">
+      <div class="orb-stage" style="margin-top: 8px;">
         <div class="orb-rings"></div>
         <div class="orb" id="orb">
           <div class="orb-label">

@@ -93,10 +93,6 @@ function learnHTML() {
     </style>
     <div class="screen" style="height: 100%; display: flex; flex-direction: column; gap: 16px; padding-bottom: 120px;">
       ${(!state.mythOpened && !state.quizOpened) ? `
-      <div class="greeting" style="margin-bottom: 12px;">
-        <h1>Learn</h1>
-        <p>Clear 5 misconceptions, then practice one safe choice.</p>
-      </div>
       ${learnSubTabToggleHTML()}
       ` : ''}
 

@@ -285,11 +285,6 @@ function communityHTML() {
 
   return `
     <div class="screen">
-      <div class="greeting" style="margin-bottom: 12px;">
-        <h1>Community</h1>
-        <p>Events, help, and local programs.</p>
-      </div>
-
       ${toggleHTML}
       ${contentHTML}
 

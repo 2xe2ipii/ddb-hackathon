@@ -96,7 +96,7 @@ function achievementsHTML(unlockedIds) {
 
   const filter = state.achievementCategoryFilter || null;
   const filtered = filter ? ACHIEVEMENTS.filter(a => a.category === filter) : ACHIEVEMENTS;
-  const visibleList = state.achievementsExpanded ? filtered : filtered.slice(0, 4);
+  const visibleList = filtered;
 
   const cards = visibleList.map((a) => {
     const unlocked = unlockedIds.has(a.id);
@@ -139,12 +139,6 @@ function achievementsHTML(unlockedIds) {
       </div>`;
   }).join('');
 
-  const showMoreNeeded = filtered.length > 4;
-  const buttonHTML = showMoreNeeded ? `
-    <button class="btn-show-more" data-action="toggle-achievements-expand">
-      ${state.achievementsExpanded ? 'Show less <i data-lucide="chevron-up"></i>' : `Show all (${filtered.length - 4} more) <i data-lucide="chevron-down"></i>`}
-    </button>` : '';
-
   return `
     <div class="card achievements-card">
       <div class="achievements-head">
@@ -154,7 +148,6 @@ function achievementsHTML(unlockedIds) {
       ${nudgeHTML}
       ${categoryChipsHTML(state)}
       <div class="badge-row">${cards}</div>
-      ${buttonHTML}
     </div>`;
 }
 
@@ -461,10 +454,13 @@ function profileHTML() {
         const isToday = day === todayDay;
         const isFuture = day > todayDay;
         let moodVal = null;
-        if (isToday) {
-          moodVal = state.todayMood ? WEATHER.find((w) => w.id === state.todayMood).value : null;
-        } else if (!isFuture) {
-          moodVal = getMockMoodForDay(day);
+        const diffDays = todayDay - day;
+        if (diffDays >= 0 && diffDays < state.streak) {
+          if (isToday && state.todayMood) {
+            moodVal = WEATHER.find((w) => w.id === state.todayMood).value;
+          } else {
+            moodVal = getMockMoodForDay(day);
+          }
         }
         let isMatch = true;
         let isDimmed = false;
@@ -498,10 +494,13 @@ function profileHTML() {
         const dayNum = d.getDate();
         const isToday = (i === 0);
         let moodVal = null;
-        if (isToday) {
-          moodVal = state.todayMood ? WEATHER.find((w) => w.id === state.todayMood).value : null;
-        } else {
-          moodVal = getMockMoodForDay(dayNum);
+        const diffDays = i;
+        if (diffDays >= 0 && diffDays < state.streak) {
+          if (isToday && state.todayMood) {
+            moodVal = WEATHER.find((w) => w.id === state.todayMood).value;
+          } else {
+            moodVal = getMockMoodForDay(dayNum);
+          }
         }
         let isMatch = true;
         let isDimmed = false;

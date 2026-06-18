@@ -171,7 +171,7 @@ function communityCardHTML() {
   `).join('');
 
   return `
-    <div class="upcoming-near-you" style="margin-top: 16px;">
+    <div class="upcoming-near-you" style="margin-top: 0;">
       <div class="card-title" style="font-size: 0.9rem; color: var(--muted); margin-bottom: 10px; display:flex; align-items:center; justify-content:space-between;">
         <span><i data-lucide="map-pin" style="width:14px; height:14px; vertical-align: middle;"></i> Upcoming near you</span>
         <button class="link-btn" data-action="nav" data-tab="community" style="background:none; border:none; color:var(--teal); font-size: 0.8rem; font-weight: 800; cursor:pointer;">
