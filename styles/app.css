@@ -4864,4 +4864,93 @@ body.colorblind-mode .wrapped::after {
   display: inline-block;
   transition: opacity 0.3s ease;
 }
+
+/* =====================================================
+   UNMASK DRUG RED FLAGS GAME
+   ===================================================== */
+@keyframes pulseGlow {
+  0% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.08); opacity: 0.6; }
+  100% { transform: scale(1); opacity: 0.4; }
+}
+
+.unmask-logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.unmask-tap-box {
+  width: 14px;
+  height: 14px;
+  background: var(--line);
+  border: 1.5px solid var(--muted);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.unmask-tap-box.active {
+  background: var(--teal);
+  border-color: var(--teal);
+  box-shadow: 0 0 6px rgba(69, 196, 176, 0.5);
+}
+
+.unmask-tile {
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.unmask-tile.uncovered {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.8);
+}
+
+.tile-eye-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--faint);
+  opacity: 0.65;
+  transition: transform 0.2s;
+}
+
+.unmask-tile:hover .tile-eye-icon {
+  transform: scale(1.15);
+  color: var(--teal);
+  opacity: 1;
+}
+
+.btn-unmask-option {
+  transition: all 0.2s;
+}
+
+.btn-unmask-option:active {
+  transform: scale(0.98);
+}
+
+.unmask-clue-item {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Light mode overrides for UnMask game */
+.light-theme .unmask-tile {
+  background: rgba(226, 232, 240, 0.95);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.light-theme .unmask-tap-box {
+  border-color: var(--muted);
+}
+
+.light-theme .unmask-tap-box.active {
+  background: var(--teal);
+  border-color: var(--teal);
+}
+
 

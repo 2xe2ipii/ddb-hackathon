@@ -167,6 +167,120 @@ function handleAppClick(e) {
       render();
       break;
 
+    case 'toggle-unmask':
+      state.unmaskOpened = !state.unmaskOpened;
+      if (state.unmaskOpened) {
+        state.mythOpened = false;
+        state.quizOpened = false;
+        state.unmaskGameState = 'entry';
+      }
+      render();
+      break;
+
+    case 'start-unmask-game':
+      state.unmaskGameState = 'playing';
+      state.unmaskRoundIndex = 0;
+      state.unmaskScore = 0;
+      state.unmaskCluesUsed = 0;
+      state.unmaskTapsLeft = 3;
+      state.unmaskRevealedTiles = [];
+      state.unmaskSelectedOption = null;
+      state.unmaskRoundAnswered = false;
+      state.unmaskCorrectCount = 0;
+      state.unmaskEarnedSharpEye = false;
+      state.unmaskEarnedFastReveal = false;
+      state.unmaskEarnedClueSaver = false;
+      render();
+      break;
+
+    case 'unmask-tap-tile': {
+      if (state.unmaskRoundAnswered) return;
+      const tileIndex = parseInt(el.dataset.tileIndex, 10);
+      if (state.unmaskTapsLeft > 0 && !state.unmaskRevealedTiles.includes(tileIndex)) {
+        state.unmaskRevealedTiles.push(tileIndex);
+        state.unmaskTapsLeft--;
+        render();
+      }
+      break;
+    }
+
+    case 'unmask-use-clue':
+      if (state.unmaskCluesUsed < 2) {
+        state.unmaskCluesUsed++;
+        render();
+      }
+      break;
+
+    case 'answer-unmask': {
+      if (state.unmaskRoundAnswered) return;
+      const optionIndex = parseInt(el.dataset.index, 10);
+      state.unmaskSelectedOption = optionIndex;
+      state.unmaskRoundAnswered = true;
+
+      const round = UNMASK_ROUNDS[state.unmaskRoundIndex];
+      const correct = optionIndex === round.answer;
+
+      if (correct) {
+        state.unmaskCorrectCount++;
+        let points = 0;
+        if (state.unmaskCluesUsed === 0) {
+          points = 15;
+          state.unmaskEarnedSharpEye = true;
+        } else if (state.unmaskCluesUsed === 1) {
+          points = 10;
+        } else if (state.unmaskCluesUsed === 2) {
+          points = 5;
+        }
+        state.unmaskScore += points;
+
+        if (state.unmaskRevealedTiles.length === 1) {
+          state.unmaskEarnedFastReveal = true;
+        }
+      }
+
+      if (state.unmaskCluesUsed === 0) {
+        state.unmaskEarnedClueSaver = true;
+      }
+
+      render();
+      break;
+    }
+
+    case 'unmask-next-round':
+      state.unmaskRoundIndex++;
+      if (state.unmaskRoundIndex < 8) {
+        state.unmaskCluesUsed = 0;
+        state.unmaskTapsLeft = 3;
+        state.unmaskRevealedTiles = [];
+        state.unmaskSelectedOption = null;
+        state.unmaskRoundAnswered = false;
+      } else {
+        state.unmaskGameState = 'results';
+      }
+      render();
+      break;
+
+    case 'unmask-play-again':
+      state.unmaskGameState = 'playing';
+      state.unmaskRoundIndex = 0;
+      state.unmaskScore = 0;
+      state.unmaskCluesUsed = 0;
+      state.unmaskTapsLeft = 3;
+      state.unmaskRevealedTiles = [];
+      state.unmaskSelectedOption = null;
+      state.unmaskRoundAnswered = false;
+      state.unmaskCorrectCount = 0;
+      state.unmaskEarnedSharpEye = false;
+      state.unmaskEarnedFastReveal = false;
+      state.unmaskEarnedClueSaver = false;
+      render();
+      break;
+
+    case 'unmask-close':
+      state.unmaskOpened = false;
+      render();
+      break;
+
     case 'reset-learn-session':
       state.mythFlowIndex = 0;
       state.quizFlowIndex = 0;
@@ -344,6 +458,19 @@ function handleAppClick(e) {
         state.relaxSelectedExercise = 'box';
         state.relaxToolkitOpen = null;
         state.achievementsExpanded = false;
+        state.unmaskOpened = false;
+        state.unmaskGameState = 'entry';
+        state.unmaskRoundIndex = 0;
+        state.unmaskScore = 0;
+        state.unmaskCluesUsed = 0;
+        state.unmaskTapsLeft = 3;
+        state.unmaskRevealedTiles = [];
+        state.unmaskSelectedOption = null;
+        state.unmaskRoundAnswered = false;
+        state.unmaskCorrectCount = 0;
+        state.unmaskEarnedSharpEye = false;
+        state.unmaskEarnedFastReveal = false;
+        state.unmaskEarnedClueSaver = false;
         state.sessionMythIds = pickSessionItems(MYTH_CARDS, 5);
         state.sessionQuizIds = pickSessionItems(QUIZ, 5);
         const availableMythsRestart = MYTH_CARDS.filter(m => !state.sessionMythIds.includes(m.id));

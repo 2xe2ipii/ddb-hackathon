@@ -42,9 +42,20 @@ var defaultState = {
   selectedMoodFilter: null, /* added for Mood calendar filters — see implementation_plan.md */
   achievementCategoryFilter: null, /* added for Achievement category chips — see implementation_plan.md */
   language: 'en', /* added for Tagalog translation toggle — see SRS.md §7.3 */
-  communityTab: 'support',
-  eventModalOpen: null,
-  igStoryModalOpen: false
+  igStoryModalOpen: false,
+  unmaskOpened: false,
+  unmaskGameState: 'entry',
+  unmaskRoundIndex: 0,
+  unmaskScore: 0,
+  unmaskCluesUsed: 0,
+  unmaskTapsLeft: 3,
+  unmaskRevealedTiles: [],
+  unmaskSelectedOption: null,
+  unmaskRoundAnswered: false,
+  unmaskCorrectCount: 0,
+  unmaskEarnedSharpEye: false,
+  unmaskEarnedFastReveal: false,
+  unmaskEarnedClueSaver: false
 };
 
 function loadState() {

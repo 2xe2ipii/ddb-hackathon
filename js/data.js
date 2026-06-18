@@ -328,3 +328,143 @@ const WRAPPED = {
   title: 'June so far',
   body: '<strong>15</strong> check-ins. <strong>12</strong> myths cleared. <strong>1</strong> event joined.',
 };
+
+const UNMASK_ROUNDS = [
+  {
+    id: 'u1',
+    imageFile: 'assets/unmask/crystalline.png',
+    clues: [
+      "Shiny, crystal-like, and white",
+      "Street names include \"ice\" and \"shabu\""
+    ],
+    question: "What is this?",
+    options: [
+      "Table salt",
+      "MSG seasoning",
+      "Crushed ice",
+      "Methamphetamine"
+    ],
+    answer: 3,
+    explanation: "Methamphetamine in its crystalline form is often called \"ice\" or \"shabu.\" It is the most abused substance in the Philippines and causes severe physical and mental deterioration. If you encounter this, do not touch it — report immediately."
+  },
+  {
+    id: 'u2',
+    imageFile: 'assets/unmask/packaging.png',
+    clues: [
+      "No label, no brand, no regulation seal",
+      "Commonly found near schools"
+    ],
+    question: "What is most likely inside?",
+    options: [
+      "Powdered medicine",
+      "An illegal substance",
+      "Laundry detergent",
+      "Flour sample"
+    ],
+    answer: 1,
+    explanation: "Small unmarked zip-lock sachets with powdery residue are one of the most common drug paraphernalia found in the Philippines. Legitimate substances always come in labeled, sealed, and regulated packaging."
+  },
+  {
+    id: 'u3',
+    imageFile: 'assets/unmask/foil.png',
+    clues: [
+      "A common household item being misused",
+      "Burn marks suggest something was heated underneath"
+    ],
+    question: "What is this used for here?",
+    options: [
+      "Storing leftovers",
+      "Craft project",
+      "Inhaling a substance",
+      "Shaping jewelry"
+    ],
+    answer: 2,
+    explanation: "Rolled or folded aluminum foil with burn marks is a common tool used to heat and inhale drugs like shabu. Finding this item alongside other suspicious materials is a serious red flag."
+  },
+  {
+    id: 'u4',
+    imageFile: 'assets/unmask/pill.png',
+    clues: [
+      "No prescription marking or brand name",
+      "Often offered at parties or called a \"happy pill\""
+    ],
+    question: "Why is this dangerous?",
+    options: [
+      "It dissolves too fast",
+      "It looks like candy",
+      "It is unidentified",
+      "It is past its expiry"
+    ],
+    answer: 2,
+    explanation: "Unbranded, unlabeled pills are a major red flag. Drugs like ecstasy (MDMA) and other synthetic substances are often distributed as small colorful tablets. Never take any pill that was not prescribed to you by a licensed doctor."
+  },
+  {
+    id: 'u5',
+    imageFile: 'assets/unmask/vape.png',
+    clues: [
+      "Legal in some forms, but easily misused",
+      "Unusually sweet or chemical smell when used"
+    ],
+    question: "What makes this a red flag?",
+    options: [
+      "It is overpriced",
+      "It has no brand",
+      "It produces too much vapor",
+      "It may contain illegal substances"
+    ],
+    answer: 3,
+    explanation: "Vape devices can be easily loaded with THC oil, synthetic cannabinoids, or other illegal substances. The lack of a brand and an unusual smell are warning signs. Report suspicious vape use to a trusted adult."
+  },
+  {
+    id: 'u6',
+    imageFile: 'assets/unmask/spoon.png',
+    clues: [
+      "A kitchen item found outside the kitchen",
+      "Held over a flame repeatedly"
+    ],
+    question: "What does this indicate?",
+    options: [
+      "Melting sugar",
+      "Heating drugs",
+      "Fixing a candle",
+      "Science homework"
+    ],
+    answer: 1,
+    explanation: "A spoon with burn marks on the underside is a known piece of drug paraphernalia used to heat and dissolve substances before injection or inhalation. If found alongside other suspicious items, report it immediately."
+  },
+  {
+    id: 'u7',
+    imageFile: 'assets/unmask/warning.png',
+    clues: [
+      "Internally recognized as a danger sign",
+      "Appears on toxic or harmful contents"
+    ],
+    question: "What should you do if you find this unlabeled?",
+    options: [
+      "Open it carefully",
+      "Smell it to identify",
+      "Report it",
+      "Throw it away"
+    ],
+    answer: 2,
+    explanation: "Warning symbols on unlabeled packets indicate a potentially toxic or dangerous substance. Never open, smell, or touch unknown marked packets. Alert an adult or barangay official immediately."
+  },
+  {
+    id: 'u8',
+    imageFile: 'assets/unmask/offer.png',
+    clues: [
+      "Something is being offered without being asked for",
+      "The moment feels urgent or pressured"
+    ],
+    question: "What is the safest response?",
+    options: [
+      "Ask what it is first",
+      "Take it just once",
+      "Decline and leave",
+      "Accept to avoid conflict"
+    ],
+    answer: 2,
+    explanation: "Peer pressure often happens during vulnerable moments. No matter the context, declining an unknown substance is always the right choice. Seeking support from a counselor or trusted adult is a healthier way to cope with stress."
+  }
+];
+
