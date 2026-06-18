@@ -31,6 +31,7 @@ var defaultState = {
   achievementsExpanded: false,
   sessionMythIds: [],
   sessionQuizIds: [],
+  sessionUnmaskIds: [],
   todayMythId: null,
   textSize: 'medium', /* added for Accessibility enhancements — see implementation_plan.md */
   colorblindMode: false, /* added for Accessibility enhancements — see implementation_plan.md */

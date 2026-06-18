@@ -240,7 +240,7 @@ function dailyQuizCardHTML() {
 function unmaskGameHTML() {
   if (state.unmaskGameState === 'entry') {
     return unmaskEntryHTML();
-  } else if (state.unmaskGameState === 'playing') {
+  } else if (state.unmaskGameState === 'playing' || state.unmaskGameState === 'review') {
     return unmaskPlayingHTML();
   } else if (state.unmaskGameState === 'results') {
     return unmaskResultsHTML();
@@ -253,7 +253,7 @@ function unmaskEntryHTML() {
     <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px 0 20px; text-align: center;">
       <div style="margin: auto 0; display: flex; flex-direction: column; align-items: center; gap: 16px;">
         <div class="unmask-logo-container" style="position: relative; width: 100px; height: 100px; margin-bottom: 16px;">
-          <div style="position: absolute; inset: 0; background: radial-gradient(circle, var(--teal) 0%, transparent 70%); opacity: 0.4; filter: blur(15px); animation: pulse Glow 3s infinite;"></div>
+          <div style="position: absolute; inset: 0; background: radial-gradient(circle, var(--teal) 0%, transparent 70%); opacity: 0.4; filter: blur(15px); animation: pulseGlow 3s infinite;"></div>
           <div style="position: absolute; inset: 10px; background: var(--card-2); border: 2px solid var(--teal); border-radius: 24px; display: grid; place-items: center; box-shadow: 0 8px 20px rgba(0,0,0,0.3);">
             <i data-lucide="eye-off" style="width: 40px; height: 40px; color: var(--teal);"></i>
           </div>
@@ -268,7 +268,7 @@ function unmaskEntryHTML() {
         
         <div style="font-size: 12px; color: var(--faint); margin-top: 16px; display: flex; align-items: center; gap: 6px;">
           <i data-lucide="clock" style="width: 13px; height: 13px;"></i>
-          8 rounds &bull; ~6 mins
+          5 rounds &bull; ~4 mins
         </div>
       </div>
 
@@ -278,12 +278,19 @@ function unmaskEntryHTML() {
 }
 
 function unmaskPlayingHTML() {
-  const round = UNMASK_ROUNDS[state.unmaskRoundIndex];
-  const progressPct = ((state.unmaskRoundIndex + 1) / 8) * 100;
+  const roundId = state.sessionUnmaskIds[state.unmaskRoundIndex];
+  const round = UNMASK_ROUNDS.find(r => r.id === roundId) || UNMASK_ROUNDS[0];
+  const progressPct = ((state.unmaskRoundIndex + 1) / 5) * 100;
   
+  const isReview = state.unmaskGameState === 'review';
+  const selectedOption = isReview ? state.unmaskAnswers[state.unmaskRoundIndex] : state.unmaskSelectedOption;
+  const answered = isReview ? (selectedOption !== undefined && selectedOption !== null) : state.unmaskRoundAnswered;
+  const correct = answered && selectedOption === round.answer;
+  const cluesUsed = isReview ? (state.unmaskRoundClues[state.unmaskRoundIndex] || 0) : state.unmaskCluesUsed;
+
   // Clues text
   let cluesHTML = '';
-  if (state.unmaskCluesUsed > 0) {
+  if (cluesUsed > 0) {
     cluesHTML += `
       <div class="unmask-clue-item" style="background: rgba(69, 196, 176, 0.03); border-left: 3px solid var(--teal); border-radius: 4px 12px 12px 4px; padding: 10px 14px; font-size: 13.5px; line-height: 1.4; color: var(--text); display: flex; align-items: flex-start; gap: 10px; animation: slideIn 0.3s ease;">
         <span style="color: var(--teal); font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2.5px; white-space: nowrap;">Clue 1</span>
@@ -291,7 +298,7 @@ function unmaskPlayingHTML() {
       </div>
     `;
   }
-  if (state.unmaskCluesUsed > 1) {
+  if (cluesUsed > 1) {
     cluesHTML += `
       <div class="unmask-clue-item" style="background: rgba(69, 196, 176, 0.03); border-left: 3px solid var(--teal); border-radius: 4px 12px 12px 4px; padding: 10px 14px; font-size: 13.5px; line-height: 1.4; color: var(--text); display: flex; align-items: flex-start; gap: 10px; animation: slideIn 0.3s ease; margin-top: 2px;">
         <span style="color: var(--teal); font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2.5px; white-space: nowrap;">Clue 2</span>
@@ -310,7 +317,7 @@ function unmaskPlayingHTML() {
   // Generate grid tiles
   let tilesHTML = '';
   for (let i = 0; i < 9; i++) {
-    const uncovered = state.unmaskRevealedTiles.includes(i);
+    const uncovered = isReview || state.unmaskRevealedTiles.includes(i);
     tilesHTML += `
       <div class="unmask-tile ${uncovered ? 'uncovered' : ''}" 
            data-action="unmask-tap-tile" 
@@ -321,9 +328,6 @@ function unmaskPlayingHTML() {
   }
 
   // Options buttons
-  const answered = state.unmaskRoundAnswered;
-  const correct = answered && state.unmaskSelectedOption === round.answer;
-
   const optionsHTML = round.options.map((opt, i) => {
     let borderColor = 'var(--line)';
     let textColor = 'var(--muted)';
@@ -336,7 +340,7 @@ function unmaskPlayingHTML() {
         textColor = 'var(--teal)';
         bgColor = 'rgba(69, 196, 176, 0.1)';
         iconHTML = `<i data-lucide="check" style="width: 16px; height: 16px; color: var(--teal); margin-right: 10px;"></i>`;
-      } else if (state.unmaskSelectedOption === i) {
+      } else if (selectedOption === i) {
         borderColor = '#e28e8e';
         textColor = '#e28e8e';
         bgColor = 'rgba(226, 142, 142, 0.1)';
@@ -363,9 +367,9 @@ function unmaskPlayingHTML() {
   if (answered) {
     let ptsEarned = 0;
     if (correct) {
-      if (state.unmaskCluesUsed === 0) ptsEarned = 15;
-      else if (state.unmaskCluesUsed === 1) ptsEarned = 10;
-      else if (state.unmaskCluesUsed === 2) ptsEarned = 5;
+      if (cluesUsed === 0) ptsEarned = 15;
+      else if (cluesUsed === 1) ptsEarned = 10;
+      else if (cluesUsed === 2) ptsEarned = 5;
     }
     
     explanationHTML = `
@@ -381,7 +385,7 @@ function unmaskPlayingHTML() {
       </div>
       
       <button class="btn btn-primary" data-action="unmask-next-round" style="margin-top: 20px; padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 800; width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(69, 196, 176, 0.2);">
-        ${state.unmaskRoundIndex === 7 ? 'View Results' : 'Next Round'} <i data-lucide="arrow-right" style="width: 18px; height: 18px;"></i>
+        ${state.unmaskRoundIndex === 4 ? 'View Results' : 'Next Round'} <i data-lucide="arrow-right" style="width: 18px; height: 18px;"></i>
       </button>
     `;
   }
@@ -391,7 +395,7 @@ function unmaskPlayingHTML() {
       <!-- Top Bar -->
       <div style="display: flex; flex-direction: column; gap: 6px;">
         <div style="display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 800; color: var(--muted);">
-          <span>Round ${state.unmaskRoundIndex + 1} of 8</span>
+          <span>Round ${state.unmaskRoundIndex + 1} of 5</span>
           <span style="color: var(--teal);">${state.unmaskScore} pts</span>
         </div>
         <div style="width: 100%; height: 6px; background: var(--line); border-radius: 10px; overflow: hidden;">
@@ -407,9 +411,9 @@ function unmaskPlayingHTML() {
           </span>
           <button class="btn btn-ghost" 
                   data-action="unmask-use-clue" 
-                  style="font-size: 12.5px; padding: 6px 12px; border-radius: 12px; display: flex; align-items: center; gap: 4px; color: ${state.unmaskCluesUsed >= 2 ? 'var(--faint)' : 'var(--teal)'};"
-                  ${(state.unmaskCluesUsed >= 2 || answered) ? 'disabled' : ''}>
-            💡 ${state.unmaskCluesUsed === 0 ? 'Use Clue 1' : (state.unmaskCluesUsed === 1 ? 'Use Clue 2' : 'No clues left')}
+                  style="font-size: 12.5px; padding: 6px 12px; border-radius: 12px; display: flex; align-items: center; gap: 4px; color: ${cluesUsed >= 2 ? 'var(--faint)' : 'var(--teal)'};"
+                  ${(cluesUsed >= 2 || answered || isReview) ? 'disabled' : ''}>
+            💡 ${cluesUsed === 0 ? 'Use Clue 1' : (cluesUsed === 1 ? 'Use Clue 2' : 'No clues left')}
           </button>
         </div>
         ${cluesHTML}
@@ -428,12 +432,14 @@ function unmaskPlayingHTML() {
         </div>
 
         <!-- Taps indicator -->
+        ${isReview ? '' : `
         <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--muted); font-weight: 700; margin-top: 2px;">
           <div style="display: flex; gap: 4px;">
             ${tapsHTML}
           </div>
           <span>${state.unmaskTapsLeft} tap${state.unmaskTapsLeft === 1 ? '' : 's'} left</span>
         </div>
+        `}
       </div>
 
       <!-- Question & Choices -->
@@ -453,11 +459,11 @@ function unmaskPlayingHTML() {
 function unmaskResultsHTML() {
   const correctCount = state.unmaskCorrectCount || 0;
   let feedbackText = '';
-  if (correctCount === 8) {
+  if (correctCount === 5) {
     feedbackText = "Perfect awareness. You're ready to protect yourself and others.";
-  } else if (correctCount >= 6) {
-    feedbackText = "Sharp instincts. A little more practice and you'll catch them all.";
   } else if (correctCount >= 4) {
+    feedbackText = "Sharp instincts. A little more practice and you'll catch them all.";
+  } else if (correctCount >= 2) {
     feedbackText = "Good effort. Some signs are tricky — keep playing to sharpen your eye.";
   } else {
     feedbackText = "Don't worry. That's what this game is for. Try again!";
@@ -518,7 +524,7 @@ function unmaskResultsHTML() {
           <div style="font-size: 14px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em;">Your Performance</div>
           
           <div style="font-size: 40px; font-weight: 900; color: var(--text); line-height: 1; margin: 4px 0;">
-            ${correctCount} <span style="font-size: 20px; color: var(--muted); font-weight: 700;">/ 8</span>
+            ${correctCount} <span style="font-size: 20px; color: var(--muted); font-weight: 700;">/ 5</span>
           </div>
           
           <p style="font-size: 13.5px; color: var(--muted); font-weight: 700; margin-bottom: 8px;">uncovered danger signs</p>
@@ -539,10 +545,13 @@ function unmaskResultsHTML() {
 
         <!-- Buttons -->
         <div style="width: 100%; display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
-          <button class="btn btn-primary" data-action="unmask-play-again" style="padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 800; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(69, 196, 176, 0.3);">
+          <button class="btn btn-primary" data-action="unmask-revisit-answers" style="padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 800; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(69, 196, 176, 0.3);">
+            Revisit Your Answers
+          </button>
+          <button class="btn btn-ghost" data-action="unmask-play-again" style="padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 800; display: flex; justify-content: center; align-items: center; gap: 8px; border: 2px solid var(--line);">
             <i data-lucide="rotate-ccw" style="width: 16px; height: 16px;"></i> Play Again
           </button>
-          <button class="btn btn-ghost" data-action="unmask-close" style="padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 800; display: flex; justify-content: center; align-items: center; gap: 8px; border: 2px solid var(--line);">
+          <button class="btn btn-ghost" data-action="unmask-close" style="border: none; background: transparent; box-shadow: none; color: var(--muted); font-size: 14px; font-weight: 700; padding: 8px; margin-top: 4px; cursor: pointer;">
             Back to Learn
           </button>
         </div>
@@ -637,10 +646,13 @@ function mythResultsHTML() {
 
         <!-- Buttons -->
         <div style="width: 100%; display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
-          <button class="btn btn-primary" data-action="myth-play-again" style="padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 800; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(69, 196, 176, 0.3);">
+          <button class="btn btn-primary" data-action="revisit-myth-answers" style="padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 800; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(69, 196, 176, 0.3);">
+            Revisit Your Answers
+          </button>
+          <button class="btn btn-ghost" data-action="myth-play-again" style="padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 800; display: flex; justify-content: center; align-items: center; gap: 8px; border: 2px solid var(--line);">
             <i data-lucide="rotate-ccw" style="width: 16px; height: 16px;"></i> Play Again
           </button>
-          <button class="btn btn-ghost" data-action="close-myth-flow" style="padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 800; display: flex; justify-content: center; align-items: center; gap: 8px; border: 2px solid var(--line);">
+          <button class="btn btn-ghost" data-action="close-myth-flow" style="border: none; background: transparent; box-shadow: none; color: var(--muted); font-size: 14px; font-weight: 700; padding: 8px; margin-top: 4px; cursor: pointer;">
             Back to Learn
           </button>
         </div>
@@ -735,7 +747,10 @@ function quizResultsHTML() {
 
         <!-- Buttons (No Play Again because it is Daily) -->
         <div style="width: 100%; display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
-          <button class="btn btn-ghost" data-action="close-quiz-flow" style="padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 800; display: flex; justify-content: center; align-items: center; gap: 8px; border: 2px solid var(--line);">
+          <button class="btn btn-primary" data-action="revisit-quiz-answers" style="padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 800; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(69, 196, 176, 0.3);">
+            Revisit Your Answers
+          </button>
+          <button class="btn btn-ghost" data-action="close-quiz-flow" style="border: none; background: transparent; box-shadow: none; color: var(--muted); font-size: 14px; font-weight: 700; padding: 8px; margin-top: 4px; cursor: pointer;">
             Back to Learn
           </button>
         </div>
