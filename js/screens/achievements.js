@@ -196,6 +196,28 @@ const ACHIEVEMENTS = [
         check: (s) => s.savedSupport && s.savedSupport.has('r2'),
         progress: (s) => ({ current: s.savedSupport && s.savedSupport.has('r2') ? 1 : 0, target: 1, text: 'Save the school guidance / counselor resource' })
     },
+    {
+        id: 'detective-mode',
+        icon: 'search',
+        name: 'Detective Mode',
+        grad: 'cat-learn',
+        category: 'learn',
+        desc: 'Careful and thorough investigation',
+        lockedHint: 'Reveal all tiles and use all clues in a round',
+        check: (s) => !!s.unmaskDetectiveModeUnlocked,
+        progress: (s) => ({ current: s.unmaskDetectiveModeUnlocked ? 1 : 0, target: 1, text: 'Investigate thoroughly in Unmask Drugs' })
+    },
+    {
+        id: 'full-sweep',
+        icon: 'check-square',
+        name: 'Full Sweep',
+        grad: 'cat-learn',
+        category: 'learn',
+        desc: 'Complete all 5 unmask rounds',
+        lockedHint: 'Complete all 5 rounds of Unmask Drugs',
+        check: (s) => !!s.unmaskFullSweepUnlocked,
+        progress: (s) => ({ current: s.unmaskFullSweepUnlocked ? 1 : 0, target: 1, text: 'Complete all 5 unmask rounds' })
+    },
 ];
 
 function isUnlocked(achievement, s) {

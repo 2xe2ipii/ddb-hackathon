@@ -56,7 +56,10 @@ var defaultState = {
   unmaskCorrectCount: 0,
   unmaskEarnedSharpEye: false,
   unmaskEarnedFastReveal: false,
-  unmaskEarnedClueSaver: false
+  unmaskEarnedClueSaver: false,
+  unmaskDetectiveModeUnlocked: false,
+  unmaskFullSweepUnlocked: false,
+  unmaskRunDetectiveMode: false
 };
 
 function loadState() {
