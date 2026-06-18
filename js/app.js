@@ -202,6 +202,7 @@ function handleAppClick(e) {
       state.unmaskEarnedClueSaver = false;
       state.unmaskAnswers = [];
       state.unmaskRoundClues = [];
+      state.unmaskRunDetectiveMode = false;
       state.sessionUnmaskIds = pickSessionItems(UNMASK_ROUNDS, 5);
       render();
       break;
@@ -226,6 +227,7 @@ function handleAppClick(e) {
 
     case 'answer-unmask': {
       if (state.unmaskRoundAnswered) return;
+      const prevUnlocked = snapshotAchievements();
       const optionIndex = parseInt(el.dataset.index, 10);
       state.unmaskSelectedOption = optionIndex;
       state.unmaskRoundAnswered = true;
@@ -252,12 +254,19 @@ function handleAppClick(e) {
         if (state.unmaskRevealedTiles.length === 1) {
           state.unmaskEarnedFastReveal = true;
         }
+
+        if (state.unmaskCluesUsed === 2 && state.unmaskRevealedTiles.length === 3) {
+          state.unmaskRunDetectiveMode = true;
+          state.unmaskDetectiveModeUnlocked = true;
+        }
       }
 
       if (state.unmaskCluesUsed === 0) {
         state.unmaskEarnedClueSaver = true;
       }
 
+      saveState();
+      reportAchievements(prevUnlocked);
       render();
       break;
     }
@@ -273,7 +282,11 @@ function handleAppClick(e) {
           state.unmaskRoundAnswered = false;
         }
       } else {
+        const prevUnlocked = snapshotAchievements();
         state.unmaskGameState = 'results';
+        state.unmaskFullSweepUnlocked = true;
+        saveState();
+        reportAchievements(prevUnlocked);
       }
       render();
       break;
@@ -293,6 +306,7 @@ function handleAppClick(e) {
       state.unmaskEarnedClueSaver = false;
       state.unmaskAnswers = [];
       state.unmaskRoundClues = [];
+      state.unmaskRunDetectiveMode = false;
       state.sessionUnmaskIds = pickSessionItems(UNMASK_ROUNDS, 5);
       render();
       break;
@@ -907,6 +921,8 @@ function initApp() {
       
       // Populate unmask
       state.sessionUnmaskIds = ['u1', 'u2', 'u3', 'u4', 'u5'];
+      state.unmaskDetectiveModeUnlocked = true;
+      state.unmaskFullSweepUnlocked = true;
       
       state.tab = preserved.tab;
       state.triggerCelebration = true;

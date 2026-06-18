@@ -470,46 +470,26 @@ function unmaskResultsHTML() {
   }
 
   let badgesHTML = '';
-  let hasBadges = false;
+  let badgeCount = 1;
 
-  if (state.unmaskEarnedSharpEye) {
-    hasBadges = true;
+  if (state.unmaskRunDetectiveMode) {
+    badgeCount = 2;
     badgesHTML += `
       <div style="display: flex; flex-direction: column; align-items: center; padding: 12px 6px; background: var(--card-2); border: 1px solid var(--line); border-radius: 16px; text-align: center;">
         <span style="font-size: 22px; margin-bottom: 6px;">🔍</span>
-        <strong style="font-size: 12px; color: var(--teal); font-weight: 800; display: block; margin-bottom: 2px; white-space: nowrap;">Sharp Eye</strong>
-        <p style="font-size: 10px; color: var(--muted); margin: 0; line-height: 1.2;">No clues used on correct answer</p>
-      </div>
-    `;
-  }
-  if (state.unmaskEarnedFastReveal) {
-    hasBadges = true;
-    badgesHTML += `
-      <div style="display: flex; flex-direction: column; align-items: center; padding: 12px 6px; background: var(--card-2); border: 1px solid var(--line); border-radius: 16px; text-align: center;">
-        <span style="font-size: 22px; margin-bottom: 6px;">⚡</span>
-        <strong style="font-size: 12px; color: var(--teal); font-weight: 800; display: block; margin-bottom: 2px; white-space: nowrap;">Fast Reveal</strong>
-        <p style="font-size: 10px; color: var(--muted); margin: 0; line-height: 1.2;">Only 1 tile uncovered on correct answer</p>
-      </div>
-    `;
-  }
-  if (state.unmaskEarnedClueSaver) {
-    hasBadges = true;
-    badgesHTML += `
-      <div style="display: flex; flex-direction: column; align-items: center; padding: 12px 6px; background: var(--card-2); border: 1px solid var(--line); border-radius: 16px; text-align: center;">
-        <span style="font-size: 22px; margin-bottom: 6px;">💡</span>
-        <strong style="font-size: 12px; color: var(--teal); font-weight: 800; display: block; margin-bottom: 2px; white-space: nowrap;">Clue Saver</strong>
-        <p style="font-size: 10px; color: var(--muted); margin: 0; line-height: 1.2;">Finished a round without clues</p>
+        <strong style="font-size: 12px; color: var(--teal); font-weight: 800; display: block; margin-bottom: 2px; white-space: nowrap;">Detective Mode</strong>
+        <p style="font-size: 10px; color: var(--muted); margin: 0; line-height: 1.2;">Careful and thorough investigation</p>
       </div>
     `;
   }
 
-  if (!hasBadges) {
-    badgesHTML = `
-      <div style="grid-column: span 3; font-size: 13px; color: var(--faint); text-align: center; padding: 10px 0;">
-        Play again to challenge yourself and earn special run badges!
-      </div>
-    `;
-  }
+  badgesHTML += `
+    <div style="display: flex; flex-direction: column; align-items: center; padding: 12px 6px; background: var(--card-2); border: 1px solid var(--line); border-radius: 16px; text-align: center;">
+      <span style="font-size: 22px; margin-bottom: 6px;">🧹</span>
+      <strong style="font-size: 12px; color: var(--teal); font-weight: 800; display: block; margin-bottom: 2px; white-space: nowrap;">Full Sweep</strong>
+      <p style="font-size: 10px; color: var(--muted); margin: 0; line-height: 1.2;">Complete all 5 unmask rounds</p>
+    </div>
+  `;
 
   return `
     <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px 16px 20px; text-align: center;">
@@ -538,7 +518,7 @@ function unmaskResultsHTML() {
           <div style="font-size: 13px; font-weight: 800; color: var(--muted); text-align: left; margin-left: 4px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px;">
             <i data-lucide="award" style="width: 14px; height: 14px; color: var(--teal);"></i> Badges Earned
           </div>
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%;">
+          <div style="display: grid; grid-template-columns: repeat(${badgeCount}, 1fr); gap: 8px; width: 100%; max-width: ${badgeCount === 1 ? '140px' : '280px'}; margin: 0 auto;">
             ${badgesHTML}
           </div>
         </div>

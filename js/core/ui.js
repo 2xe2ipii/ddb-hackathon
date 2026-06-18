@@ -501,6 +501,13 @@ const TRANSLATIONS = {
   "Helping Hand": "Tulong na Kamay",
   "Saved a counselor contact for a friend": "Nag-save ng contact ng counselor para sa kaibigan",
   "Save the school guidance / counselor resource": "I-save ang resource ng school guidance counselor",
+  "Detective Mode": "Detektib Mode",
+  "Careful and thorough investigation": "Maingat at masusing pagsisiyasat",
+  "Reveal all tiles and use all clues in a round": "Ibunyag ang lahat ng tile at gamitin ang lahat ng pahiwatig sa isang round",
+  "Full Sweep": "Full Sweep",
+  "Complete all 5 unmask rounds": "Kumpletuhin ang lahat ng 5 unmask round",
+  "Complete all 5 rounds of Unmask Drugs": "Kumpletuhin ang lahat ng 5 round ng Unmask Drugs",
+  "Investigate thoroughly in Unmask Drugs": "Magsiyasat nang mabuti sa Unmask Drugs",
 
   // Toasts
   "DDB opened": "Nabuksan ang DDB",
