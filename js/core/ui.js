@@ -184,7 +184,7 @@ const TRANSLATIONS = {
   "For urgent support": "Para sa agarang suporta",
   "Save counselor contact": "I-save ang contact ng counselor",
   "For later or for a friend": "Para sa iyo o sa isang kaibigan",
-  "Upcoming near you": "Mga paparating na kaganapan malapit sa iyo",
+  "Upcoming near you": "Mga kaganapan",
   "Register Now": "Magrehistro Ngayon",
   "You're done for today.": "Tapos ka na para sa araw na ito.",
   "One truth. One check-in. One next step.": "Isang katotohanan. Isang check-in. Isang hakbang pasulong.",
@@ -206,7 +206,7 @@ const TRANSLATIONS = {
   "Scroll for more.": "Mag-scroll para sa iba pa.",
   "Truths Cleared": "Mga Katotohanang Nalutas",
   "Questions Answered": "Mga Tanong na Nasagot",
-  "Daily Quiz": "Araw-araw na Pagsusulit",
+  "Daily Quiz": "Pagsasanay Ngayon",
   "Test your knowledge in 10s": "Subukin ang iyong kaalaman sa loob ng 10s",
   "Start Quiz": "Simulan ang Pagsusulit",
   "Time Left:": "Oras na Natitira:",
@@ -220,10 +220,10 @@ const TRANSLATIONS = {
   "Clear 5 misconceptions, then practice one safe choice.": "Linawin ang 5 maling paniniwala, pagkatapos ay magsanay ng isang ligtas na pasya.",
   "Myths vs facts": "Mito vs Katotohanan",
   "Myths vs Facts": "Mito vs Katotohanan",
-  "Daily quiz": "Araw-araw na Pagsusulit",
+  "Daily quiz": "Pagsasanay Ngayon",
   "Challenge a Myth": "Hamunin ang Mito",
   "All 5 completed": "Kumpleto na ang lahat ng 5",
-  "Start Daily Quiz": "Simulan ang Araw-araw na Pagsusulit",
+  "Start Daily Quiz": "Simulan ang Pagsasanay Ngayon",
   "All 5 Cleared!": "Nalutas Lahat ng 5!",
   "You've uncovered the facts. Great job!": "Nalaman mo ang mga katotohanan. Magaling!",
   "Back to Learn": "Bumalik sa Alamin",
@@ -246,7 +246,7 @@ const TRANSLATIONS = {
   "UnMask Drugs": "Pagbubunyag ng Droga",
   "Tap tiles to uncover the image. Use your clues wisely.": "I-tap ang mga tile upang mabunyag ang larawan. Gamitin ang iyong mga clue nang may katalinuhan.",
   "Start Game": "Simulan ang Laro",
-  "Play Game": "Maglaro ng Laro",
+  "Play Game": "Tara, Laro",
   "8 rounds • ~6 mins": "8 round • ~6 min",
   "Round": "Round",
   "of": "ng",
@@ -304,7 +304,7 @@ const TRANSLATIONS = {
   "Inhale: 5s | Exhale: 5s": "Huminga: 5s | Ibuga: 5s",
 
   // Additional Relax Tab (New items for full translation)
-  "How have you been feeling?": "Kumusta ang pakiramdam mo nitong mga nakaraang araw?",
+  "How have you been feeling?": "Kumusta ka nitong mga nakaraang araw?",
   "A quick 4-question check-in (about 1 minute). Private and just for you.": "Mabilis na check-in na may 4 na tanong (mga 1 minuto). Pribado at para sa iyo lamang.",
   "Start check-in": "Simulan ang check-in",
   "Over the last 2 weeks, how often have you been bothered by:": "Sa nakalipas na 2 linggo, gaano ka kadalas nagambala ng:",
@@ -325,10 +325,34 @@ const TRANSLATIONS = {
   "Your responses suggest mild stress. A short reset can help.": "Ipinapahiwatig ng iyong mga tugon ang magaan na stress. Makakatulong ang maikling pag-reset.",
   "Your responses suggest moderate distress. Extra support may help.": "Ipinapahiwatig ng iyong mga tugon ang katamtamang stress. Maaaring makatulong ang karagdagang suporta.",
   "Your responses suggest you have been carrying a lot. Talking to someone can really help.": "Ipinapahiwatig ng iyong mga tugon na marami kang dinadala. Malaki ang maitutulong ng pakikipag-usap sa iba.",
-  "Relief space": "Relief space",
+  "Relief space": "Espasyong kaginhawaan",
+  "Body scan": "Pag-scan ng Katawan",
+  "Body Scan": "Pag-scan ng Katawan",
+  "Name 5 things you can see around you.": "Magbanggit ng 5 bagay na nakikita mo sa iyong paligid.",
+  "5 things you see": "5 bagay na nakikita mo",
+  "Name 4 things you can touch or feel.": "Magbanggit ng 4 na bagay na maaari mong hawakan o maramdaman.",
+  "4 things you touch": "4 na bagay na nahahawakan mo",
+  "Name 3 things you can hear right now.": "Magbanggit ng 3 bagay na naririnig mo ngayon.",
+  "3 things you hear": "3 bagay na naririnig mo",
+  "Name 2 things you can smell.": "Magbanggit ng 2 bagay na maaari mong maamoy.",
+  "2 things you smell": "2 bagay na naamoy mo",
+  "Name 1 thing you can taste.": "Magbanggit ng 1 bagay na maaari mong malasaan.",
+  "1 thing you taste": "1 bagay na nalalasahan mo",
+  "Relax your forehead, eyes, and jaw.": "I-relax ang iyong noo, mga mata, at panga.",
+  "Face & Jaw": "Mukha at Panga",
+  "Drop your shoulders away from your ears.": "Ibagsak ang iyong mga balikat papalayo sa iyong mga tainga.",
+  "Shoulders": "Mga Balikat",
+  "Loosen your hands and arms.": "Luwagan ang iyong mga kamay at braso.",
+  "Arms & Hands": "Mga Braso at Kamay",
+  "Soften your chest and stomach.": "I-relax ang iyong dibdib at tiyan.",
+  "Chest & Torso": "Dibdib at Katawan",
+  "Let your legs and feet feel heavy and supported.": "Hayaang makaramdam ng bigat at suporta ang iyong mga binti at paa.",
+  "Legs & Feet": "Mga Binti at Paa",
   "Notice your surroundings to anchor back to the present.": "Pansinin ang iyong paligid upang bumalik sa kasalukuyan.",
   "Slowly release tension from head to toe.": "Dahan-dahang pakawalan ang tensyon mula ulo hanggang paa.",
   "Ready?": "Handa na?",
+  "Back": "Bumalik",
+  "Start Over": "Magsimula Muli",
   "tap start below": "i-tap ang simula sa ibaba",
   "tap start to resume": "i-tap ang simula para magpatuloy",
   "Paused": "Naka-pause",
@@ -509,6 +533,73 @@ const TRANSLATIONS = {
   "Complete all 5 rounds of Unmask Drugs": "Kumpletuhin ang lahat ng 5 round ng Unmask Drugs",
   "Investigate thoroughly in Unmask Drugs": "Magsiyasat nang mabuti sa Unmask Drugs",
 
+  // Unmask Rounds Content Translations
+  "Shiny, crystal-like, and white": "Makintab, mala-kristal, at puti",
+  "Street names include \"ice\" and \"shabu\"": "Kasama sa mga tawag sa kalye ang \"ice\" at \"shabu\"",
+  "What is this?": "Ano ito?",
+  "Table salt": "Asin",
+  "MSG seasoning": "Vetsin",
+  "Crushed ice": "Dinurog na yelo",
+  "Methamphetamine": "Methamphetamine (Shabu)",
+  "Methamphetamine in its crystalline form is often called \"ice\" or \"shabu.\" It is the most abused substance in the Philippines and causes severe physical and mental deterioration. If you encounter this, do not touch it — report immediately.": "Ang methamphetamine sa mala-kristal na anyo nito ay madalas na tinatawag na \"ice\" o \"shabu.\" Ito ang pinaka-inaabusong substance sa Pilipinas at nagdudulot ng malubhang pinsala sa pisikal at mental na kalusugan. Kung makakita ka nito, huwag hawakan — iulat agad.",
+  "No label, no brand, no regulation seal": "Walang label, walang brand, walang selyo ng regulasyon",
+  "Commonly found near schools": "Karaniwang matatagpuan malapit sa mga paaralan",
+  "What is most likely inside?": "Ano ang pinakamalamang na laman nito?",
+  "Powdered medicine": "Gamot na pulbos",
+  "An illegal substance": "Ipinagbabawal na gamot",
+  "Laundry detergent": "Detergent sa paglalaba",
+  "Flour sample": "Sample ng harina",
+  "Small unmarked zip-lock sachets with powdery residue are one of the most common drug paraphernalia found in the Philippines. Legitimate substances always come in labeled, sealed, and regulated packaging.": "Ang maliliit na zip-lock sachet na walang marka at may tira-tirang pulbos ay isa sa mga pinakakaraniwang kagamitan sa droga na matatagpuan sa Pilipinas. Ang mga legal na gamot o produkto ay palaging may label, nakaselyo, at may regulasyon ang packaging.",
+  "A common household item being misused": "Isang karaniwang gamit sa bahay na inaabuso",
+  "Burn marks suggest something was heated underneath": "Ang mga bakas ng sunog ay nagpapahiwatig na may pinainitan sa ilalim nito",
+  "What is this used for here?": "Para saan ito ginagamit dito?",
+  "Storing leftovers": "Pagtatabi ng tirang pagkain",
+  "Craft project": "Proyekto sa sining",
+  "Inhaling a substance": "Paglanghap ng usok ng gamot",
+  "Shaping jewelry": "Paghubog ng alahas",
+  "Rolled or folded aluminum foil with burn marks is a common tool used to heat and inhale drugs like shabu. Finding this item alongside other suspicious materials is a serious red flag.": "Ang niroll o tinuping aluminum foil na may bakas ng sunog ay karaniwang ginagamit upang painitin at langhapin ang mga droga tulad ng shabu. Ang pagkakita sa bagay na ito kasabay ng iba pang kahina-hinalang gamit ay isang seryosong babala (red flag).",
+  "No prescription marking or brand name": "Walang marka ng reseta o pangalan ng brand",
+  "Often offered at parties or called a \"happy pill\"": "Madalas inaalok sa mga party o tinatawag na \"happy pill\"",
+  "Why is this dangerous?": "Bakit ito mapanganib?",
+  "It dissolves too fast": "Mabilis itong matunaw",
+  "It looks like candy": "Mukha itong kendi",
+  "It is unidentified": "Hindi ito kilala o tukoy",
+  "It is past its expiry": "Lagpas na ito sa expiry date",
+  "Unbranded, unlabeled pills are a major red flag. Drugs like ecstasy (MDMA) and other synthetic substances are often distributed as small colorful tablets. Never take any pill that was not prescribed to you by a licensed doctor.": "Ang mga tabletang walang brand at walang label ay isang malaking babala. Ang mga droga tulad ng ecstasy (MDMA) at iba pang synthetic na gamot ay madalas na ipinamamahagi bilang maliliit at makukulay na tableta. Huwag uminom ng anumang tableta na hindi inireseta sa iyo ng lisensyadong doktor.",
+  "Legal in some forms, but easily misused": "Legal sa ilang anyo, ngunit madaling abusuhin",
+  "Unusually sweet or chemical smell when used": "May kakaibang tamis o amoy-kemikal kapag ginagamit",
+  "What makes this a red flag?": "Bakit ito maituturing na red flag?",
+  "It is overpriced": "Masyado itong mahal",
+  "It has no brand": "Walang brand ito",
+  "It produces too much vapor": "Masyado itong maraming usok",
+  "It may contain illegal substances": "Maaari itong maglaman ng mga ilegal na substance",
+  "Vape devices can be easily loaded with THC oil, synthetic cannabinoids, or other illegal substances. The lack of a brand and an unusual smell are warning signs. Report suspicious vape use to a trusted adult.": "Ang mga vape device ay madaling malagyan ng THC oil, synthetic cannabinoids, o iba pang ilegal na substance. Ang kawalan ng brand at kakaibang amoy ay mga babala. Iulat ang kahina-hinalang paggamit ng vape sa isang pinagkakatiwalaang matanda.",
+  "A kitchen item found outside the kitchen": "Isang gamit sa kusina na natagpuan sa labas ng kusina",
+  "Held over a flame repeatedly": "Paulit-ulit na itinapat sa apoy",
+  "What does this indicate?": "Ano ang ipinapahiwatig nito?",
+  "Melting sugar": "Pagtunaw ng asukal",
+  "Heating drugs": "Pagpapainit ng ilegal na droga",
+  "Fixing a candle": "Pag-aayos ng kandila",
+  "Science homework": "Takdang-aralin sa Science",
+  "A spoon with burn marks on the underside is a known piece of drug paraphernalia used to heat and dissolve substances before injection or inhalation. If found alongside other suspicious items, report it immediately.": "Ang kutsara na may bakas ng sunog sa ilalim ay isang kilalang kagamitan sa droga na ginagamit upang painitin at tunawin ang mga substance bago iturok o langhapin. Kung matagpuan kasabay ng iba pang kahina-hinalang gamit, iulat ito agad.",
+  "Internally recognized as a danger sign": "Pandaigdigang kinikilala bilang tanda ng panganib",
+  "Appears on toxic or harmful contents": "Lumilitaw sa mga nakakalason o mapanganib na laman",
+  "What should you do if you find this unlabeled?": "Ano ang dapat mong gawin kung makakita ka nito na walang label?",
+  "Open it carefully": "Buksan ito nang maingat",
+  "Smell it to identify": "Amuyin upang matukoy",
+  "Report it": "Iulat ito",
+  "Throw it away": "Itapon ito",
+  "Warning symbols on unlabeled packets indicate a potentially toxic or dangerous substance. Never open, smell, or touch unknown marked packets. Alert an adult or barangay official immediately.": "Ang mga simbolo ng babala sa mga paketeng walang label ay nagpapahiwatig ng posibleng nakakalason o mapanganib na substance. Huwag kailanman buksan, amuyin, o hawakan ang mga hindi kilalang paketeng may marka. Ipaalam agad sa isang matanda o opisyal ng barangay.",
+  "Something is being offered without being asked for": "May iniaalok kahit hindi mo naman hiniling",
+  "The moment feels urgent or pressured": "Ang sandali ay parang apurahan o may kasamang pressure",
+  "What is the safest response?": "Ano ang pinakaligtas na tugon?",
+  "Ask what it is first": "Itanong muna kung ano ito",
+  "Take it just once": "Subukan nang isang beses lang",
+  "Decline and leave": "Tanggihan at umalis",
+  "Accept to avoid conflict": "Tanggapin upang maiwasan ang away",
+  "Peer pressure often happens during vulnerable moments. No matter the context, declining an unknown substance is always the right choice. Seeking support from a counselor or trusted adult is a healthier way to cope with stress.": "Ang peer pressure ay madalas na nangyayari sa mga sandali ng kahinaan. Anuman ang konteksto, ang pagtanggi sa hindi kilalang substance ang laging tamang desisyon. Ang paghingi ng tulong sa counselor o pinagkakatiwalaang matanda ay mas malusog na paraan upang harapin ang stress.",
+  "Clues": "Mga Pahiwatig",
+
   // Toasts
   "DDB opened": "Nabuksan ang DDB",
   "Knowledge step completed": "Natapos ang hakbang sa kaalaman",
@@ -528,6 +619,29 @@ const TRANSLATIONS = {
   "Name cannot be empty": "Hindi maaaring walang laman ang pangalan",
   "Please enter a valid age (1-120)": "Mangyaring magpasok ng wastong edad (1-120)",
   "Profile updated!": "Na-update ang profile!",
+
+  // Card Categories & Sources
+  "DDB note": "Paalala ng DDB",
+  "Well-being": "Kagalingan",
+  "Refusal skill": "Kasanayan sa Pagtanggi",
+  "Health Fact": "Katotohanang Pangkalusugan",
+  "Safety Note": "Paalala sa Kaligtasan",
+  "Mental Health": "Mental Health",
+
+  // Game/Quiz Results & Feedback
+  "Perfect score! You easily separate myths from facts.": "Perpektong iskor! Madali mong nahihiwalay ang mito sa katotohanan.",
+  "Great job! You identified almost all the misconceptions.": "Magaling! Natukoy mo ang halos lahat ng maling paniniwala.",
+  "Good effort. Reviewing these facts will build stronger awareness.": "Mabuting pagsisikap. Ang pagrepaso sa mga katotohanang ito ay magpapalakas ng iyong kamalayan.",
+  "Keep reading. Recognizing these drug myths is the first step to safety.": "Ipagpatuloy ang pagbabasa. Ang pagkilala sa mga mitong ito sa droga ang unang hakbang sa kaligtasan.",
+  "Perfect score! Your knowledge about drug safety is outstanding.": "Perpektong iskor! Namumukod-tangi ang iyong kaalaman tungkol sa kaligtasan sa droga.",
+  "Great job! You have a strong understanding of these facts.": "Magaling! Mayroon kang malalim na pag-unawa sa mga katotohanang ito.",
+  "Good effort! Review the questions to reinforce your knowledge.": "Mabuting pagsisikap! Repasuhin ang mga tanong upang mapatibay ang iyong kaalaman.",
+  "Keep learning. Every quiz helps build your awareness and safety.": "Ipagpatuloy ang pag-aaral. Ang bawat pagsusulit ay nakakatulong sa pagbuo ng iyong kamalayan at kaligtasan.",
+  "Challenge Complete": "Kumpleto ang Hamon",
+  "Quiz Complete": "Kumpleto ang Pagsusulit",
+  "correct answers": "tamang mga sagot",
+  "Revisit Your Answers": "Suriin ang Iyong mga Sagot",
+  "Play again to challenge yourself and earn special run badges!": "Magplay muli upang hamunin ang iyong sarili at makakuha ng espesyal na mga badge!",
 
   // Helpline
   "Need support?": "Kailangan ng suporta?",
@@ -688,7 +802,36 @@ const TRANSLATIONS = {
   "Regional view": "Panrehiyong Pananaw",
   "QR onboarding during orientation.": "QR onboarding sa panahon ng oryentasyon.",
   "Local events and help paths.": "Mga lokal na kaganapan at tulong.",
-  "Aggregate stats only.": "Pinagsama-samang istatistika lamang."
+  "Aggregate stats only.": "Pinagsama-samang istatistika lamang.",
+  "Upcoming activities": "Paparating na Aktibidad",
+  "Upcoming Activities": "Paparating na Aktibidad",
+  "From the Dangerous Drugs Board": "Mula sa Dangerous Drugs Board",
+  "Official posts and updates": "Mga opisyal na post at update",
+  "Games": "Mga Laro",
+
+  // Missing Profile Tab strings
+  "Profile": "Profile",
+  "Activities": "Mga Aktibidad",
+  "My Activities": "Aking mga Aktibidad",
+  "Attended": "Dinaluhan",
+  "Share Impact Card": "Ibahagi ang Impact Card",
+  "Start your first activity to see your monthly recap here.": "Simulan ang iyong unang aktibidad upang makita ang buwanang recap dito.",
+  "No registered events yet.": "Wala pang nakarehistrong kaganapan.",
+  "Head to the": "Pumunta sa",
+  "tab to find events and register.": "tab upang mahanap at magrehistro sa mga kaganapan.",
+  "Presentation": "Presentasyon",
+  "DDB Headquarters": "Punong Tanggapan ng DDB",
+
+  // Missing Today Tab strings
+  "See all": "Tingnan lahat",
+  "Base Shield (Locked)": "Pangunahing Kalasag (Naka-lock)",
+
+  // Missing Community Tab strings
+  "Read more": "Magbasa pa",
+  "No description available for this event.": "Walang paglalarawang available para sa kaganapang ito.",
+
+  // IG Story (used in both community and profile)
+  "IG Story": "IG Story"
 };
 
 const MONTHS_FILIPINO = {
@@ -715,6 +858,15 @@ function translateDOM(node) {
     if (TRANSLATIONS[text]) {
       node.nodeValue = node.nodeValue.replace(text, TRANSLATIONS[text]);
       return;
+    }
+
+    // Translate quoted strings (e.g. "Trying shabu once...")
+    if (text.startsWith('"') && text.endsWith('"')) {
+      const innerText = text.slice(1, -1).trim();
+      if (TRANSLATIONS[innerText]) {
+        node.nodeValue = node.nodeValue.replace(text, `"${TRANSLATIONS[innerText]}"`);
+        return;
+      }
     }
 
     // Dynamic month labels e.g. "Hunyo 2026"
@@ -750,6 +902,72 @@ function translateDOM(node) {
         node.nodeValue = `Mag-journal sa 7 magkakaibang araw (${parts[0]} sa ngayon)`;
         return;
       }
+    }
+
+    // Dynamic matching for Step X of Y
+    const stepRegex = /^Step\s+(\d+)\s+of\s+(\d+)$/i;
+    const stepMatch = text.match(stepRegex);
+    if (stepMatch) {
+      node.nodeValue = `Hakbang ${stepMatch[1]} ng ${stepMatch[2]}`;
+      return;
+    }
+
+    // Dynamic matching for Round X of Y
+    const roundRegex = /^Round\s+(\d+)\s+of\s+(\d+)$/i;
+    const roundMatch = text.match(roundRegex);
+    if (roundMatch) {
+      node.nodeValue = `Round ${roundMatch[1]} ng ${roundMatch[2]}`;
+      return;
+    }
+
+    // Dynamic matching for X taps/tap left
+    const tapsRegex = /^(\d+)\s+taps?\s+left$/i;
+    const tapsMatch = text.match(tapsRegex);
+    if (tapsMatch) {
+      node.nodeValue = `${tapsMatch[1]} tap ang natitira`;
+      return;
+    }
+
+    // Dynamic matching for +X pts or X pts
+    const ptsRegex = /^(\+)?(\d+)\s+pts$/i;
+    const ptsMatch = text.match(ptsRegex);
+    if (ptsMatch) {
+      const plus = ptsMatch[1] || '';
+      node.nodeValue = `${plus}${ptsMatch[2]} puntos`;
+      return;
+    }
+
+    // Dynamic matching for X points
+    const pointsRegex = /^(\d+)\s+points$/i;
+    const pointsMatch = text.match(pointsRegex);
+    if (pointsMatch) {
+      node.nodeValue = `${pointsMatch[1]} puntos`;
+      return;
+    }
+
+    // Dynamic matching for Today's Myth: "..."
+    if (text.startsWith('Today\'s Myth: "') && text.endsWith('"')) {
+      const statement = text.slice(15, -1);
+      const translatedStatement = TRANSLATIONS[statement] || statement;
+      node.nodeValue = `Mito Ngayong Araw: "${translatedStatement}"`;
+      return;
+    }
+
+    // Dynamic matching for Today's Question: "..."
+    if (text.startsWith('Today\'s Question: "') && text.endsWith('"')) {
+      const question = text.slice(19, -1);
+      const translatedQuestion = TRANSLATIONS[question] || question;
+      node.nodeValue = `Tanong Ngayong Araw: "${translatedQuestion}"`;
+      return;
+    }
+
+    // Dynamic matching for Total XP: +X XP
+    const totalXpRegex = /^Total\s+XP:\s*(\+)?(\d+)\s*XP$/i;
+    const totalXpMatch = text.match(totalXpRegex);
+    if (totalXpMatch) {
+      const plus = totalXpMatch[1] || '';
+      node.nodeValue = `Kabuuang XP: ${plus}${totalXpMatch[2]} XP`;
+      return;
     }
 
     // Dynamic matching 4: <num> more day/days (with optional leading dash/dash-space)
@@ -964,6 +1182,31 @@ function translateDOM(node) {
     // Translate placeholders
     if (node.placeholder && TRANSLATIONS[node.placeholder.trim()]) {
       node.placeholder = TRANSLATIONS[node.placeholder.trim()];
+    }
+
+    // Translate title attributes (tooltips), e.g. "Go to learn tab to work on this badge"
+    if (node.title) {
+      const t = node.title.trim();
+      if (TRANSLATIONS[t]) {
+        node.title = TRANSLATIONS[t];
+      } else {
+        const goToTabRegex = /^Go to (\w+) tab to work on this badge$/i;
+        const goToMatch = t.match(goToTabRegex);
+        if (goToMatch) {
+          const tabName = TRANSLATIONS[goToMatch[1]] || goToMatch[1];
+          node.title = `Pumunta sa tab na ${tabName} upang magtrabaho sa badge na ito`;
+        }
+      }
+    }
+
+    // Handle "Head to the <strong>X</strong> tab to find events and register." (HTML inside small tag)
+    if (node.tagName === 'SMALL' && node.innerHTML && node.innerHTML.includes('Head to the')) {
+      node.innerHTML = node.innerHTML.replace(
+        /Head to the <strong>(.*?)<\/strong> tab to find events and register\./,
+        function(_, tabName) {
+          return 'Pumunta sa tab na <strong>' + (TRANSLATIONS[tabName] || tabName) + '</strong> upang mahanap at magrehistro sa mga kaganapan.';
+        }
+      );
     }
 
     // Don't translate script or style blocks
