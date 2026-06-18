@@ -461,10 +461,13 @@ function profileHTML() {
         const isToday = day === todayDay;
         const isFuture = day > todayDay;
         let moodVal = null;
-        if (isToday) {
-          moodVal = state.todayMood ? WEATHER.find((w) => w.id === state.todayMood).value : null;
-        } else if (!isFuture) {
-          moodVal = getMockMoodForDay(day);
+        const diffDays = todayDay - day;
+        if (diffDays >= 0 && diffDays < state.streak) {
+          if (isToday && state.todayMood) {
+            moodVal = WEATHER.find((w) => w.id === state.todayMood).value;
+          } else {
+            moodVal = getMockMoodForDay(day);
+          }
         }
         let isMatch = true;
         let isDimmed = false;
@@ -498,10 +501,13 @@ function profileHTML() {
         const dayNum = d.getDate();
         const isToday = (i === 0);
         let moodVal = null;
-        if (isToday) {
-          moodVal = state.todayMood ? WEATHER.find((w) => w.id === state.todayMood).value : null;
-        } else {
-          moodVal = getMockMoodForDay(dayNum);
+        const diffDays = i;
+        if (diffDays >= 0 && diffDays < state.streak) {
+          if (isToday && state.todayMood) {
+            moodVal = WEATHER.find((w) => w.id === state.todayMood).value;
+          } else {
+            moodVal = getMockMoodForDay(dayNum);
+          }
         }
         let isMatch = true;
         let isDimmed = false;
