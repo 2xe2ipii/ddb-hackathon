@@ -172,7 +172,6 @@ function handleAppClick(e) {
       if (state.unmaskOpened) {
         state.mythOpened = false;
         state.quizOpened = false;
-        state.unmaskGameState = 'entry';
       }
       render();
       break;
@@ -278,6 +277,13 @@ function handleAppClick(e) {
 
     case 'unmask-close':
       state.unmaskOpened = false;
+      render();
+      break;
+
+    case 'myth-play-again':
+      state.mythFlowIndex = 0;
+      state.mythAnswers = {};
+      state.sessionMythIds = pickSessionItems(MYTH_CARDS, 5);
       render();
       break;
 
@@ -778,7 +784,20 @@ function initApp() {
       achievementCategoryFilter: state.achievementCategoryFilter,
       achievementsExpanded: state.achievementsExpanded,
       profileEditing: state.profileEditing,
-      shareModalOpen: state.shareModalOpen
+      shareModalOpen: state.shareModalOpen,
+      unmaskOpened: state.unmaskOpened,
+      unmaskGameState: state.unmaskGameState,
+      unmaskRoundIndex: state.unmaskRoundIndex,
+      unmaskScore: state.unmaskScore,
+      unmaskCluesUsed: state.unmaskCluesUsed,
+      unmaskTapsLeft: state.unmaskTapsLeft,
+      unmaskRevealedTiles: state.unmaskRevealedTiles,
+      unmaskSelectedOption: state.unmaskSelectedOption,
+      unmaskRoundAnswered: state.unmaskRoundAnswered,
+      unmaskCorrectCount: state.unmaskCorrectCount,
+      unmaskEarnedSharpEye: state.unmaskEarnedSharpEye,
+      unmaskEarnedFastReveal: state.unmaskEarnedFastReveal,
+      unmaskEarnedClueSaver: state.unmaskEarnedClueSaver
     };
 
     if (isDay20) {

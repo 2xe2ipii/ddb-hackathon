@@ -72,49 +72,6 @@ function learnHTML() {
   const mythAnsweredCount = Object.keys(state.mythAnswers).length;
   const quizAnsweredCount = Object.keys(state.quizAnswers).length;
 
-  let mythCorrect = 0;
-  if (state.sessionMythIds) {
-    state.sessionMythIds.forEach(id => {
-      const c = MYTH_CARDS.find(m => m.id === id);
-      if (c && state.mythAnswers[id] === c.answer) mythCorrect++;
-    });
-  }
-
-  let quizCorrect = 0;
-  if (state.sessionQuizIds) {
-    state.sessionQuizIds.forEach(id => {
-      const q = QUIZ.find(q => q.id === id);
-      if (q && state.quizAnswers[id] === q.answer) quizCorrect++;
-    });
-  }
-
-  let recapHTML = '';
-  if (state.mythFlowIndex >= 5 && state.quizFlowIndex >= 5 && !state.mythOpened && !state.quizOpened) {
-    let unlockedMsg = '';
-    if (state.streak === 7) unlockedMsg = '"Golden Scales" stage unlocked';
-    if (state.streak === 20) unlockedMsg = '"Sword of Truth" stage unlocked';
-    if (state.streak === 30) unlockedMsg = '"Flame of Clarity" stage unlocked';
-
-    recapHTML = `
-      <div style="margin-top: 24px; padding: 0 16px; padding-bottom: 40px; text-align: left;">
-        <h2 style="font-size: 20px; margin-bottom: 16px; text-align: center;">Today's Recap</h2>
-        <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 15px;">
-          <span>Myths vs Facts</span>
-          <strong>${mythCorrect} / 5 correct</strong>
-        </div>
-        <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 15px;">
-          <span>Daily Quiz</span>
-          <strong>${quizCorrect} / 5 correct</strong>
-        </div>
-        <div style="margin-top: 16px;">
-          <div style="font-size: 15px; font-weight: bold; margin-bottom: 4px;">🔥 Streak: Day ${state.streak}</div>
-          ${unlockedMsg ? `<div style="font-size: 13px; color: var(--teal); margin-bottom: 8px;">${unlockedMsg}</div>` : ''}
-        </div>
-        <div style="font-size: 16px; font-weight: bold; color: var(--teal); margin-top: 16px; text-align: center;">+${(mythCorrect + quizCorrect) * 10} XP earned today</div>
-      </div>
-    `;
-  }
-
   const currentMythCard = state.sessionMythIds ? MYTH_CARDS.find(m => m.id === state.sessionMythIds[state.mythFlowIndex < 5 ? state.mythFlowIndex : 0]) : MYTH_CARDS[0];
   const currentQuizCard = state.sessionQuizIds ? QUIZ.find(q => q.id === state.sessionQuizIds[state.quizFlowIndex < 5 ? state.quizFlowIndex : 0]) : QUIZ[0];
 
@@ -172,23 +129,12 @@ function learnHTML() {
         </div>
       </section>
       ` : ''}
-      
-      ${recapHTML}
     </div>`;
 }
 
 function mythFlowHTML() {
   if (state.mythFlowIndex >= 5) {
-    return `
-      <div class="card" style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-radius: 24px; box-shadow: 0 8px 30px rgba(0,0,0,0.12); padding: 40px 24px;">
-        <div style="width: 64px; height: 64px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
-          <i data-lucide="check-circle" style="width: 32px; height: 32px;"></i>
-        </div>
-        <h2 style="font-size: 20px; margin-bottom: 12px;">All 5 Cleared!</h2>
-        <p style="color: var(--muted); margin-bottom: 32px; font-size: 14px;">You've uncovered the facts. Great job!</p>
-        <button class="btn btn-primary" data-action="close-myth-flow" style="width: 100%; padding: 16px; border-radius: 16px; font-size: 14px;">Back to Learn</button>
-      </div>
-    `;
+    return mythResultsHTML();
   }
 
   const cardId = state.sessionMythIds ? state.sessionMythIds[state.mythFlowIndex] : MYTH_CARDS[state.mythFlowIndex].id;
@@ -236,16 +182,7 @@ function mythFlowHTML() {
 
 function dailyQuizCardHTML() {
   if (state.quizFlowIndex >= 5) {
-    return `
-      <div class="card" style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-radius: 24px; box-shadow: 0 8px 30px rgba(0,0,0,0.12); padding: 40px 24px;">
-        <div style="width: 64px; height: 64px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
-          <i data-lucide="check-circle" style="width: 32px; height: 32px;"></i>
-        </div>
-        <h2 style="font-size: 20px; margin-bottom: 12px;">Quiz Completed!</h2>
-        <p style="color: var(--muted); margin-bottom: 32px; font-size: 14px;">Great job completing your daily quiz.</p>
-        <button class="btn btn-primary" data-action="close-quiz-flow" style="width: 100%; padding: 16px; border-radius: 16px; font-size: 14px;">Back to Learn</button>
-      </div>
-    `;
+    return quizResultsHTML();
   }
 
   const qId = state.sessionQuizIds ? state.sessionQuizIds[state.quizFlowIndex] : QUIZ[state.quizFlowIndex].id;
@@ -606,6 +543,199 @@ function unmaskResultsHTML() {
             <i data-lucide="rotate-ccw" style="width: 16px; height: 16px;"></i> Play Again
           </button>
           <button class="btn btn-ghost" data-action="unmask-close" style="padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 800; display: flex; justify-content: center; align-items: center; gap: 8px; border: 2px solid var(--line);">
+            Back to Learn
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function mythResultsHTML() {
+  let mythCorrect = 0;
+  if (state.sessionMythIds) {
+    state.sessionMythIds.forEach(id => {
+      const c = MYTH_CARDS.find(m => m.id === id);
+      if (c && state.mythAnswers[id] === c.answer) mythCorrect++;
+    });
+  }
+
+  let feedbackText = '';
+  if (mythCorrect === 5) {
+    feedbackText = "Perfect score! You easily separate myths from facts.";
+  } else if (mythCorrect >= 4) {
+    feedbackText = "Great job! You identified almost all the misconceptions.";
+  } else if (mythCorrect >= 3) {
+    feedbackText = "Good effort. Reviewing these facts will build stronger awareness.";
+  } else {
+    feedbackText = "Keep reading. Recognizing these drug myths is the first step to safety.";
+  }
+
+  let badgesHTML = '';
+  let hasBadges = false;
+
+  if (mythCorrect === 5) {
+    hasBadges = true;
+    badgesHTML += `
+      <div style="display: flex; flex-direction: column; align-items: center; padding: 12px 6px; background: var(--card-2); border: 1px solid var(--line); border-radius: 16px; text-align: center;">
+        <span style="font-size: 22px; margin-bottom: 6px;">🎯</span>
+        <strong style="font-size: 12px; color: var(--teal); font-weight: 800; display: block; margin-bottom: 2px; white-space: nowrap;">Sharp Eye</strong>
+        <p style="font-size: 10px; color: var(--muted); margin: 0; line-height: 1.2;">5/5 myths correct, no mistakes</p>
+      </div>
+    `;
+  }
+  if (mythCorrect >= 1) {
+    hasBadges = true;
+    badgesHTML += `
+      <div style="display: flex; flex-direction: column; align-items: center; padding: 12px 6px; background: var(--card-2); border: 1px solid var(--line); border-radius: 16px; text-align: center;">
+        <span style="font-size: 22px; margin-bottom: 6px;">🛡️</span>
+        <strong style="font-size: 12px; color: var(--teal); font-weight: 800; display: block; margin-bottom: 2px; white-space: nowrap;">Myth Buster</strong>
+        <p style="font-size: 10px; color: var(--muted); margin: 0; line-height: 1.2;">Cleared 5 myths today</p>
+      </div>
+    `;
+  }
+
+  if (!hasBadges) {
+    badgesHTML = `
+      <div style="grid-column: span 3; font-size: 13px; color: var(--faint); text-align: center; padding: 10px 0;">
+        Play again to challenge yourself and earn special run badges!
+      </div>
+    `;
+  }
+
+  return `
+    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px 16px 20px; text-align: center;">
+      <div style="margin: auto 0; display: flex; flex-direction: column; align-items: center; width: 100%; gap: 16px; animation: scaleIn 0.4s ease;">
+        <div style="width: 64px; height: 64px; background: var(--teal-soft); border: 2px solid var(--teal); color: var(--teal); border-radius: 50%; display: grid; place-items: center; margin-bottom: 8px; box-shadow: 0 4px 12px rgba(69, 196, 176, 0.2);">
+          <i data-lucide="check-circle" style="width: 32px; height: 32px;"></i>
+        </div>
+        
+        <h2 style="font-size: 22px; font-weight: 900; margin-bottom: 4px;">Challenge Complete</h2>
+        
+        <div style="background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 24px; width: 100%; box-shadow: 0 8px 30px rgba(0,0,0,0.15); display: flex; flex-direction: column; align-items: center; gap: 12px;">
+          <div style="font-size: 14px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em;">Your Performance</div>
+          
+          <div style="font-size: 40px; font-weight: 900; color: var(--text); line-height: 1; margin: 4px 0;">
+            ${mythCorrect} <span style="font-size: 20px; color: var(--muted); font-weight: 700;">/ 5</span>
+          </div>
+          
+          <p style="font-size: 13.5px; color: var(--muted); font-weight: 700; margin-bottom: 8px;">correct answers</p>
+          <div style="font-size: 15px; font-weight: 800; color: var(--teal); margin-bottom: 8px;">Total XP: +${mythCorrect * 10} XP</div>
+          
+          <p style="color: var(--text); font-size: 14px; line-height: 1.5; font-style: italic; max-width: 260px; margin: 0;">"${feedbackText}"</p>
+        </div>
+
+        <!-- Badges Section -->
+        <div style="width: 100%; margin-top: 8px;">
+          <div style="font-size: 13px; font-weight: 800; color: var(--muted); text-align: left; margin-left: 4px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px;">
+            <i data-lucide="award" style="width: 14px; height: 14px; color: var(--teal);"></i> Badges Earned
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%;">
+            ${badgesHTML}
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div style="width: 100%; display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
+          <button class="btn btn-primary" data-action="myth-play-again" style="padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 800; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(69, 196, 176, 0.3);">
+            <i data-lucide="rotate-ccw" style="width: 16px; height: 16px;"></i> Play Again
+          </button>
+          <button class="btn btn-ghost" data-action="close-myth-flow" style="padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 800; display: flex; justify-content: center; align-items: center; gap: 8px; border: 2px solid var(--line);">
+            Back to Learn
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function quizResultsHTML() {
+  let quizCorrect = 0;
+  if (state.sessionQuizIds) {
+    state.sessionQuizIds.forEach(id => {
+      const q = QUIZ.find(q => q.id === id);
+      if (q && state.quizAnswers[id] === q.answer) quizCorrect++;
+    });
+  }
+
+  let feedbackText = '';
+  if (quizCorrect === 5) {
+    feedbackText = "Perfect score! Your knowledge about drug safety is outstanding.";
+  } else if (quizCorrect >= 4) {
+    feedbackText = "Great job! You have a strong understanding of these facts.";
+  } else if (quizCorrect >= 3) {
+    feedbackText = "Good effort! Review the questions to reinforce your knowledge.";
+  } else {
+    feedbackText = "Keep learning. Every quiz helps build your awareness and safety.";
+  }
+
+  let badgesHTML = '';
+  let hasBadges = false;
+
+  if (quizCorrect === 5) {
+    hasBadges = true;
+    badgesHTML += `
+      <div style="display: flex; flex-direction: column; align-items: center; padding: 12px 6px; background: var(--card-2); border: 1px solid var(--line); border-radius: 16px; text-align: center;">
+        <span style="font-size: 22px; margin-bottom: 6px;">🏆</span>
+        <strong style="font-size: 12px; color: var(--teal); font-weight: 800; display: block; margin-bottom: 2px; white-space: nowrap;">Perfect Score</strong>
+        <p style="font-size: 10px; color: var(--muted); margin: 0; line-height: 1.2;">5/5 correct on the daily quiz</p>
+      </div>
+    `;
+  }
+  if (quizCorrect >= 1) {
+    hasBadges = true;
+    badgesHTML += `
+      <div style="display: flex; flex-direction: column; align-items: center; padding: 12px 6px; background: var(--card-2); border: 1px solid var(--line); border-radius: 16px; text-align: center;">
+        <span style="font-size: 22px; margin-bottom: 6px;">⏱️</span>
+        <strong style="font-size: 12px; color: var(--teal); font-weight: 800; display: block; margin-bottom: 2px; white-space: nowrap;">Quiz Whiz</strong>
+        <p style="font-size: 10px; color: var(--muted); margin: 0; line-height: 1.2;">Finished the daily quiz</p>
+      </div>
+    `;
+  }
+
+  if (!hasBadges) {
+    badgesHTML = `
+      <div style="grid-column: span 3; font-size: 13px; color: var(--faint); text-align: center; padding: 10px 0;">
+        Play again to challenge yourself and earn special run badges!
+      </div>
+    `;
+  }
+
+  return `
+    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px 16px 20px; text-align: center;">
+      <div style="margin: auto 0; display: flex; flex-direction: column; align-items: center; width: 100%; gap: 16px; animation: scaleIn 0.4s ease;">
+        <div style="width: 64px; height: 64px; background: var(--teal-soft); border: 2px solid var(--teal); color: var(--teal); border-radius: 50%; display: grid; place-items: center; margin-bottom: 8px; box-shadow: 0 4px 12px rgba(69, 196, 176, 0.2);">
+          <i data-lucide="check-circle" style="width: 32px; height: 32px;"></i>
+        </div>
+        
+        <h2 style="font-size: 22px; font-weight: 900; margin-bottom: 4px;">Quiz Complete</h2>
+        
+        <div style="background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 24px; width: 100%; box-shadow: 0 8px 30px rgba(0,0,0,0.15); display: flex; flex-direction: column; align-items: center; gap: 12px;">
+          <div style="font-size: 14px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em;">Your Performance</div>
+          
+          <div style="font-size: 40px; font-weight: 900; color: var(--text); line-height: 1; margin: 4px 0;">
+            ${quizCorrect} <span style="font-size: 20px; color: var(--muted); font-weight: 700;">/ 5</span>
+          </div>
+          
+          <p style="font-size: 13.5px; color: var(--muted); font-weight: 700; margin-bottom: 8px;">correct answers</p>
+          <div style="font-size: 15px; font-weight: 800; color: var(--teal); margin-bottom: 8px;">Total XP: +${quizCorrect * 10} XP</div>
+          
+          <p style="color: var(--text); font-size: 14px; line-height: 1.5; font-style: italic; max-width: 260px; margin: 0;">"${feedbackText}"</p>
+        </div>
+
+        <!-- Badges Section -->
+        <div style="width: 100%; margin-top: 8px;">
+          <div style="font-size: 13px; font-weight: 800; color: var(--muted); text-align: left; margin-left: 4px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px;">
+            <i data-lucide="award" style="width: 14px; height: 14px; color: var(--teal);"></i> Badges Earned
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%;">
+            ${badgesHTML}
+          </div>
+        </div>
+
+        <!-- Buttons (No Play Again because it is Daily) -->
+        <div style="width: 100%; display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
+          <button class="btn btn-ghost" data-action="close-quiz-flow" style="padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 800; display: flex; justify-content: center; align-items: center; gap: 8px; border: 2px solid var(--line);">
             Back to Learn
           </button>
         </div>
