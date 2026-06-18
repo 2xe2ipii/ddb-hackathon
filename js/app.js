@@ -553,13 +553,13 @@ function handleAppClick(e) {
       break;
 
     case 'share-ig':
-      state.igStoryModalOpen = true;
+      state.igStoryModalOpen = el.dataset.event || true;
       render();
       break;
 
     case 'close-ig-story':
       if (e.target === el || el.dataset.action === 'close-ig-story') {
-        state.igStoryModalOpen = false;
+        state.igStoryModalOpen = null;
         render();
       }
       break;

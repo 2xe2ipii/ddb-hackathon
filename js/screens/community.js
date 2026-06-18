@@ -85,16 +85,56 @@ function communityHTML() {
   }
 
   if (state.igStoryModalOpen) {
+    const storyEvent = (Array.isArray(UPCOMING_NEAR_YOU) ? UPCOMING_NEAR_YOU : [])
+      .find(u => u.id === state.igStoryModalOpen);
+    const storyAlt = storyEvent ? storyEvent.title : 'DDB event flyer';
+    const storyImage = storyEvent ? storyEvent.image : '';
     modalHTML += `
-      <div class="overlay" data-action="close-ig-story" style="position: absolute; inset: 0; background: #000; z-index: 200; display: flex; align-items: center; justify-content: center; animation: story-zoom-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-        <img src="assets/ig_template.jpg" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px; box-shadow: 0 4px 30px rgba(0,0,0,0.5);" alt="IG Story Template">
-        <button class="icon-btn" data-action="close-ig-story" style="position: absolute; top: 24px; right: 24px; background: rgba(0,0,0,0.5); border: none; border-radius: 50%; padding: 12px; color: #fff; z-index: 201;">
-          <i data-lucide="x"></i>
-        </button>
+      <div class="overlay ig-composer-overlay" data-action="close-ig-story">
+        <div class="ig-top-bar">
+          <button class="ig-icon-btn" data-action="close-ig-story" aria-label="Close">
+            <i data-lucide="x"></i>
+          </button>
+          <button class="ig-icon-btn" aria-label="Text">
+            <span class="ig-aa">Aa</span>
+          </button>
+        </div>
+
+        <div class="ig-side-tools">
+          <button class="ig-icon-btn ig-icon-btn--sm" aria-label="Sticker"><i data-lucide="smile-plus"></i></button>
+          <button class="ig-icon-btn ig-icon-btn--sm" aria-label="Music"><i data-lucide="music"></i></button>
+          <button class="ig-icon-btn ig-icon-btn--sm" aria-label="Effects"><i data-lucide="wand-2"></i></button>
+          <button class="ig-icon-btn ig-icon-btn--sm" aria-label="More"><i data-lucide="chevron-down"></i></button>
+        </div>
+
+        <div class="ig-canvas">
+          ${storyImage ? `
+            <img class="ig-event-photo" src="${storyImage}" alt="${storyAlt}" />
+          ` : ''}
+          <button class="ig-learn-more">
+            <i data-lucide="link"></i> LEARN MORE
+          </button>
+        </div>
+
+        <div class="ig-caption-row">Add a caption...</div>
+
+        <div class="ig-bottom-bar">
+          <button class="ig-pill">
+            <span class="ig-pill-ava ig-pill-ava--your"><i data-lucide="hand"></i></span>
+            <span>Your story</span>
+          </button>
+          <button class="ig-pill">
+            <span class="ig-pill-ava ig-pill-ava--cf"><i data-lucide="star"></i></span>
+            <span>Close Friends</span>
+          </button>
+          <button class="ig-send" aria-label="Send">
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
       </div>
       <style>
         @keyframes story-zoom-in {
-          from { opacity: 0; transform: scale(0.9); }
+          from { opacity: 0; transform: scale(0.94); }
           to { opacity: 1; transform: scale(1); }
         }
       </style>
@@ -106,21 +146,34 @@ function communityHTML() {
       <div class="ddb-upcoming-head">
         <span class="eyebrow"><i data-lucide="calendar-clock"></i> Upcoming activities</span>
       </div>
-      ${UPCOMING_NEAR_YOU.map((u) => `
+      ${UPCOMING_NEAR_YOU.map((u) => {
+        const isReg = state.registered.has(u.id);
+        return `
         <div class="upcoming-card">
           <div class="upcoming-poster">
             <img src="${u.image}" alt="${u.title}" loading="lazy" />
           </div>
-          <div class="upcoming-info">
-            <span class="upcoming-kind">${u.kind}</span>
-            <h4>${u.title}</h4>
-            <div class="upcoming-meta">
-              <span><i data-lucide="calendar"></i> ${u.date}</span>
-              <span><i data-lucide="map-pin"></i> ${u.place}</span>
+          <div class="upcoming-side">
+            <div class="upcoming-info">
+              <span class="upcoming-kind">${u.kind}</span>
+              <h4>${u.title}</h4>
+              <div class="upcoming-meta">
+                <span><i data-lucide="calendar"></i> ${u.date}</span>
+                <span><i data-lucide="map-pin"></i> ${u.place}</span>
+              </div>
+            </div>
+            <div class="upcoming-actions">
+              <button class="btn ${isReg ? 'btn-registered' : 'btn-register'}" data-action="register" data-event="${u.id}">
+                ${isReg ? '<i data-lucide="check"></i> Registered' : '<i data-lucide="ticket"></i> Register'}
+              </button>
+              <button class="btn btn-ig" data-action="share-ig" data-event="${u.id}">
+                <i data-lucide="instagram"></i> IG Story
+              </button>
             </div>
           </div>
         </div>
-      `).join('')}
+      `;
+      }).join('')}
     </div>
   ` : '';
 

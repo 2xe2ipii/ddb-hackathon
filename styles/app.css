@@ -5077,6 +5077,7 @@ body.colorblind-mode .wrapped::after {
 
 .upcoming-card {
   display: flex;
+  align-items: stretch;
   gap: 12px;
   background: var(--card);
   border: 1px solid var(--line);
@@ -5084,12 +5085,44 @@ body.colorblind-mode .wrapped::after {
   padding: 10px;
 }
 
+.upcoming-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.upcoming-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.upcoming-actions .btn {
+  flex: 1;
+  padding: 8px 10px;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.upcoming-actions .btn svg {
+  width: 13px;
+  height: 13px;
+}
+
 .upcoming-poster {
-  flex: 0 0 88px;
-  height: 88px;
+  flex: 0 0 38%;
+  align-self: stretch;
   border-radius: 12px;
   overflow: hidden;
   background: var(--card-2);
+  min-height: 140px;
 }
 
 .upcoming-poster img {
@@ -5100,7 +5133,7 @@ body.colorblind-mode .wrapped::after {
 }
 
 .upcoming-info {
-  flex: 1;
+  flex: 0 1 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -5551,6 +5584,207 @@ body.colorblind-mode .wrapped::after {
   background: rgba(218, 41, 62, 0.1);
   border-color: rgba(218, 41, 62, 0.25);
   color: var(--red);
+}
+
+/* =====================================================
+   IG STORY COMPOSER — pure-CSS rebuild of the Instagram
+   story creation screen so the event flyer can be sized
+   freely (no more jpg background placeholder).
+   ===================================================== */
+.ig-composer-overlay {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  animation: story-zoom-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.ig-top-bar {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 4;
+}
+
+.ig-side-tools {
+  position: absolute;
+  top: 80px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  z-index: 4;
+}
+
+.ig-icon-btn {
+  background: rgba(28, 28, 28, 0.85);
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+}
+
+.ig-icon-btn--sm {
+  width: 34px;
+  height: 34px;
+  background: transparent;
+}
+
+.ig-icon-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.ig-icon-btn--sm svg {
+  width: 22px;
+  height: 22px;
+}
+
+.ig-aa {
+  font-weight: 900;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.ig-canvas {
+  position: absolute;
+  top: 70px;
+  left: 14px;
+  right: 14px;
+  bottom: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  z-index: 2;
+}
+
+.ig-event-photo {
+  width: 100%;
+  max-height: 78%;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.55);
+  background: #fff;
+}
+
+.ig-learn-more {
+  background: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: #2b5774;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.ig-learn-more svg {
+  width: 16px;
+  height: 16px;
+  color: #2b5774;
+}
+
+.ig-caption-row {
+  position: absolute;
+  left: 18px;
+  bottom: 92px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 3;
+}
+
+.ig-bottom-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  z-index: 3;
+}
+
+.ig-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(45, 45, 45, 0.85);
+  border: none;
+  border-radius: 999px;
+  padding: 4px 14px 4px 4px;
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.ig-pill-ava {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #555;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.ig-pill-ava svg {
+  width: 13px;
+  height: 13px;
+}
+
+.ig-pill-ava--your {
+  background: #cfd8dc;
+  color: #455a64;
+}
+
+.ig-pill-ava--cf {
+  background: #2ecc71;
+  color: #fff;
+}
+
+.ig-send {
+  margin-left: auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #3897f0;
+  border: none;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(56, 151, 240, 0.45);
+}
+
+.ig-send svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.5;
 }
 
 
