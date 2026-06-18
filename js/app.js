@@ -131,7 +131,11 @@ function handleAppClick(e) {
       state.mythOpened = !state.mythOpened;
       if (state.mythOpened) {
         state.quizOpened = false;
-        state.mythFlowIndex = 0;
+        if (Object.keys(state.mythAnswers || {}).length < 5) {
+          state.mythFlowIndex = 0;
+        } else {
+          state.mythFlowIndex = 5;
+        }
       }
       render();
       break;
@@ -153,8 +157,12 @@ function handleAppClick(e) {
       state.quizOpened = !state.quizOpened;
       if (state.quizOpened) {
         state.mythOpened = false;
-        if (state.quizFlowIndex < 5 && state.quizAnswers[QUIZ[state.quizFlowIndex].id] === undefined) {
-          startQuizTimer();
+        if (Object.keys(state.quizAnswers || {}).length >= 5) {
+          state.quizFlowIndex = 5;
+        } else {
+          if (state.quizFlowIndex < 5 && state.quizAnswers[QUIZ[state.quizFlowIndex].id] === undefined) {
+            startQuizTimer();
+          }
         }
       } else {
         stopQuizTimer();
@@ -164,6 +172,156 @@ function handleAppClick(e) {
 
     case 'close-quiz-flow':
       state.quizOpened = false;
+      render();
+      break;
+
+    case 'toggle-unmask':
+      state.unmaskOpened = !state.unmaskOpened;
+      if (state.unmaskOpened) {
+        state.mythOpened = false;
+        state.quizOpened = false;
+        if ((state.unmaskAnswers || []).length >= 5) {
+          state.unmaskGameState = 'results';
+        }
+      }
+      render();
+      break;
+
+    case 'start-unmask-game':
+      state.unmaskGameState = 'playing';
+      state.unmaskRoundIndex = 0;
+      state.unmaskScore = 0;
+      state.unmaskCluesUsed = 0;
+      state.unmaskTapsLeft = 3;
+      state.unmaskRevealedTiles = [];
+      state.unmaskSelectedOption = null;
+      state.unmaskRoundAnswered = false;
+      state.unmaskCorrectCount = 0;
+      state.unmaskEarnedSharpEye = false;
+      state.unmaskEarnedFastReveal = false;
+      state.unmaskEarnedClueSaver = false;
+      state.unmaskAnswers = [];
+      state.unmaskRoundClues = [];
+      state.sessionUnmaskIds = pickSessionItems(UNMASK_ROUNDS, 5);
+      render();
+      break;
+
+    case 'unmask-tap-tile': {
+      if (state.unmaskRoundAnswered) return;
+      const tileIndex = parseInt(el.dataset.tileIndex, 10);
+      if (state.unmaskTapsLeft > 0 && !state.unmaskRevealedTiles.includes(tileIndex)) {
+        state.unmaskRevealedTiles.push(tileIndex);
+        state.unmaskTapsLeft--;
+        render();
+      }
+      break;
+    }
+
+    case 'unmask-use-clue':
+      if (state.unmaskCluesUsed < 2) {
+        state.unmaskCluesUsed++;
+        render();
+      }
+      break;
+
+    case 'answer-unmask': {
+      if (state.unmaskRoundAnswered) return;
+      const optionIndex = parseInt(el.dataset.index, 10);
+      state.unmaskSelectedOption = optionIndex;
+      state.unmaskRoundAnswered = true;
+      state.unmaskAnswers[state.unmaskRoundIndex] = optionIndex;
+      state.unmaskRoundClues[state.unmaskRoundIndex] = state.unmaskCluesUsed;
+
+      const roundId = state.sessionUnmaskIds[state.unmaskRoundIndex];
+      const round = UNMASK_ROUNDS.find(r => r.id === roundId) || UNMASK_ROUNDS[0];
+      const correct = optionIndex === round.answer;
+
+      if (correct) {
+        state.unmaskCorrectCount++;
+        let points = 0;
+        if (state.unmaskCluesUsed === 0) {
+          points = 15;
+          state.unmaskEarnedSharpEye = true;
+        } else if (state.unmaskCluesUsed === 1) {
+          points = 10;
+        } else if (state.unmaskCluesUsed === 2) {
+          points = 5;
+        }
+        state.unmaskScore += points;
+
+        if (state.unmaskRevealedTiles.length === 1) {
+          state.unmaskEarnedFastReveal = true;
+        }
+      }
+
+      if (state.unmaskCluesUsed === 0) {
+        state.unmaskEarnedClueSaver = true;
+      }
+
+      render();
+      break;
+    }
+
+    case 'unmask-next-round':
+      state.unmaskRoundIndex++;
+      if (state.unmaskRoundIndex < 5) {
+        if (state.unmaskGameState !== 'review') {
+          state.unmaskCluesUsed = 0;
+          state.unmaskTapsLeft = 3;
+          state.unmaskRevealedTiles = [];
+          state.unmaskSelectedOption = null;
+          state.unmaskRoundAnswered = false;
+        }
+      } else {
+        state.unmaskGameState = 'results';
+      }
+      render();
+      break;
+
+    case 'unmask-play-again':
+      state.unmaskGameState = 'playing';
+      state.unmaskRoundIndex = 0;
+      state.unmaskScore = 0;
+      state.unmaskCluesUsed = 0;
+      state.unmaskTapsLeft = 3;
+      state.unmaskRevealedTiles = [];
+      state.unmaskSelectedOption = null;
+      state.unmaskRoundAnswered = false;
+      state.unmaskCorrectCount = 0;
+      state.unmaskEarnedSharpEye = false;
+      state.unmaskEarnedFastReveal = false;
+      state.unmaskEarnedClueSaver = false;
+      state.unmaskAnswers = [];
+      state.unmaskRoundClues = [];
+      state.sessionUnmaskIds = pickSessionItems(UNMASK_ROUNDS, 5);
+      render();
+      break;
+
+    case 'unmask-revisit-answers':
+      state.unmaskGameState = 'review';
+      state.unmaskRoundIndex = 0;
+      render();
+      break;
+
+    case 'revisit-myth-answers':
+      state.mythFlowIndex = 0;
+      render();
+      break;
+
+    case 'revisit-quiz-answers':
+      state.quizFlowIndex = 0;
+      render();
+      break;
+
+    case 'unmask-close':
+      state.unmaskOpened = false;
+      render();
+      break;
+
+    case 'myth-play-again':
+      state.mythFlowIndex = 0;
+      state.mythAnswers = {};
+      state.sessionMythIds = pickSessionItems(MYTH_CARDS, 5);
       render();
       break;
 
@@ -225,7 +383,11 @@ function handleAppClick(e) {
       const prevUnlocked = snapshotAchievements();
       state.quizFlowIndex++;
       if (state.quizFlowIndex < 5) {
-        startQuizTimer();
+        const nextQId = state.sessionQuizIds ? state.sessionQuizIds[state.quizFlowIndex] : QUIZ[state.quizFlowIndex].id;
+        const nextQ = QUIZ.find(q => q.id === nextQId);
+        if (nextQ && state.quizAnswers[nextQ.id] === undefined) {
+          startQuizTimer();
+        }
       } else {
         setTimeout(() => toast('badge-check', 'Daily quiz finished'), 250);
       }
@@ -344,8 +506,18 @@ function handleAppClick(e) {
         state.relaxSelectedExercise = 'box';
         state.relaxToolkitOpen = null;
         state.achievementsExpanded = false;
+        state.unmaskOpened = false;
+        state.unmaskGameState = 'entry';
+        state.unmaskRoundIndex = 0;
+        state.unmaskScore = 0;
+        state.unmaskCluesUsed = 0;
+        state.unmaskTapsLeft = 3;
+        state.unmaskRevealedTiles = [];
+        state.unmaskAnswers = [];
+        state.unmaskRoundClues = [];
         state.sessionMythIds = pickSessionItems(MYTH_CARDS, 5);
         state.sessionQuizIds = pickSessionItems(QUIZ, 5);
+        state.sessionUnmaskIds = pickSessionItems(UNMASK_ROUNDS, 5);
         const availableMythsRestart = MYTH_CARDS.filter(m => !state.sessionMythIds.includes(m.id));
         state.todayMythId = availableMythsRestart.length > 0 ? availableMythsRestart[Math.floor(Math.random() * availableMythsRestart.length)].id : MYTH_CARDS[0].id;
         localStorage.removeItem('ddb_state');
@@ -523,6 +695,9 @@ function initApp() {
     state.sessionMythIds = pickSessionItems(MYTH_CARDS, 5);
     state.sessionQuizIds = pickSessionItems(QUIZ, 5);
   }
+  if (!state.sessionUnmaskIds || state.sessionUnmaskIds.length === 0) {
+    state.sessionUnmaskIds = pickSessionItems(UNMASK_ROUNDS, 5);
+  }
   if (!state.todayMythId) {
     const availableMythsInit = MYTH_CARDS.filter(m => !(state.sessionMythIds || []).includes(m.id));
     state.todayMythId = availableMythsInit.length > 0 ? availableMythsInit[Math.floor(Math.random() * availableMythsInit.length)].id : MYTH_CARDS[0].id;
@@ -608,6 +783,7 @@ function initApp() {
     state.achievementsExpanded = false;
     state.sessionMythIds = pickSessionItems(MYTH_CARDS, 5);
     state.sessionQuizIds = pickSessionItems(QUIZ, 5);
+    state.sessionUnmaskIds = pickSessionItems(UNMASK_ROUNDS, 5);
     const availableMythsRestart = MYTH_CARDS.filter(m => !state.sessionMythIds.includes(m.id));
     state.todayMythId = availableMythsRestart.length > 0 ? availableMythsRestart[Math.floor(Math.random() * availableMythsRestart.length)].id : MYTH_CARDS[0].id;
     localStorage.removeItem('ddb_state');
@@ -651,7 +827,23 @@ function initApp() {
       achievementCategoryFilter: state.achievementCategoryFilter,
       achievementsExpanded: state.achievementsExpanded,
       profileEditing: state.profileEditing,
-      shareModalOpen: state.shareModalOpen
+      shareModalOpen: state.shareModalOpen,
+      unmaskOpened: state.unmaskOpened,
+      unmaskGameState: state.unmaskGameState,
+      unmaskRoundIndex: state.unmaskRoundIndex,
+      unmaskScore: state.unmaskScore,
+      unmaskCluesUsed: state.unmaskCluesUsed,
+      unmaskTapsLeft: state.unmaskTapsLeft,
+      unmaskRevealedTiles: state.unmaskRevealedTiles,
+      unmaskSelectedOption: state.unmaskSelectedOption,
+      unmaskRoundAnswered: state.unmaskRoundAnswered,
+      unmaskCorrectCount: state.unmaskCorrectCount,
+      unmaskEarnedSharpEye: state.unmaskEarnedSharpEye,
+      unmaskEarnedFastReveal: state.unmaskEarnedFastReveal,
+      unmaskEarnedClueSaver: state.unmaskEarnedClueSaver,
+      unmaskAnswers: state.unmaskAnswers,
+      unmaskRoundClues: state.unmaskRoundClues,
+      sessionUnmaskIds: state.sessionUnmaskIds
     };
 
     if (isDay20) {
@@ -712,6 +904,9 @@ function initApp() {
       // Populate quiz (correct answers)
       state.sessionQuizIds = ['q1', 'q2', 'q3', 'q4', 'q5'];
       state.quizAnswers = { q1: 0, q2: 1, q3: 1, q4: 0, q5: 2 };
+      
+      // Populate unmask
+      state.sessionUnmaskIds = ['u1', 'u2', 'u3', 'u4', 'u5'];
       
       state.tab = preserved.tab;
       state.triggerCelebration = true;
