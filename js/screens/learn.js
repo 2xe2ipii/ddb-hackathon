@@ -57,6 +57,13 @@ function learnHTML() {
         }
       </style>
       <div class="screen" style="display: flex; flex-direction: column;">
+        <!-- Game Header -->
+        <div class="learn-card-head" data-action="unmask-close" style="cursor: pointer; padding: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
+          <span style="display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 800;">
+            <i data-lucide="eye-off" style="width: 20px; height: 20px; color: var(--teal);"></i> UnMask Drugs
+          </span>
+          <b style="font-size: 13px; color: var(--text);">Close</b>
+        </div>
         ${unmaskGameHTML()}
       </div>
     `;
@@ -307,13 +314,6 @@ function unmaskGameHTML() {
 function unmaskEntryHTML() {
   return `
     <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px 0 20px; text-align: center;">
-      <!-- Back button in header -->
-      <div style="width: 100%; display: flex; justify-content: flex-start; margin-bottom: auto; padding-top: 10px;">
-        <button class="btn btn-ghost" data-action="unmask-close" style="padding: 8px 12px; font-size: 14px; display: flex; align-items: center; gap: 6px;">
-          <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i> Back
-        </button>
-      </div>
-
       <div style="margin: auto 0; display: flex; flex-direction: column; align-items: center; gap: 16px;">
         <div class="unmask-logo-container" style="position: relative; width: 100px; height: 100px; margin-bottom: 16px;">
           <div style="position: absolute; inset: 0; background: radial-gradient(circle, var(--teal) 0%, transparent 70%); opacity: 0.4; filter: blur(15px); animation: pulse Glow 3s infinite;"></div>
@@ -348,17 +348,17 @@ function unmaskPlayingHTML() {
   let cluesHTML = '';
   if (state.unmaskCluesUsed > 0) {
     cluesHTML += `
-      <div class="unmask-clue-item" style="background: rgba(69, 196, 176, 0.08); border: 1px solid rgba(69, 196, 176, 0.2); border-radius: 12px; padding: 10px 14px; font-size: 13.5px; line-height: 1.4; color: var(--text); display: flex; align-items: flex-start; gap: 8px; animation: slideIn 0.3s ease;">
-        <span style="color: var(--teal); font-weight: 800; font-size: 12px; margin-top: 2px;">CLUE 1</span>
-        <span>${round.clues[0]}</span>
+      <div class="unmask-clue-item" style="background: rgba(69, 196, 176, 0.03); border-left: 3px solid var(--teal); border-radius: 4px 12px 12px 4px; padding: 10px 14px; font-size: 13.5px; line-height: 1.4; color: var(--text); display: flex; align-items: flex-start; gap: 10px; animation: slideIn 0.3s ease;">
+        <span style="color: var(--teal); font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2.5px; white-space: nowrap;">Clue 1</span>
+        <span style="text-align: left;">${round.clues[0]}</span>
       </div>
     `;
   }
   if (state.unmaskCluesUsed > 1) {
     cluesHTML += `
-      <div class="unmask-clue-item" style="background: rgba(69, 196, 176, 0.08); border: 1px solid rgba(69, 196, 176, 0.2); border-radius: 12px; padding: 10px 14px; font-size: 13.5px; line-height: 1.4; color: var(--text); display: flex; align-items: flex-start; gap: 8px; animation: slideIn 0.3s ease; margin-top: 8px;">
-        <span style="color: var(--teal); font-weight: 800; font-size: 12px; margin-top: 2px;">CLUE 2</span>
-        <span>${round.clues[1]}</span>
+      <div class="unmask-clue-item" style="background: rgba(69, 196, 176, 0.03); border-left: 3px solid var(--teal); border-radius: 4px 12px 12px 4px; padding: 10px 14px; font-size: 13.5px; line-height: 1.4; color: var(--text); display: flex; align-items: flex-start; gap: 10px; animation: slideIn 0.3s ease; margin-top: 2px;">
+        <span style="color: var(--teal); font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2.5px; white-space: nowrap;">Clue 2</span>
+        <span style="text-align: left;">${round.clues[1]}</span>
       </div>
     `;
   }
@@ -463,7 +463,7 @@ function unmaskPlayingHTML() {
       </div>
 
       <!-- Clue Section -->
-      <div style="background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 12px; display: flex; flex-direction: column; gap: 8px; text-align: center;">
+      <div style="background: transparent; padding: 4px 2px; display: flex; flex-direction: column; gap: 10px;">
         <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
           <span style="font-size: 11px; font-weight: 800; color: var(--faint); text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 4px;">
             <i data-lucide="lightbulb" style="width: 12px; height: 12px;"></i> Clues
