@@ -217,21 +217,6 @@ function relaxHTML() {
   
   return `
     <div class="breathe-screen">
-      <div class="breathe-top">
-        <div>
-          <h1>Relax</h1>
-          <p>Check in, breathe, and ground yourself</p>
-        </div>
-        <button class="helpline-btn" data-action="helpline">
-          <i data-lucide="phone-call"></i> ${HELPLINE.number}
-        </button>
-      </div>
-
-      <div class="support-paths">
-        <button data-action="helpline"><i data-lucide="siren"></i><span>I need help now</span></button>
-        <button data-action="save-resource" data-resource="r2"><i data-lucide="users"></i><span>I'm worried about a friend</span></button>
-      </div>
-
       ${renderCheckinSection()}
 
       ${renderExercisePicker()}
