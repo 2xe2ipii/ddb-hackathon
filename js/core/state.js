@@ -59,7 +59,8 @@ var defaultState = {
   unmaskEarnedClueSaver: false,
   unmaskDetectiveModeUnlocked: false,
   unmaskFullSweepUnlocked: false,
-  unmaskRunDetectiveMode: false
+  unmaskRunDetectiveMode: false,
+  expandedPosts: {},
 };
 
 function loadState() {

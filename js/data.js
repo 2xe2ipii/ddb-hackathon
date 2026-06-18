@@ -329,6 +329,142 @@ const WRAPPED = {
   body: '<strong>15</strong> check-ins. <strong>12</strong> myths cleared. <strong>1</strong> event joined.',
 };
 
+/* =====================================================
+   UPCOMING_NEAR_YOU — flyer-style upcoming events shown
+   in Today tab. Images sourced from DDB official posts.
+   ===================================================== */
+const UPCOMING_NEAR_YOU = [
+  {
+    id: 'un1',
+    kind: 'Mobile App Challenge',
+    title: 'DDB Hackathon 2026',
+    date: 'June 26, 2026',
+    place: 'Region IV-A',
+    image: 'assets/content/UPCOMING%20NEAR%20YOU/ddb%20hackathon.jpg',
+    cta: 'Learn more',
+  },
+  {
+    id: 'un2',
+    kind: 'National Conference',
+    title: 'National Research Conference on Drug Abuse Prevention and Control',
+    date: 'July 2026',
+    place: 'Open to researchers & students',
+    image: 'assets/content/UPCOMING%20NEAR%20YOU/national%20research%20conference%20on%20drug%20abuse%20prevention%20and%20control.jpg',
+    cta: 'View details',
+  },
+  {
+    id: 'un3',
+    kind: 'Public Consultation',
+    title: 'Open Invitation: Early Warning System for NPS',
+    date: 'June 17, 2026 · 9:00 AM',
+    place: 'Online via Webex',
+    image: 'assets/content/UPCOMING%20NEAR%20YOU/open%20invitation.jpg',
+    cta: 'Join consultation',
+  },
+];
+
+/* =====================================================
+   DDB_POSTS — Facebook-style feed sourced from the
+   Dangerous Drugs Board's official posts.
+   ===================================================== */
+const DDB_POSTS = [
+  {
+    id: 'p1',
+    title: 'CRUSADA Program: Drug-Free Community Recognition',
+    tag: 'Community Program',
+    icon: 'shield-check',
+    date: 'June 16, 2026',
+    images: [
+      'assets/content/%5B1%5DCRUSADA%20Program/image1.jpg',
+      'assets/content/%5B1%5DCRUSADA%20Program/image2.jpg',
+      'assets/content/%5B1%5DCRUSADA%20Program/image3.jpg',
+    ],
+    caption: `A community's commitment is proven through established systems, practices, and collective responsibility that are sustained over time. One community recently demonstrated exactly this, showing how residents themselves can take an active role in advancing efforts in drug prevention and control.
+
+The Damayan ng Magkakapitbahay ng 511 Purok 2 Sucat Muntinlupa Inc. Homeowners Association received recognition as a Drug-Free Community under the Community Response: Unified Strategy Against Drug Abuse (CRUSADA) Program of the City Government of Muntinlupa following the successful completion of the program's standards and requirements.
+
+Representing the Dangerous Drugs Board (DDB), Permanent Member - Undersecretary Abad Osit noted that addressing drug-related concerns extends beyond law enforcement and requires attention to public health, social development, family welfare, and community empowerment.`,
+    hashtags: ['#DangerousDrugsBoard', '#BagongPilipinas'],
+  },
+  {
+    id: 'p2',
+    title: 'Open Invitation: Early Warning System for NPS',
+    tag: 'Public Consultation',
+    icon: 'megaphone',
+    date: 'June 16, 2026',
+    images: [
+      'assets/content/%5B2%5DOpen%20Invitation/image1.jpg',
+    ],
+    caption: `OPEN INVITATION
+Emerging challenges call for collective action.
+
+New psychoactive substances continue to emerge in different parts of the world, often evolving faster than existing monitoring and control mechanisms. Their changing composition, appearance, and effects present growing challenges for public health, public safety, and regulatory systems.
+
+In response, the Dangerous Drugs Board (DDB) will conduct a Public Consultation on the proposed Early Warning System for New Psychoactive Substances on 17 June 2026 from 9:00 AM – 4:00 PM (PHT) via Webex.
+
+Every voice matters in shaping policies that protect public health and safety.`,
+    hashtags: ['#DangerousDrugsBoard', '#BagongPilipinas'],
+  },
+  {
+    id: 'p3',
+    title: 'Judiciary Month: 125 Years of the Supreme Court',
+    tag: 'National Commemoration',
+    icon: 'landmark',
+    date: 'June 14, 2026',
+    images: [
+      'assets/content/%5B3%5DJudiciary%20Month/image1.jpg',
+    ],
+    caption: `The Dangerous Drugs Board joins the nation in commemorating the 125th Founding Anniversary of the Supreme Court of the Philippines and the observance of Judiciary Month 2026.
+
+For 125 years, the Supreme Court has served as a pillar of justice and the rule of law, continuously evolving to meet the changing needs of the times while remaining steadfast in its constitutional mandate.
+
+As this year's celebration highlights "SC: 125 Years of Tradition and Innovation," the DDB recognizes the vital role of the judiciary in strengthening institutions, promoting accountability, and upholding the principles that underpin a just and orderly society.`,
+    hashtags: ['#DangerousDrugsBoard', '#BagongPilipinas'],
+  },
+  {
+    id: 'p4',
+    title: 'GINHAWA Student Well-Being Summit 2026',
+    tag: 'Youth & Education',
+    icon: 'graduation-cap',
+    date: 'June 13, 2026',
+    images: [
+      'assets/content/%5B4%5DGINHAWA/image1.jpg',
+      'assets/content/%5B4%5DGINHAWA/image2.jpg',
+      'assets/content/%5B4%5DGINHAWA/image3.jpg',
+      'assets/content/%5B4%5DGINHAWA/image4.jpg',
+      'assets/content/%5B4%5DGINHAWA/image5.jpg',
+      'assets/content/%5B4%5DGINHAWA/image6.jpg',
+    ],
+    caption: `Student leaders, guidance counselors, educators, researchers, and policymakers came together at the GINHAWA Student Well-Being Summit 2026 to examine the realities shaping student life in higher education. Organized by the Commission on Higher Education (CHED), the summit drew participants from across the country into a shared conversation on the student experience.
+
+The Dangerous Drugs Board (DDB), led by Chairperson - Secretary Oscar Valenzuela, contributed perspectives grounded in prevention, public health, and evidence-informed practice. Secretary Valenzuela highlighted the role of preventive education in supporting healthy development, resilience, and informed decision-making among young people.
+
+Sessions explored themes such as mental health, coping strategies, help-seeking behavior, peer support, belongingness, and healthy relationships — bringing student experiences into dialogue with prevention and public health perspectives.`,
+    hashtags: ['#DangerousDrugsBoard', '#BagongPilipinas'],
+  },
+  {
+    id: 'p5',
+    title: '128th Philippine Independence Day',
+    tag: 'National Commemoration',
+    icon: 'flag',
+    date: 'June 12, 2026',
+    images: [
+      'assets/content/%5B5%5DIndependence%20Day/image1.jpg',
+      'assets/content/%5B5%5DIndependence%20Day/image2.jpg',
+      'assets/content/%5B5%5DIndependence%20Day/image3.jpg',
+      'assets/content/%5B5%5DIndependence%20Day/image4.jpg',
+    ],
+    caption: `Independence Day serves as a reminder of the sacrifices and collective efforts that shaped our nation's history and secured the freedom that Filipinos continue to honor and uphold today.
+
+During the 128th Anniversary of the Proclamation of Philippine Independence, President Ferdinand R. Marcos Jr. spearheaded the flag-raising and wreath-laying rites at the Jose Rizal National Monument in Rizal Park, Manila.
+
+Dangerous Drugs Board (DDB) Chairperson-Secretary Oscar Valenzuela, together with Permanent Members Undersecretary Armando Ramolete and Undersecretary Abad Osit, led the delegation in the ceremonies alongside other government agencies.
+
+Sa paggunita ng Araw ng Kalayaan, kaisa ang DDB sa patuloy na pagpapahalaga sa diwa ng kasarinlan at sa pagpapatibay ng sama-samang pagkilos tungo sa isang mas malusog, ligtas, at mas maunlad na bayan.`,
+    hashtags: ['#DangerousDrugsBoard', '#BagongPilipinas'],
+  },
+];
+
 const UNMASK_ROUNDS = [
   {
     id: 'u1',

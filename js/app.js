@@ -681,6 +681,14 @@ function handleAppClick(e) {
       break;
     }
 
+    case 'toggle-post': {
+      const postId = el.dataset.post;
+      if (!state.expandedPosts) state.expandedPosts = {};
+      state.expandedPosts[postId] = !state.expandedPosts[postId];
+      render();
+      break;
+    }
+
     case 'open-event-info': {
       state.eventModalOpen = el.dataset.event;
       render();

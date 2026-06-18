@@ -152,18 +152,35 @@ function expandedContentHTML() {
 }
 
 function communityCardHTML() {
-  const ev = EVENTS[0];
-  if (!ev) return '';
-  return `
-    <div class="card community-card" style="margin-top: 16px;">
-      <div class="card-title" style="font-size: 0.9rem; color: var(--muted); margin-bottom: 8px;">
-        <i data-lucide="map-pin" style="width:14px; height:14px; vertical-align: middle;"></i> Upcoming near you
+  if (!Array.isArray(UPCOMING_NEAR_YOU) || UPCOMING_NEAR_YOU.length === 0) return '';
+
+  const flyers = UPCOMING_NEAR_YOU.map((u) => `
+    <div class="flyer-card" data-action="nav" data-tab="community">
+      <div class="flyer-image">
+        <img src="${u.image}" alt="${u.title}" loading="lazy" />
+        <span class="flyer-kind">${u.kind}</span>
       </div>
-      <div style="font-weight: 700; margin-bottom: 4px; line-height: 1.3;">${ev.title}</div>
-      <div style="font-size: 0.85rem; color: var(--muted); margin-bottom: 12px;">${ev.date} · ${ev.time}</div>
-      <button class="btn btn-primary" data-action="nav" data-tab="community" style="width: 100%; padding: 10px; font-size: 0.95rem;">
-        Register Now <i data-lucide="arrow-right"></i>
-      </button>
+      <div class="flyer-body">
+        <h4>${u.title}</h4>
+        <div class="flyer-meta">
+          <span><i data-lucide="calendar"></i> ${u.date}</span>
+          <span><i data-lucide="map-pin"></i> ${u.place}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  return `
+    <div class="upcoming-near-you" style="margin-top: 16px;">
+      <div class="card-title" style="font-size: 0.9rem; color: var(--muted); margin-bottom: 10px; display:flex; align-items:center; justify-content:space-between;">
+        <span><i data-lucide="map-pin" style="width:14px; height:14px; vertical-align: middle;"></i> Upcoming near you</span>
+        <button class="link-btn" data-action="nav" data-tab="community" style="background:none; border:none; color:var(--teal); font-size: 0.8rem; font-weight: 800; cursor:pointer;">
+          See all <i data-lucide="arrow-right" style="width:12px;height:12px;vertical-align:middle;"></i>
+        </button>
+      </div>
+      <div class="flyer-scroll">
+        ${flyers}
+      </div>
     </div>`;
 }
 

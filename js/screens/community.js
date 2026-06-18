@@ -101,37 +101,75 @@ function communityHTML() {
     `;
   }
 
-  const cards = EVENTS.map((ev) => {
-    const isReg = state.registered.has(ev.id);
-    return `
-      <div class="card event-card">
-        <div class="event-band ${ev.band}" style="display: flex; justify-content: space-between; align-items: center;">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="event-icon"><i data-lucide="${ev.icon}"></i></span>
-            <span class="event-kind">${ev.kind}</span>
+  const upcomingHTML = (Array.isArray(UPCOMING_NEAR_YOU) && UPCOMING_NEAR_YOU.length) ? `
+    <div class="ddb-upcoming-stack">
+      <div class="ddb-upcoming-head">
+        <span class="eyebrow"><i data-lucide="calendar-clock"></i> Upcoming activities</span>
+      </div>
+      ${UPCOMING_NEAR_YOU.map((u) => `
+        <div class="upcoming-card">
+          <div class="upcoming-poster">
+            <img src="${u.image}" alt="${u.title}" loading="lazy" />
           </div>
-          <button class="icon-btn" data-action="open-event-info" data-event="${ev.id}" style="color: var(--text);">
-            <i data-lucide="info"></i>
-          </button>
-        </div>
-        <div class="event-body">
-          <h3>${ev.title}</h3>
-          <div class="event-meta">
-            <span><i data-lucide="calendar"></i> ${ev.date}</span>
-            <span><i data-lucide="clock"></i> ${ev.time}</span>
-            <span><i data-lucide="map-pin"></i> ${ev.place}</span>
-          </div>
-          <div class="event-actions">
-            <button class="btn ${isReg ? 'btn-registered' : 'btn-register'}" data-action="register" data-event="${ev.id}">
-              ${isReg ? '<i data-lucide="check"></i> Registered' : '<i data-lucide="ticket"></i> Register'}
-            </button>
-            <button class="btn btn-ig" data-action="share-ig" data-event="${ev.id}">
-              <i data-lucide="instagram"></i> IG Story
-            </button>
+          <div class="upcoming-info">
+            <span class="upcoming-kind">${u.kind}</span>
+            <h4>${u.title}</h4>
+            <div class="upcoming-meta">
+              <span><i data-lucide="calendar"></i> ${u.date}</span>
+              <span><i data-lucide="map-pin"></i> ${u.place}</span>
+            </div>
           </div>
         </div>
-      </div>`;
-  }).join('');
+      `).join('')}
+    </div>
+  ` : '';
+
+  const postsHTML = (Array.isArray(DDB_POSTS) && DDB_POSTS.length) ? `
+    <div class="ddb-feed">
+      <div class="ddb-feed-head">
+        <span class="eyebrow"><i data-lucide="rss"></i> From the Dangerous Drugs Board</span>
+        <small>Official posts and updates</small>
+      </div>
+      ${DDB_POSTS.map((p) => {
+        const expanded = state.expandedPosts && state.expandedPosts[p.id];
+        const captionParas = p.caption.split('\n').filter(Boolean);
+        const previewParas = expanded ? captionParas : captionParas.slice(0, 1);
+        const needsToggle = captionParas.length > 1;
+        const galleryHTML = p.images.length === 1
+          ? `<div class="post-gallery single"><img src="${p.images[0]}" alt="${p.title}" loading="lazy" /></div>`
+          : `<div class="post-gallery scroll">
+              ${p.images.map((img, i) => `<img src="${img}" alt="${p.title} (${i + 1}/${p.images.length})" loading="lazy" />`).join('')}
+            </div>
+            <div class="post-gallery-count"><i data-lucide="images"></i> ${p.images.length} photos</div>`;
+        return `
+          <article class="post-card">
+            <header class="post-head">
+              <div class="post-avatar"><i data-lucide="${p.icon}"></i></div>
+              <div class="post-meta">
+                <b>Dangerous Drugs Board</b>
+                <small><span class="post-tag">${p.tag}</span> · ${p.date}</small>
+              </div>
+            </header>
+            <h3 class="post-title">${p.title}</h3>
+            ${galleryHTML}
+            <div class="post-caption">
+              ${previewParas.map((para) => `<p>${para}</p>`).join('')}
+              ${needsToggle ? `
+                <button class="post-toggle" data-action="toggle-post" data-post="${p.id}">
+                  ${expanded ? 'Show less' : 'Read more'} <i data-lucide="${expanded ? 'chevron-up' : 'chevron-down'}"></i>
+                </button>
+              ` : ''}
+            </div>
+            <div class="post-tags">
+              ${p.hashtags.map((h) => `<span>${h}</span>`).join('')}
+            </div>
+          </article>
+        `;
+      }).join('')}
+    </div>
+  ` : '';
+
+  const cards = `${upcomingHTML}${postsHTML}`;
 
   const tab = state.communityTab || 'support';
 
