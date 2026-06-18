@@ -44,6 +44,8 @@ var defaultState = {
   achievementCategoryFilter: null, /* added for Achievement category chips — see implementation_plan.md */
   language: 'en', /* added for Tagalog translation toggle — see SRS.md §7.3 */
   igStoryModalOpen: false,
+  profileTab: 'profile', /* added for profile 3-tab redesign */
+  profileActivitiesFilter: 'registered', /* added for profile activities filter */
   unmaskOpened: false,
   unmaskGameState: 'entry',
   unmaskRoundIndex: 0,

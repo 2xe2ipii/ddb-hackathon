@@ -1260,6 +1260,8 @@
   border-radius: var(--r-md);
   background: var(--surface);
   border: 1px solid var(--line);
+  min-width: 0;
+  overflow: hidden;
 }
 
 .badge.locked {
@@ -1299,21 +1301,30 @@
   color: #8da3bf;
 }
 
+.badge-text-col {
+  flex: 1;
+  min-width: 0; /* added for Achievements module layout — see SRS.md §5.3 */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
 .badge b {
   font-size: 12.5px;
   font-weight: 800;
   display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .badge small {
   font-size: 10.5px;
   color: var(--muted);
   font-weight: 700;
-}
-
-.badge-text-col {
-  flex: 1;
-  min-width: 0; /* added for Achievements module layout — see SRS.md §5.3 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 

@@ -681,6 +681,14 @@ function handleAppClick(e) {
       break;
     }
 
+    case 'switch-profile-tab': {
+      /* added for profile 3-tab redesign */
+      state.profileTab = el.dataset.tab;
+      // Reset activities filter when switching back to activities tab
+      render();
+      break;
+    }
+
     case 'toggle-post': {
       const postId = el.dataset.post;
       if (!state.expandedPosts) state.expandedPosts = {};

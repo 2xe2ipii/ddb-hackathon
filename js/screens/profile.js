@@ -1,4 +1,4 @@
-/* Profile screen: private progress, calendar, badges, and settings. */
+/* Profile screen: 3-tab layout — Profile, Activities, Achievements. */
 
 function getAnimClass(delay) {
   // Only animate sections on first entry to the profile tab.
@@ -146,7 +146,7 @@ function achievementsHTML(unlockedIds) {
     </button>` : '';
 
   return `
-    <div class="card achievements-card ${getAnimClass('0.25s')}">
+    <div class="card achievements-card">
       <div class="achievements-head">
         <span class="eyebrow"><i data-lucide="award"></i> Achievements</span>
         <span class="achv-count">${earned}/${total} unlocked</span>
@@ -191,74 +191,131 @@ function handleAvatarFileSelect(input) {
   }
 }
 
+/* --- Activities filter handler (called inline via onchange on select) --- */
+function handleProfileActivitiesFilter(val) {
+  state.profileActivitiesFilter = val;
+  render();
+}
+
+/* --- Calendar range filter handler --- */
+function handleCalendarRangeChange(val) {
+  state.calendarRange = val;
+  render();
+}
+
+/* --- Profile 3-tab toggle --- */
+function profileTabToggleHTML() {
+  const tab = state.profileTab || 'profile';
+  const tabs = [
+    { id: 'profile',      label: 'Profile',      icon: 'user' },
+    { id: 'activities',   label: 'Activities',   icon: 'calendar-check' },
+    { id: 'achievements', label: 'Achievements',  icon: 'award' },
+  ];
+  return `<div class="profile-tab-toggle">
+    ${tabs.map(t => `
+      <button class="${tab === t.id ? 'active' : ''}" data-action="switch-profile-tab" data-tab="${t.id}">
+        <i data-lucide="${t.icon}"></i>${t.label}
+      </button>`).join('')}
+  </div>`;
+}
+
+/* --- Activities tab content --- */
+function activitiesTabHTML() {
+  const filter = state.profileActivitiesFilter || 'registered';
+
+  // Merge both event pools; UPCOMING_NEAR_YOU uses 'cta' not 'kind'
+  const allEvents = [
+    ...(Array.isArray(EVENTS) ? EVENTS : []),
+    ...(Array.isArray(UPCOMING_NEAR_YOU) ? UPCOMING_NEAR_YOU : []),
+  ];
+  const registeredEvents = allEvents.filter(e => state.registered.has(e.id));
+
+  let listHTML = '';
+
+  if (filter === 'registered') {
+    if (registeredEvents.length === 0) {
+      listHTML = `
+        <div class="profile-empty-state">
+          <i data-lucide="calendar-x"></i>
+          <p>No registered events yet.</p>
+          <small>Head to the <strong>Community</strong> tab to find events and register.</small>
+        </div>`;
+    } else {
+      listHTML = registeredEvents.map(ev => {
+        const kindLabel = ev.kind || ev.cta || 'Event';
+        const iconName = ev.icon || 'calendar';
+        const meta = [kindLabel, ev.date, ev.place].filter(Boolean).join(' · ');
+        return `
+          <div class="activity-list-row">
+            <div class="activity-list-icon">
+              <i data-lucide="${iconName}"></i>
+            </div>
+            <div class="activity-list-body">
+              <b>${ev.title}</b>
+              <small>${meta}</small>
+            </div>
+            <span class="activity-list-badge registered">
+              <i data-lucide="check-circle"></i> Registered
+            </span>
+          </div>`;
+      }).join('');
+    }
+  } else {
+    // Attended
+    const attendedEvents = [
+      {
+        id: 'mock-attended-1',
+        title: '2027 Philippine Anti-Illegal Drugs Strategy Implementation Plan Presentation',
+        date: 'June 15, 2026',
+        place: 'DDB Headquarters',
+        kind: 'Presentation'
+      }
+    ];
+
+    listHTML = attendedEvents.map(ev => {
+      const meta = [ev.kind, ev.date, ev.place].filter(Boolean).join(' · ');
+      return `
+        <div class="activity-list-row" style="align-items: flex-start;">
+          <div class="activity-list-icon" style="margin-top: 2px;">
+            <i data-lucide="calendar-check"></i>
+          </div>
+          <div class="activity-list-body">
+            <b style="white-space: normal; line-height: 1.3;">${ev.title}</b>
+            <small style="margin-top: 4px; display: block;">${meta}</small>
+            <div style="margin-top: 10px;">
+              <button class="btn btn-ig" data-action="share-ig" data-event="${ev.id}" style="padding: 6px 14px; font-size: 11px;">
+                <i data-lucide="instagram" style="width: 14px; height: 14px;"></i> IG Story
+              </button>
+            </div>
+          </div>
+          <span class="activity-list-badge attended" style="background: var(--teal-soft); color: var(--teal); border: 1px solid rgba(69, 196, 176, 0.3);">
+            <i data-lucide="check-circle"></i> Attended
+          </span>
+        </div>`;
+    }).join('');
+  }
+
+  return `
+    <div class="card ${getAnimClass('0.08s')}">
+      <div class="activities-card-header">
+        <span class="eyebrow"><i data-lucide="calendar-check"></i> My Activities</span>
+        <div class="activities-filter-row">
+          <select class="activities-filter-select" onchange="handleProfileActivitiesFilter(this.value)">
+            <option value="registered" ${filter === 'registered' ? 'selected' : ''}>Registered</option>
+            <option value="attended"   ${filter === 'attended'   ? 'selected' : ''}>Attended</option>
+          </select>
+        </div>
+      </div>
+      <div class="activity-list">${listHTML}</div>
+    </div>`;
+}
+
 /* --- Main profile screen render --- */
 function profileHTML() {
   const anim = getAnimClass;
-  const dows = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
-    .map((d) => `<span class="cal-dow">${d}</span>`).join('');
-
-  // Dynamic calendar setup
-  const todayDate = new Date();
-  const todayDay = todayDate.getDate();
-  const currentMonth = todayDate.getMonth();
-  const currentYear = todayDate.getFullYear();
-  const monthName = todayDate.toLocaleString('default', { month: 'long', year: 'numeric' });
-
-  // Number of days in the current month
-  const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
-
-  // Day of the week for the 1st of the month
-  const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay(); // 0 = Sun, 1 = Mon...
-
-  // Deterministic mock mood values (1 to 5) for past days
-  const getMockMoodForDay = (day) => {
-    const moods = [3, 4, 2, 4, 5, 4, 3, 5, 4, 5, 3, 4, 4, 3, 5, 4, 2, 4, 5, 4, 3, 5, 4, 5, 3, 4, 4, 3, 5, 4];
-    return moods[(day - 1) % moods.length];
-  };
-
-  const todayWeather = state.todayMood ? WEATHER.find((w) => w.id === state.todayMood) : null;
-  let cells = '';
-  // Add blank spacer cells for offset
-  for (let i = 0; i < firstDayIndex; i++) {
-    cells += '<span></span>';
-  }
-
-  for (let day = 1; day <= totalDays; day++) {
-    const isToday = day === todayDay;
-    const isFuture = day > todayDay;
-
-    let moodVal = null;
-    if (isToday) {
-      moodVal = state.todayMood ? WEATHER.find((w) => w.id === state.todayMood).value : null;
-    } else if (!isFuture) {
-      moodVal = getMockMoodForDay(day);
-    }
-
-    let isMatch = true;
-    let isDimmed = false;
-    if (state.selectedMoodFilter !== null) {
-      if (moodVal !== Number(state.selectedMoodFilter)) {
-        isMatch = false;
-        isDimmed = true;
-      }
-    }
-
-    const cls = [
-      'cal-day',
-      moodVal ? 'm' + moodVal : '',
-      isToday ? 'today' : '',
-      isFuture ? 'future' : '',
-      isDimmed ? 'dimmed' : '',
-      (state.selectedMoodFilter !== null && isMatch && moodVal) ? 'highlighted' : '',
-    ].join(' ').trim();
-
-    // Show weather emoji inside the "today" cell if mood was logged
-    const todayLabel = isToday && todayWeather ? `<span class="cal-today-emoji">${day}</span>` : day;
-    cells += `<span class="${cls}">${todayLabel}</span>`;
-  }
+  const tab = state.profileTab || 'profile';
 
   const unlockedIds = getUnlockedIds(state);
-  const moodInsight = getMoodInsight(state);
 
   // Avatar
   const initials = (state.profileName || 'Kai').substring(0, 2).toUpperCase();
@@ -266,23 +323,6 @@ function profileHTML() {
     ? `background-image: url(${state.profilePic}); background-size: cover; background-position: center; color: transparent;`
     : '';
   const avatarContent = state.profilePic ? '' : initials;
-
-  // Streak chip
-  let streakTierClass = '';
-  if (state.streak >= 30) {
-    streakTierClass = 'streak-tier-flame';
-  } else if (state.streak >= 20) {
-    streakTierClass = 'streak-tier-sword';
-  } else if (state.streak >= 7) {
-    streakTierClass = 'streak-tier-scales';
-  } else if (state.streak >= 1) {
-    streakTierClass = 'streak-tier-base';
-  }
-  const streakChip = `<span class="profile-streak-chip ${streakTierClass}"><i data-lucide="flame"></i>${state.streak}d</span>`;
-  const badgeChip = `<span class="profile-badge-chip"><i data-lucide="award"></i>${unlockedIds.size}/${ACHIEVEMENTS.length}</span>`;
-
-  // Live Wrapped stats
-  const wrappedStats = getWrappedStats(state);
 
   // --- Modals ---
   let editModalHTML = '';
@@ -388,9 +428,118 @@ function profileHTML() {
 
   const isModalActive = state.shareModalOpen || state.profileEditing;
 
-  return `
-    <div class="screen ${isModalActive ? 'modal-open' : ''}">
+  // ── Tab-specific content ──
+  let tabContent = '';
 
+  if (tab === 'profile') {
+    const range = state.calendarRange || 'month';
+    // Dynamic calendar setup
+    const todayDate = new Date();
+    const todayDay = todayDate.getDate();
+    const currentMonth = todayDate.getMonth();
+    const currentYear = todayDate.getFullYear();
+    const monthName = todayDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+    const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
+
+    const getMockMoodForDay = (day) => {
+      const moods = [3, 4, 2, 4, 5, 4, 3, 5, 4, 5, 3, 4, 4, 3, 5, 4, 2, 4, 5, 4, 3, 5, 4, 5, 3, 4, 4, 3, 5, 4];
+      return moods[(day - 1 + 30) % moods.length];
+    };
+
+    const todayWeather = state.todayMood ? WEATHER.find((w) => w.id === state.todayMood) : null;
+    let cells = '';
+    let dows = '';
+
+    if (range === 'month') {
+      dows = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
+        .map((d) => `<span class="cal-dow">${d}</span>`).join('');
+      for (let i = 0; i < firstDayIndex; i++) {
+        cells += '<span></span>';
+      }
+      for (let day = 1; day <= totalDays; day++) {
+        const isToday = day === todayDay;
+        const isFuture = day > todayDay;
+        let moodVal = null;
+        if (isToday) {
+          moodVal = state.todayMood ? WEATHER.find((w) => w.id === state.todayMood).value : null;
+        } else if (!isFuture) {
+          moodVal = getMockMoodForDay(day);
+        }
+        let isMatch = true;
+        let isDimmed = false;
+        if (state.selectedMoodFilter !== null) {
+          if (moodVal !== Number(state.selectedMoodFilter)) {
+            isMatch = false;
+            isDimmed = true;
+          }
+        }
+        const cls = [
+          'cal-day',
+          moodVal ? 'm' + moodVal : '',
+          isToday ? 'today' : '',
+          isFuture ? 'future' : '',
+          isDimmed ? 'dimmed' : '',
+          (state.selectedMoodFilter !== null && isMatch && moodVal) ? 'highlighted' : '',
+        ].join(' ').trim();
+        const todayLabel = isToday && todayWeather ? `<span class="cal-today-emoji">${day}</span>` : day;
+        cells += `<span class="${cls}">${todayLabel}</span>`;
+      }
+    } else {
+      const numDays = parseInt(range);
+      const startOffset = numDays - 1;
+      
+      for(let i = startOffset; i >= 0; i--) {
+        const d = new Date(currentYear, currentMonth, todayDay - i);
+        if (i >= startOffset - 6 && i <= startOffset) { 
+          const dowStr = ['S', 'M', 'T', 'W', 'T', 'F', 'S'][d.getDay()];
+          dows += `<span class="cal-dow">${dowStr}</span>`;
+        }
+        const dayNum = d.getDate();
+        const isToday = (i === 0);
+        let moodVal = null;
+        if (isToday) {
+          moodVal = state.todayMood ? WEATHER.find((w) => w.id === state.todayMood).value : null;
+        } else {
+          moodVal = getMockMoodForDay(dayNum);
+        }
+        let isMatch = true;
+        let isDimmed = false;
+        if (state.selectedMoodFilter !== null) {
+          if (moodVal !== Number(state.selectedMoodFilter)) {
+            isMatch = false;
+            isDimmed = true;
+          }
+        }
+        const cls = [
+          'cal-day',
+          moodVal ? 'm' + moodVal : '',
+          isToday ? 'today' : '',
+          isDimmed ? 'dimmed' : '',
+          (state.selectedMoodFilter !== null && isMatch && moodVal) ? 'highlighted' : '',
+        ].join(' ').trim();
+        const todayLabel = isToday && todayWeather ? `<span class="cal-today-emoji">${dayNum}</span>` : dayNum;
+        cells += `<span class="${cls}">${todayLabel}</span>`;
+      }
+    }
+
+    // Streak chip
+    let streakTierClass = '';
+    if (state.streak >= 30) {
+      streakTierClass = 'streak-tier-flame';
+    } else if (state.streak >= 20) {
+      streakTierClass = 'streak-tier-sword';
+    } else if (state.streak >= 7) {
+      streakTierClass = 'streak-tier-scales';
+    } else if (state.streak >= 1) {
+      streakTierClass = 'streak-tier-base';
+    }
+    const streakChip = `<span class="profile-streak-chip ${streakTierClass}"><i data-lucide="flame"></i>${state.streak}d</span>`;
+    const badgeChip = `<span class="profile-badge-chip"><i data-lucide="award"></i>${unlockedIds.size}/${ACHIEVEMENTS.length}</span>`;
+    const wrappedStats = getWrappedStats(state);
+    const moodInsight = getMoodInsight(state);
+
+    tabContent = `
       <!-- ── Profile Hero ── -->
       <div class="profile-hero ${anim('0s')}">
         <div class="profile-hero-bg"></div>
@@ -428,8 +577,17 @@ function profileHTML() {
       <div class="card ${anim('0.14s')}">
         <span class="eyebrow"><i data-lucide="calendar-heart"></i> Mood calendar</span>
         <div class="card-head-row">
-          <div class="card-title">${monthName}</div>
-          ${state.selectedMoodFilter !== null ? `<button class="btn-clear-filter" data-action="clear-mood-filter"><i data-lucide="x-circle"></i> Clear filter</button>` : ''}
+          <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+            <div class="card-title" style="margin: 0;">${monthName}</div>
+            <div class="activities-filter-row" style="margin-left: auto;">
+              <select onchange="handleCalendarRangeChange(this.value)" class="activities-filter-select" style="padding: 4px 24px 4px 8px; font-size: 11px;">
+                <option value="month" ${range==='month'?'selected':''}>Full month</option>
+                <option value="14" ${range==='14'?'selected':''}>14 days</option>
+                <option value="7" ${range==='7'?'selected':''}>7 days</option>
+              </select>
+            </div>
+          </div>
+          ${state.selectedMoodFilter !== null ? `<button class="btn-clear-filter" style="margin-left:8px;" data-action="clear-mood-filter"><i data-lucide="x-circle"></i> Clear</button>` : ''}
         </div>
         <div class="cal-grid">${dows}${cells}</div>
         <div class="cal-legend">
@@ -445,34 +603,8 @@ function profileHTML() {
         </div>
       </div>
 
-      <!-- ── Achievements ── -->
-      ${achievementsHTML(unlockedIds)}
-
-      <!-- ── Privacy Explainer ── -->
-      <div class="card privacy-card ${anim('0.28s')}">
-        <div class="privacy-header">
-          <i data-lucide="shield-check"></i>
-          <h4>Private &amp; On-Device</h4>
-        </div>
-        <p class="privacy-intro">Your data is stored 100% locally in your browser's secure storage. No servers, no accounts, and no trackers.</p>
-        <div class="privacy-list">
-          <div class="privacy-item">
-            <i data-lucide="feather"></i>
-            <span><b>Reflections &amp; Journal</b> — Never uploaded; saved locally.</span>
-          </div>
-          <div class="privacy-item">
-            <i data-lucide="calendar"></i>
-            <span><b>Mental Weather history</b> — private to you; deleted on reset.</span>
-          </div>
-          <div class="privacy-item">
-            <i data-lucide="wind"></i>
-            <span><b>Relax Check-in answers</b> — temporary state, non-punitive.</span>
-          </div>
-        </div>
-      </div>
-
       <!-- ── Settings & Privacy ── -->
-      <div class="card settings-card ${anim('0.32s')}">
+      <div class="card settings-card ${anim('0.20s')}">
         <span class="eyebrow"><i data-lucide="settings"></i> Settings &amp; Privacy</span>
 
         <div class="settings-group-label">Storage &amp; Data</div>
@@ -512,9 +644,73 @@ function profileHTML() {
             <span class="settings-value">${state.theme === 'light' ? 'Light' : 'Dark'}</span>
           </button>
         </div>
-      </div>
+      </div>`;
 
+  } else if (tab === 'activities') {
+    tabContent = activitiesTabHTML();
+
+  } else if (tab === 'achievements') {
+    tabContent = achievementsHTML(unlockedIds);
+  }
+
+  let igModalHTML = '';
+  if (state.igStoryModalOpen === 'mock-attended-1') {
+    igModalHTML = `
+      <div class="overlay ig-composer-overlay" data-action="close-ig-story">
+        <div class="ig-top-bar">
+          <button class="ig-icon-btn" data-action="close-ig-story" aria-label="Close">
+            <i data-lucide="x"></i>
+          </button>
+          <button class="ig-icon-btn" aria-label="Text">
+            <span class="ig-aa">Aa</span>
+          </button>
+        </div>
+
+        <div class="ig-side-tools">
+          <button class="ig-icon-btn ig-icon-btn--sm" aria-label="Sticker"><i data-lucide="smile-plus"></i></button>
+          <button class="ig-icon-btn ig-icon-btn--sm" aria-label="Music"><i data-lucide="music"></i></button>
+          <button class="ig-icon-btn ig-icon-btn--sm" aria-label="Effects"><i data-lucide="wand-2"></i></button>
+          <button class="ig-icon-btn ig-icon-btn--sm" aria-label="More"><i data-lucide="chevron-down"></i></button>
+        </div>
+
+        <div class="ig-canvas">
+          <img class="ig-event-photo" src="assets/content/share attended/sample-share-post.jpg" alt="2027 Philippine Anti-Illegal Drugs Strategy Implementation Plan Presentation" />
+          <button class="ig-learn-more">
+            <i data-lucide="link"></i> LEARN MORE
+          </button>
+        </div>
+
+        <div class="ig-caption-row">Add a caption...</div>
+
+        <div class="ig-bottom-bar">
+          <button class="ig-pill">
+            <span class="ig-pill-ava ig-pill-ava--your"><i data-lucide="hand"></i></span>
+            <span>Your story</span>
+          </button>
+          <button class="ig-pill">
+            <span class="ig-pill-ava ig-pill-ava--cf"><i data-lucide="star"></i></span>
+            <span>Close Friends</span>
+          </button>
+          <button class="ig-send" aria-label="Send">
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+      </div>
+      <style>
+        @keyframes story-zoom-in {
+          from { opacity: 0; transform: scale(0.94); }
+          to { opacity: 1; transform: scale(1); }
+        }
+      </style>
+    `;
+  }
+
+  return `
+    <div class="screen ${isModalActive || state.igStoryModalOpen ? 'modal-open' : ''}">
+      ${profileTabToggleHTML()}
+      ${tabContent}
     </div>
     ${editModalHTML}
-    ${shareModalHTML}`;
+    ${shareModalHTML}
+    ${igModalHTML}`;
 }
