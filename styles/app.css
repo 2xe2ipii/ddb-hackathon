@@ -704,69 +704,61 @@
 /* exercise picker */
 .exercise-picker {
   display: flex;
-  gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 2px;
+  margin-bottom: 10px;
   width: 100%;
-  overflow-x: auto;
-  padding-bottom: 4px;
 }
 
 .ex-chip {
-  flex: 0 0 auto;
+  flex: 1;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  padding: 12px 16px;
+  gap: 1px;
+  padding: 6px 2px;
   background: transparent;
   border: none;
-  border-radius: 0 0 var(--r-md) var(--r-md);
+  border-radius: 999px;
   color: var(--muted);
   font-family: inherit;
-  font-size: 13px;
+  font-size: 11px;
+  font-weight: 800;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 110px;
-}
-
-.ex-chip::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  border-radius: 3px;
-  background: var(--line);
-  transition: background 0.2s ease;
+  min-width: 0;
 }
 
 .ex-chip strong {
   font-weight: 800;
-  color: var(--text);
+  color: var(--muted);
+  font-size: 11px;
+  white-space: nowrap;
 }
 
 .suggested-badge {
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 800;
   color: var(--teal);
   background: var(--teal-soft);
-  padding: 2px 6px;
+  padding: 1px 4px;
   border-radius: 100px;
   text-transform: uppercase;
+  line-height: 1;
 }
 
 .ex-chip.active {
-  background: rgba(69, 196, 176, 0.08);
-}
-
-.ex-chip.active::before {
-  background: var(--teal);
+  background: var(--card);
+  color: var(--text);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .ex-chip.active strong {
-  color: var(--teal);
+  color: var(--text);
 }
 
 /* breathing orb */

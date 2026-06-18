@@ -26,6 +26,8 @@ var defaultState = {
   relaxCheckinIndex: 0,
   relaxSelectedExercise: 'box', // 'box', '478', 'coherent'
   relaxToolkitOpen: null,
+  groundingStep: 0,
+  bodyScanStep: 0,
   expandedQuest: null,
   /* profileBadgeOpen removed for Achievements module — see SRS.md §5.3 */
   achievementsExpanded: false,

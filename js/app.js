@@ -30,6 +30,7 @@ function render() {
   const newScreen = document.querySelector('.screen, .breathe-screen');
   if (newScreen && lastRenderedTab === state.tab) {
     newScreen.scrollTop = scrollTop;
+    newScreen.style.animation = 'none';
   }
   lastRenderedTab = state.tab;
 
@@ -472,7 +473,39 @@ function handleAppClick(e) {
         state.relaxToolkitOpen = null;
       } else {
         state.relaxToolkitOpen = tkId;
+        state.groundingStep = 0;
+        state.bodyScanStep = 0;
       }
+      render();
+      break;
+
+    case 'next-grounding':
+      if (state.groundingStep < 4) state.groundingStep++;
+      render();
+      break;
+
+    case 'prev-grounding':
+      if (state.groundingStep > 0) state.groundingStep--;
+      render();
+      break;
+
+    case 'reset-grounding':
+      state.groundingStep = 0;
+      render();
+      break;
+
+    case 'next-bodyscan':
+      if (state.bodyScanStep < 4) state.bodyScanStep++;
+      render();
+      break;
+
+    case 'prev-bodyscan':
+      if (state.bodyScanStep > 0) state.bodyScanStep--;
+      render();
+      break;
+
+    case 'reset-bodyscan':
+      state.bodyScanStep = 0;
       render();
       break;
 
