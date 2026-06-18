@@ -93,11 +93,16 @@ function learnHTML() {
     </style>
     <div class="screen" style="height: 100%; display: flex; flex-direction: column; gap: 16px; padding-bottom: 120px;">
       ${(!state.mythOpened && !state.quizOpened) ? `
-      <div class="greeting" style="margin-bottom: 16px;">
+      <div class="greeting" style="margin-bottom: 12px;">
         <h1>Learn</h1>
         <p>Clear 5 misconceptions, then practice one safe choice.</p>
-      </div>` : ''}
+      </div>
+      ${learnSubTabToggleHTML()}
+      ` : ''}
 
+      ${(state.learnSubTab === 'shorts' && !state.mythOpened && !state.quizOpened) ? shortsFeedHTML() : ''}
+
+      ${(state.learnSubTab !== 'shorts' || state.mythOpened || state.quizOpened) ? `
       ${!state.quizOpened ? `
       <section class="learn-stack" style="flex: ${state.mythOpened ? '1' : 'none'}; display: flex; flex-direction: column;">
         <div class="learn-card-head" data-action="toggle-myth" style="${state.mythOpened ? 'cursor: pointer; padding: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; margin-bottom: 16px;' : 'cursor: pointer; padding: 24px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);'}">
@@ -129,7 +134,66 @@ function learnHTML() {
         </div>
       </section>
       ` : ''}
+      ` : ''}
     </div>`;
+}
+
+function learnSubTabToggleHTML() {
+  const tab = state.learnSubTab || 'games';
+  return `
+    <div class="learn-toggle">
+      <button class="${tab === 'games' ? 'active' : ''}" data-action="switch-learn-tab" data-tab="games">
+        <i data-lucide="gamepad-2"></i> Games
+      </button>
+      <button class="${tab === 'shorts' ? 'active' : ''}" data-action="switch-learn-tab" data-tab="shorts">
+        <i data-lucide="play-circle"></i> Shorts
+      </button>
+    </div>
+  `;
+}
+
+function shortsFeedHTML() {
+  const hasShorts = Array.isArray(DDB_SHORTS) && DDB_SHORTS.length > 0;
+  if (!hasShorts) {
+    return `
+      <div class="card shorts-empty">
+        <div class="shorts-empty-ico"><i data-lucide="play-circle"></i></div>
+        <h3>Shorts coming soon</h3>
+        <p>Quick clips from DDB's official YouTube channel will appear here.</p>
+      </div>
+    `;
+  }
+  return `
+    <div class="shorts-feed">
+      ${DDB_SHORTS.map((s) => `
+        <article class="short-card">
+          <header class="short-head">
+            <div class="short-avatar"><i data-lucide="youtube"></i></div>
+            <div class="short-meta">
+              <b>Dangerous Drugs Board</b>
+              <small>${s.tag || 'YouTube Shorts'}</small>
+            </div>
+          </header>
+          ${s.title ? `<h3 class="short-title">${s.title}</h3>` : ''}
+          <div class="short-frame-wrap">
+            <iframe
+              class="short-frame"
+              src="https://www.youtube.com/embed/${s.videoId}?rel=0&modestbranding=1&playsinline=1"
+              title="${s.title || 'DDB Short'}"
+              loading="lazy"
+              frameborder="0"
+              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+          <div class="short-foot">
+            <a class="short-yt-link" href="https://www.youtube.com/shorts/${s.videoId}" target="_blank" rel="noopener">
+              <i data-lucide="external-link"></i> Open on YouTube
+            </a>
+          </div>
+        </article>
+      `).join('')}
+    </div>
+  `;
 }
 
 function mythFlowHTML() {

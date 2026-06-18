@@ -689,6 +689,12 @@ function handleAppClick(e) {
       break;
     }
 
+    case 'switch-learn-tab': {
+      state.learnSubTab = el.dataset.tab;
+      render();
+      break;
+    }
+
     case 'open-event-info': {
       state.eventModalOpen = el.dataset.event;
       render();

@@ -61,6 +61,8 @@ var defaultState = {
   unmaskFullSweepUnlocked: false,
   unmaskRunDetectiveMode: false,
   expandedPosts: {},
+  learnSubTab: 'games',
+  shortsIndex: 0,
 };
 
 function loadState() {

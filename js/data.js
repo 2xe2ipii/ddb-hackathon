@@ -465,6 +465,44 @@ Sa paggunita ng Araw ng Kalayaan, kaisa ang DDB sa patuloy na pagpapahalaga sa d
   },
 ];
 
+/* =====================================================
+   DDB_SHORTS — YouTube Shorts from the Dangerous Drugs
+   Board's official channel. Add new entries by pasting
+   the 11-character video ID into "videoId".
+   ===================================================== */
+const DDB_SHORTS = [
+  {
+    videoId: 'Sr74YNmH-0o',
+    tag: 'DDBunks · Episode 02',
+    title: 'Saan napupunta ang mga nakumpiskang illegal na droga?',
+  },
+  {
+    videoId: 'mg2H3yYrH0o',
+    tag: 'DDBunks · Episode 03',
+    title: 'Doc, pareseta po!',
+  },
+  {
+    videoId: 'At_YGCbPCis',
+    tag: 'DDBunks · Episode 04',
+    title: 'May "mukha" ba ang gumagamit ng illegal na droga?',
+  },
+  {
+    videoId: 'J8tU4W24gL8',
+    tag: 'DDBunks · Season 02 · Episode 01',
+    title: 'Anong uri ng sakit ang substance use disorder?',
+  },
+  {
+    videoId: '3XNhsQ7z_qc',
+    tag: 'DDBunks · Season 02 · Episode 02',
+    title: 'Kung ganoon ang magulang, ganoon na rin ba ang anak?',
+  },
+  {
+    videoId: 'DL2yCx90HtY',
+    tag: 'DDBunks · Season 02 · Episode 03',
+    title: 'Temporary boost or health risk?',
+  },
+];
+
 const UNMASK_ROUNDS = [
   {
     id: 'u1',
