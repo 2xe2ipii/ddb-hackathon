@@ -206,7 +206,7 @@ const TRANSLATIONS = {
   "Scroll for more.": "Mag-scroll para sa iba pa.",
   "Truths Cleared": "Mga Katotohanang Nalutas",
   "Questions Answered": "Mga Tanong na Nasagot",
-  "Daily Quiz": "Pagsasanay Ngayon",
+  "Daily Quiz": "Araw-araw na Pagsusulit",
   "Test your knowledge in 10s": "Subukin ang iyong kaalaman sa loob ng 10s",
   "Start Quiz": "Simulan ang Pagsusulit",
   "Time Left:": "Oras na Natitira:",
@@ -218,12 +218,12 @@ const TRANSLATIONS = {
 
   // Additional Learn Tab (New items for full translation)
   "Clear 5 misconceptions, then practice one safe choice.": "Linawin ang 5 maling paniniwala, pagkatapos ay magsanay ng isang ligtas na pasya.",
-  "Myths vs facts": "Mito vs Katotohanan",
-  "Myths vs Facts": "Mito vs Katotohanan",
-  "Daily quiz": "Pagsasanay Ngayon",
+  "Myths vs facts": "Mito laban sa Katotohanan",
+  "Myths vs Facts": "Mito laban sa Katotohanan",
+  "Daily quiz": "Araw-araw na Pagsusulit",
   "Challenge a Myth": "Hamunin ang Mito",
   "All 5 completed": "Kumpleto na ang lahat ng 5",
-  "Start Daily Quiz": "Simulan ang Pagsasanay Ngayon",
+  "Start Daily Quiz": "Simulan ang Araw-araw na Pagsusulit",
   "All 5 Cleared!": "Nalutas Lahat ng 5!",
   "You've uncovered the facts. Great job!": "Nalaman mo ang mga katotohanan. Magaling!",
   "Back to Learn": "Bumalik sa Alamin",
@@ -243,11 +243,17 @@ const TRANSLATIONS = {
   "\"Flame of Clarity\" stage unlocked": "Ang antas ng \"Flame of Clarity\" ay na-unlock",
 
   // UnMask Game
+  "Unmask Drugs": "Pagbubunyag ng Droga",
   "UnMask Drugs": "Pagbubunyag ng Droga",
   "Tap tiles to uncover the image. Use your clues wisely.": "I-tap ang mga tile upang mabunyag ang larawan. Gamitin ang iyong mga clue nang may katalinuhan.",
   "Start Game": "Simulan ang Laro",
   "Play Game": "Tara, Laro",
   "8 rounds • ~6 mins": "8 round • ~6 min",
+  "Play": "Maglaro",
+  "5 rounds": "5 round",
+  "Swipe through short myth-or-fact prompts.": "I-swipe ang maiikling prompt ng mito-o-katotohanan.",
+  "Answer quick safety questions against the clock.": "Sagutin ang mabilisang mga tanong ukol sa kaligtasan laban sa oras.",
+  "Reveal clues, identify hidden danger signs, and make the safe call.": "Ibunyag ang mga clue, tukuyin ang mga nakatagong panganib, at gumawa ng ligtas na pasya.",
   "Round": "Round",
   "of": "ng",
   "Use Clue": "Gumamit ng Clue",
@@ -958,6 +964,35 @@ function translateDOM(node) {
       const question = text.slice(19, -1);
       const translatedQuestion = TRANSLATIONS[question] || question;
       node.nodeValue = `Tanong Ngayong Araw: "${translatedQuestion}"`;
+      return;
+    }
+
+    // Dynamic matching for game card descriptions and metas
+    if (text.startsWith('Swipe through today\'s prompt: "') && text.endsWith('"')) {
+      const prompt = text.slice(31, -1);
+      const translatedPrompt = TRANSLATIONS[prompt] || prompt;
+      node.nodeValue = `I-swipe ang prompt ngayon: "${translatedPrompt}"`;
+      return;
+    }
+
+    if (text.startsWith('Beat the clock on: "') && text.endsWith('"')) {
+      const prompt = text.slice(20, -1);
+      const translatedPrompt = TRANSLATIONS[prompt] || prompt;
+      node.nodeValue = `Unahan ang oras sa: "${translatedPrompt}"`;
+      return;
+    }
+
+    const clearedRegex = /^(\d+)\s*\/\s*5\s+cleared$/i;
+    const clearedMatch = text.match(clearedRegex);
+    if (clearedMatch) {
+      node.nodeValue = `${clearedMatch[1]} / 5 nalutas`;
+      return;
+    }
+
+    const answeredRegex = /^(\d+)\s*\/\s*5\s+answered$/i;
+    const answeredMatch = text.match(answeredRegex);
+    if (answeredMatch) {
+      node.nodeValue = `${answeredMatch[1]} / 5 nasagot`;
       return;
     }
 

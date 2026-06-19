@@ -5578,6 +5578,7 @@ body.light-theme.colorblind-mode .wrapped::after {
 }
 
 .light-theme .learn-game-card {
+  background: linear-gradient(135deg, rgba(85, 149, 154, 0.12), rgba(43, 140, 196, 0.06)), var(--card);
   border-color: rgba(85, 149, 154, 0.24);
   box-shadow: 0 12px 26px rgba(15, 23, 42, 0.1);
 }
@@ -5585,6 +5586,31 @@ body.light-theme.colorblind-mode .wrapped::after {
 .light-theme .learn-game-card:hover {
   border-color: rgba(85, 149, 154, 0.42);
   box-shadow: 0 16px 30px rgba(15, 23, 42, 0.14);
+}
+
+.light-theme .learn-game-card::before {
+  background: repeating-linear-gradient(135deg, rgba(85, 149, 154, 0.03) 0 1px, transparent 1px 10px);
+  opacity: 0.5;
+}
+
+.light-theme .learn-game-card .learn-game-body h3 {
+  color: #1e3a38;
+  text-shadow: none;
+}
+
+.light-theme .learn-game-card .learn-game-body p {
+  color: #475569;
+}
+
+.light-theme .learn-game-card .learn-game-meta {
+  color: #64748b;
+}
+
+.light-theme .learn-game-card .learn-game-cta {
+  background: linear-gradient(135deg, #55959A, #407b80);
+  color: #ffffff;
+  border: 1px solid rgba(85, 149, 154, 0.25);
+  box-shadow: 0 6px 14px rgba(85, 149, 154, 0.2);
 }
 
 .shorts-feed {
