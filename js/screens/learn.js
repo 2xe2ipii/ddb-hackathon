@@ -60,7 +60,7 @@ function learnHTML() {
         <!-- Game Header -->
         <div class="learn-card-head" data-action="unmask-close" style="cursor: pointer; padding: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
           <span style="display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 800;">
-            <i data-lucide="eye-off" style="width: 20px; height: 20px; color: var(--teal);"></i> UnMask Drugs
+            <i data-lucide="eye-off" style="width: 20px; height: 20px; color: var(--teal);"></i> Unmask Drugs
           </span>
           <b style="font-size: 13px; color: var(--text);">Close</b>
         </div>
@@ -101,37 +101,65 @@ function learnHTML() {
       ${(state.learnSubTab !== 'shorts' || state.mythOpened || state.quizOpened) ? `
       ${!state.quizOpened ? `
       <section class="learn-stack" style="flex: ${state.mythOpened ? '1' : 'none'}; display: flex; flex-direction: column;">
-        <div class="learn-card-head" data-action="toggle-myth" style="${state.mythOpened ? 'cursor: pointer; padding: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; margin-bottom: 16px;' : 'cursor: pointer; padding: 24px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);'}">
-          <span style="${state.mythOpened ? 'display: flex; align-items: center; gap: 8px; font-size: 15px;' : 'font-size: 18px; display: flex; align-items: center; gap: 10px; font-weight: 800;'}"><i data-lucide="shield-question" style="${state.mythOpened ? 'width: 20px; height: 20px;' : 'width: 28px; height: 28px;'}"></i> Myths vs facts</span>
-          ${!state.mythOpened && mythAnsweredCount < 5 && currentMythCard ? `<div style="font-size: 14px; text-align: center; color: var(--muted); line-height: 1.4; padding: 0 10px;">Today's Myth: "${currentMythCard.statement}"</div>` : ''}
-          <b style="${state.mythOpened ? 'font-size: 13px;' : 'font-size: 14px; background: linear-gradient(120deg, var(--teal), #3aa893); color: #07211c; padding: 8px 16px; border-radius: 20px; box-shadow: 0 2px 8px rgba(69, 196, 176, 0.3);'}">${mythAnsweredCount >= 5 ? 'All 5 completed' : (state.mythOpened ? 'Close' : 'Challenge a Myth')}</b>
-        </div>
+        ${state.mythOpened ? `
+          <div class="learn-card-head" data-action="toggle-myth" style="cursor: pointer; padding: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; margin-bottom: 16px;">
+            <span style="display: flex; align-items: center; gap: 8px; font-size: 15px;"><i data-lucide="shield-question" style="width: 20px; height: 20px;"></i> Myths vs Facts</span>
+            <b style="font-size: 13px;">Close</b>
+          </div>
+        ` : learnGameCardHTML({
+          action: 'toggle-myth',
+          title: 'Myths vs Facts',
+          description: currentMythCard ? `Swipe through today's prompt: "${currentMythCard.statement}"` : 'Swipe through short myth-or-fact prompts.',
+          meta: `${Math.min(mythAnsweredCount, 5)} / 5 cleared`,
+        })}
         ${state.mythOpened ? mythFlowHTML() : ''}
       </section>
       ` : ''}
 
       ${!state.mythOpened ? `
       <section class="learn-stack" style="flex: ${state.quizOpened ? '1' : 'none'}; display: flex; flex-direction: column;">
-        <div class="learn-card-head quiz" data-action="toggle-quiz" style="${state.quizOpened ? 'cursor: pointer; padding: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; margin-bottom: 16px;' : 'cursor: pointer; padding: 24px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);'}">
-          <span style="${state.quizOpened ? 'display: flex; align-items: center; gap: 8px; font-size: 15px;' : 'font-size: 18px; display: flex; align-items: center; gap: 10px; font-weight: 800;'}"><i data-lucide="timer" style="${state.quizOpened ? 'width: 20px; height: 20px;' : 'width: 28px; height: 28px;'}"></i> Daily quiz</span>
-          ${!state.quizOpened && quizAnsweredCount < 5 && currentQuizCard ? `<div style="font-size: 14px; text-align: center; color: var(--muted); line-height: 1.4; padding: 0 10px;">Today's Question: "${currentQuizCard.question}"</div>` : ''}
-          <b style="${state.quizOpened ? 'font-size: 13px;' : 'font-size: 14px; background: linear-gradient(120deg, var(--teal), #3aa893); color: #07211c; padding: 8px 16px; border-radius: 20px; box-shadow: 0 2px 8px rgba(69, 196, 176, 0.3);'}">${quizAnsweredCount >= 5 ? 'All 5 completed' : (state.quizOpened ? 'Close' : 'Start Daily Quiz')}</b>
-        </div>
+        ${state.quizOpened ? `
+          <div class="learn-card-head quiz" data-action="toggle-quiz" style="cursor: pointer; padding: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; margin-bottom: 16px;">
+            <span style="display: flex; align-items: center; gap: 8px; font-size: 15px;"><i data-lucide="timer" style="width: 20px; height: 20px;"></i> Daily Quiz</span>
+            <b style="font-size: 13px;">Close</b>
+          </div>
+        ` : learnGameCardHTML({
+          action: 'toggle-quiz',
+          title: 'Daily Quiz',
+          description: currentQuizCard ? `Beat the clock on: "${currentQuizCard.question}"` : 'Answer quick safety questions against the clock.',
+          meta: `${Math.min(quizAnsweredCount, 5)} / 5 answered`,
+        })}
         ${state.quizOpened ? dailyQuizCardHTML() : ''}
       </section>
       ` : ''}
 
       ${(!state.quizOpened && !state.mythOpened) ? `
       <section class="learn-stack">
-        <div class="learn-card-head" data-action="toggle-unmask" style="cursor: pointer; padding: 24px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
-          <span style="font-size: 18px; display: flex; align-items: center; gap: 10px; font-weight: 800;"><i data-lucide="eye-off" style="width: 28px; height: 28px;"></i> UnMask Drugs</span>
-          <div style="font-size: 14px; text-align: center; color: var(--muted); line-height: 1.4; padding: 0 10px;">Spot hidden danger signs and drug red flags.</div>
-          <b style="font-size: 14px; background: linear-gradient(120deg, var(--teal), #3aa893); color: #07211c; padding: 8px 16px; border-radius: 20px; box-shadow: 0 2px 8px rgba(69, 196, 176, 0.3);">Play Game</b>
-        </div>
+        ${learnGameCardHTML({
+          action: 'toggle-unmask',
+          title: 'Unmask Drugs',
+          description: 'Reveal clues, identify hidden danger signs, and make the safe call.',
+          meta: '5 rounds',
+        })}
       </section>
       ` : ''}
       ` : ''}
     </div>`;
+}
+
+function learnGameCardHTML({ action, title, description, meta }) {
+  return `
+    <div class="learn-card-head learn-game-card learn-game-card--gradient" data-action="${action}">
+      <div class="learn-game-body">
+        <h3>${title}</h3>
+        <p>${description}</p>
+      </div>
+      <div class="learn-game-footer">
+        <span class="learn-game-meta">${meta}</span>
+        <b class="learn-game-cta">Play</b>
+      </div>
+    </div>
+  `;
 }
 
 function learnSubTabToggleHTML() {
@@ -257,7 +285,7 @@ function dailyQuizCardHTML() {
       <div style="position: absolute; top: 16px; right: 20px; font-size: 14px; font-weight: bold; color: var(--muted); opacity: 0.7;">
         ${state.quizFlowIndex + 1} / 5
       </div>
-      <span class="eyebrow" style="margin-bottom: 16px;"><i data-lucide="timer"></i> Daily quiz</span>
+      <span class="eyebrow" style="margin-bottom: 16px;"><i data-lucide="timer"></i> Daily Quiz</span>
       
       <div class="card-title" style="font-size: 18px; line-height: 1.5; margin-bottom: 24px;">${q.question}</div>
       <div class="quiz-options" style="display: flex; flex-direction: column; gap: 12px;">
@@ -313,13 +341,13 @@ function unmaskEntryHTML() {
     <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px 0 20px; text-align: center;">
       <div style="margin: auto 0; display: flex; flex-direction: column; align-items: center; gap: 16px;">
         <div class="unmask-logo-container" style="position: relative; width: 100px; height: 100px; margin-bottom: 16px;">
-          <div style="position: absolute; inset: 0; background: radial-gradient(circle, var(--teal) 0%, transparent 70%); opacity: 0.4; filter: blur(15px); animation: pulseGlow 3s infinite;"></div>
+          <div style="position: absolute; inset: 0; background: radial-gradient(circle, var(--teal) 0%, transparent 70%); opacity: 0.4; filter: blur(15px);"></div>
           <div style="position: absolute; inset: 10px; background: var(--card-2); border: 2px solid var(--teal); border-radius: 24px; display: grid; place-items: center; box-shadow: 0 8px 20px rgba(0,0,0,0.3);">
             <i data-lucide="eye-off" style="width: 40px; height: 40px; color: var(--teal);"></i>
           </div>
         </div>
         
-        <h1 style="font-size: 26px; font-weight: 900; background: linear-gradient(100deg, var(--teal), #a5f3fc); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px;">UnMask Drugs</h1>
+        <h1 style="font-size: 26px; font-weight: 900; background: linear-gradient(100deg, var(--teal), #a5f3fc); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px;">Unmask Drugs</h1>
         <p style="color: var(--muted); font-size: 15px; max-width: 280px; line-height: 1.5; margin-bottom: 32px;">Tap tiles to uncover the image. Use your clues wisely.</p>
         
         <button class="btn btn-primary" data-action="start-unmask-game" style="width: 240px; padding: 18px; border-radius: 20px; font-size: 16px; font-weight: 800; box-shadow: 0 4px 15px rgba(69, 196, 176, 0.4); display: flex; justify-content: center; align-items: center; gap: 8px;">
