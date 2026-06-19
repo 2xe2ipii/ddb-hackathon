@@ -485,24 +485,11 @@
   font-size: 12px;
   font-weight: 800;
   cursor: pointer;
-  animation: helpline-pulse 2.6s ease-in-out infinite;
 }
 
 .helpline-btn svg {
   width: 15px;
   height: 15px;
-}
-
-@keyframes helpline-pulse {
-
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 rgba(110, 143, 181, 0.35);
-  }
-
-  50% {
-    box-shadow: 0 0 0 9px rgba(110, 143, 181, 0);
-  }
 }
 
 .support-paths {
@@ -1663,22 +1650,6 @@
     radial-gradient(circle at 32% 22%, rgba(255, 255, 255, 0.75), transparent 24%),
     linear-gradient(145deg, #7fd8c8, #45c4b0 52%, #5c88ad);
   border: 1px solid rgba(255, 255, 255, 0.42);
-}
-
-.ddb-app-icon {
-  animation: icon-pulse 2.3s ease-in-out infinite;
-}
-
-@keyframes icon-pulse {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-4px);
-  }
 }
 
 .launcher-dock {
@@ -3187,19 +3158,6 @@
   place-items: center;
   cursor: pointer;
   transition: transform 0.15s ease, background 0.2s ease;
-  animation: share-pulse 3s ease-in-out infinite;
-}
-
-@keyframes share-pulse {
-
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 rgba(69, 196, 176, 0);
-  }
-
-  50% {
-    box-shadow: 0 0 0 5px rgba(69, 196, 176, 0.12);
-  }
 }
 
 .btn-share-wrapped:active {
@@ -4688,7 +4646,6 @@ body.light-theme.colorblind-mode .wrapped::after {
   pointer-events: none;
   filter: blur(20px);
   opacity: 0.15;
-  animation: pulse-glow 3s ease-in-out infinite alternate;
 }
 
 .showcase-ring {
@@ -4782,17 +4739,6 @@ body.light-theme.colorblind-mode .wrapped::after {
   }
   50% {
     transform: translateY(-8px);
-  }
-}
-
-@keyframes pulse-glow {
-  0% {
-    opacity: 0.12;
-    transform: translate(-50%, -50%) scale(0.92);
-  }
-  100% {
-    opacity: 0.28;
-    transform: translate(-50%, -50%) scale(1.08);
   }
 }
 
@@ -4973,12 +4919,6 @@ body.light-theme.colorblind-mode .wrapped::after {
 /* =====================================================
    UNMASK DRUG RED FLAGS GAME
    ===================================================== */
-@keyframes pulseGlow {
-  0% { transform: scale(1); opacity: 0.4; }
-  50% { transform: scale(1.08); opacity: 0.6; }
-  100% { transform: scale(1); opacity: 0.4; }
-}
-
 .unmask-logo-container {
   display: flex;
   justify-content: center;
@@ -5534,6 +5474,119 @@ body.light-theme.colorblind-mode .wrapped::after {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.learn-game-card {
+  position: relative;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 16px;
+  height: 188px;
+  padding: 22px 20px 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(232, 238, 246, 0.12);
+  background:
+    linear-gradient(140deg, rgba(69, 196, 176, 0.34), rgba(110, 143, 181, 0.18) 48%, rgba(27, 42, 71, 0.92)),
+    radial-gradient(circle at 12% 8%, rgba(232, 238, 246, 0.16), transparent 32%),
+    radial-gradient(circle at 92% 20%, rgba(69, 196, 176, 0.28), transparent 34%),
+    var(--card);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.24);
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.learn-game-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1), transparent 38%),
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 10px);
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.learn-game-card:hover {
+  border-color: rgba(232, 238, 246, 0.22);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.learn-game-card:active {
+  transform: scale(0.985);
+}
+
+.learn-game-body,
+.learn-game-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.learn-game-body {
+  min-width: 0;
+}
+
+.learn-game-body h3 {
+  font-size: 21px;
+  font-weight: 900;
+  line-height: 1.12;
+  color: #ffffff;
+  margin-bottom: 10px;
+  letter-spacing: 0.01em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.28);
+}
+
+.learn-game-body p {
+  color: rgba(232, 238, 246, 0.78);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.learn-game-footer {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.learn-game-meta {
+  color: rgba(232, 238, 246, 0.66);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.learn-game-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 92px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ffffff, #9ff4e6);
+  color: #05231f;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 8px 18px rgba(69, 196, 176, 0.34);
+}
+
+.light-theme .learn-game-card {
+  border-color: rgba(85, 149, 154, 0.24);
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.1);
+}
+
+.light-theme .learn-game-card:hover {
+  border-color: rgba(85, 149, 154, 0.42);
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.14);
+}
+
 .shorts-feed {
   display: flex;
   flex-direction: column;
@@ -5892,4 +5945,4 @@ body.light-theme.colorblind-mode .wrapped::after {
   stroke-width: 2.5;
 }
 
-
+
