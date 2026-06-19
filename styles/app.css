@@ -3687,23 +3687,53 @@
 /* Colorblind calendar */
 body.colorblind-mode .cal-day.m1 {
   background: rgba(86, 165, 175, 0.16) !important;
+  color: var(--text) !important;
 }
 
 body.colorblind-mode .cal-day.m2 {
   background: rgba(86, 180, 233, 0.28) !important;
+  color: var(--text) !important;
 }
 
 body.colorblind-mode .cal-day.m3 {
   background: rgba(0, 114, 178, 0.45) !important;
+  color: #fff !important;
 }
 
 body.colorblind-mode .cal-day.m4 {
   background: rgba(213, 94, 0, 0.6) !important;
+  color: #fff !important;
 }
 
 body.colorblind-mode .cal-day.m5 {
   background: rgba(240, 228, 66, 0.85) !important;
   color: #000 !important;
+}
+
+/* Colorblind calendar - Light Theme overrides */
+body.light-theme.colorblind-mode .cal-day.m1 {
+  background: rgba(86, 165, 175, 0.16) !important;
+  color: var(--text) !important;
+}
+
+body.light-theme.colorblind-mode .cal-day.m2 {
+  background: rgba(86, 180, 233, 0.28) !important;
+  color: var(--text) !important;
+}
+
+body.light-theme.colorblind-mode .cal-day.m3 {
+  background: rgba(0, 114, 178, 0.35) !important;
+  color: var(--text) !important;
+}
+
+body.light-theme.colorblind-mode .cal-day.m4 {
+  background: rgba(213, 94, 0, 0.45) !important;
+  color: var(--text) !important;
+}
+
+body.light-theme.colorblind-mode .cal-day.m5 {
+  background: rgba(240, 228, 66, 0.65) !important;
+  color: var(--text) !important;
 }
 
 /* Calendar legend */
@@ -3769,7 +3799,7 @@ body.colorblind-mode .cal-day.m5 {
 }
 
 body.colorblind-mode .swatch-m1 {
-  background: rgba(86, 180, 233, 0.4) !important;
+  background: rgba(86, 165, 175, 0.4) !important;
 }
 
 body.colorblind-mode .swatch-m2 {
@@ -3786,6 +3816,27 @@ body.colorblind-mode .swatch-m4 {
 
 body.colorblind-mode .swatch-m5 {
   background: rgba(240, 228, 66, 1.0) !important;
+}
+
+/* Colorblind legend swatches - Light Theme overrides */
+body.light-theme.colorblind-mode .swatch-m1 {
+  background: rgba(86, 165, 175, 0.4) !important;
+}
+
+body.light-theme.colorblind-mode .swatch-m2 {
+  background: rgba(86, 180, 233, 0.65) !important;
+}
+
+body.light-theme.colorblind-mode .swatch-m3 {
+  background: rgba(0, 114, 178, 0.6) !important;
+}
+
+body.light-theme.colorblind-mode .swatch-m4 {
+  background: rgba(213, 94, 0, 0.7) !important;
+}
+
+body.light-theme.colorblind-mode .swatch-m5 {
+  background: rgba(240, 228, 66, 0.9) !important;
 }
 
 .card-head-row {
@@ -3869,11 +3920,25 @@ body.text-size-large .settings-row {
 
 /* ── Colorblind Mode ── */
 body.colorblind-mode {
-  --teal: #33b0ff !important;
-  --teal-soft: rgba(51, 176, 255, 0.15) !important;
+  --teal: #009E73 !important;
+  --teal-soft: rgba(0, 158, 115, 0.15) !important;
   --blue: #56B4E9 !important;
+  --blue-soft: rgba(86, 180, 233, 0.15) !important;
   --yellow: #F0E442 !important;
+  --yellow-soft: rgba(240, 228, 66, 0.15) !important;
   --red: #D55E00 !important;
+  --red-soft: rgba(213, 94, 0, 0.15) !important;
+}
+
+body.light-theme.colorblind-mode {
+  --teal: #007a58 !important;
+  --teal-soft: rgba(0, 122, 88, 0.12) !important;
+  --blue: #005a9c !important;
+  --blue-soft: rgba(0, 90, 156, 0.12) !important;
+  --yellow: #b38600 !important;
+  --yellow-soft: rgba(179, 134, 0, 0.12) !important;
+  --red: #b34f00 !important;
+  --red-soft: rgba(179, 79, 0, 0.12) !important;
 }
 
 /* ── Scrollbar ── */
@@ -4519,24 +4584,43 @@ body.text-size-large .ss-val { font-size: 20px; }
 body.text-size-small .ss-label { font-size: 6.5px; }
 body.text-size-large .ss-label { font-size: 9.5px; }
 
-/* Colorblind category gradients overrides */
+/* Colorblind category gradients overrides (Dark Theme - default) */
 body.colorblind-mode .badge-icon.cat-streak {
-  background: linear-gradient(135deg, var(--red), #e67300) !important;
+  background: linear-gradient(135deg, var(--red), #ff8c40) !important;
+  color: #fff !important;
 }
 body.colorblind-mode .badge-icon.cat-learn {
-  background: linear-gradient(135deg, var(--teal), #6cc0ff) !important;
+  background: linear-gradient(135deg, var(--teal), #5cd6b8) !important;
   color: #000 !important;
 }
 body.colorblind-mode .badge-icon.cat-mental {
-  background: linear-gradient(135deg, var(--yellow), #f3ea73) !important;
+  background: linear-gradient(135deg, var(--yellow), #fff380) !important;
   color: #000 !important;
 }
 body.colorblind-mode .badge-icon.cat-community {
-  background: linear-gradient(135deg, var(--blue), #80c7ed) !important;
+  background: linear-gradient(135deg, var(--blue), #a3dcff) !important;
   color: #000 !important;
 }
 
-/* Colorblind overrides for Profile Hero & Wrapped */
+/* Colorblind category gradients overrides (Light Theme) */
+body.light-theme.colorblind-mode .badge-icon.cat-streak {
+  background: linear-gradient(135deg, var(--red), #ff7315) !important;
+  color: #fff !important;
+}
+body.light-theme.colorblind-mode .badge-icon.cat-learn {
+  background: linear-gradient(135deg, var(--teal), #00b380) !important;
+  color: #fff !important;
+}
+body.light-theme.colorblind-mode .badge-icon.cat-mental {
+  background: linear-gradient(135deg, var(--yellow), #ffd040) !important;
+  color: #000 !important;
+}
+body.light-theme.colorblind-mode .badge-icon.cat-community {
+  background: linear-gradient(135deg, var(--blue), #338bc9) !important;
+  color: #fff !important;
+}
+
+/* Colorblind overrides for Profile Hero & Wrapped (Dark Theme) */
 body.colorblind-mode .profile-hero-bg {
   background: linear-gradient(135deg, #0a334d 0%, #0d2a45 60%, #111e36 100%) !important;
 }
@@ -4556,6 +4640,28 @@ body.colorblind-mode .wrapped::before {
 
 body.colorblind-mode .wrapped::after {
   border-color: rgba(86, 180, 233, 0.15) !important;
+}
+
+/* Colorblind overrides for Profile Hero & Wrapped (Light Theme) */
+body.light-theme.colorblind-mode .profile-hero-bg {
+  background: linear-gradient(135deg, #dcf0ef 0%, #d4e8f7 60%, #e2ebf4 100%) !important;
+}
+
+body.light-theme.colorblind-mode .profile-hero-bg::after {
+  background: radial-gradient(circle, rgba(0, 90, 156, 0.1) 0%, transparent 70%) !important;
+}
+
+body.light-theme.colorblind-mode .wrapped {
+  background: linear-gradient(125deg, #dcf0ef 0%, #cfebf5 55%, #bddef0 100%) !important;
+  border-color: rgba(0, 90, 156, 0.25) !important;
+}
+
+body.light-theme.colorblind-mode .wrapped::before {
+  border-color: rgba(0, 90, 156, 0.12) !important;
+}
+
+body.light-theme.colorblind-mode .wrapped::after {
+  border-color: rgba(0, 122, 88, 0.1) !important;
 }
 
 /* Streak Milestone Showcase */
